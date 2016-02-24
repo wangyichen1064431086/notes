@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>前端学习笔记</title>
+</head>
+
+<body>
+<h2>Chapter8标记文字</h2>
+<p>上下标：The x<sub>10</sub> and the x<sup>10</sup></p>
+<p><strong>建议换行：</strong>This is a very long word <wbr>califragilistic<wbr></p>#指明可以安全换行的建议位置：
+<p><strong>计算机代码：</strong><code>
+    var fruits=["apples","oranges","cherries"];<br>
+    document.writeln("I like"+fruits.length +"fruits"); </code>
+<p><strong>表示变量：</strong>The variable in this eg is <var>fruits</var></p>
+<p><strong>表用户输出：</strong>The output is <samp>I like 4 fruits</samp></p>
+<p><strong>表示用户输入：</strong>I typed<kbd>cherries</kbd></p>
+<p><strong>表缩写：</strong><abbr title="Florida Department of Citrus">FDOC</abbr></p>
+<p><strong>引用：</strong><q cite="http://enwikipedia.org/wiki/Apple">The appale is the..........</q></p>
+<p><strong>引用作品标题：</strong>My favorite book is <cite>Gone With the Wind</cite></p>
+<p><strong>注音：</strong><ruby>魑<rp>(</rp><rt>chi</rt><rp>)</rp></ruby></p>
+<p><strong>指定文字方向：</strong><bdo dir="ltr">我要上学</bdo></p>
+<p><bdo dir="rtl">我要上学</bdo></p>
+<p><strong>表示出于方向考虑而与其他内容隔开的文字:</strong><bdi>（阿拉伯文字）</bdi>123</p>
+<p><strong>突出显示文本：</strong>I <mark>love</mark>you</p>
+<p><strong>解释添加或删除：</strong><del>I can sea</del><ins>I can see</ins></p>
+<p><strong>表时间:</strong>It is <time datetime="15:00">3pm</time> on <time datetime="2015-10-25">Oct25th</time></p>
+
+<h2>Chapter9组织内容</h2>
+<p><strong>保留源文档格式：</strong></p>
+<pre>
+    <code>
+    var fruits=["apples","oranges","mangoes"];
+    for(var i=0;i<fruts.length;i++){
+    document.writeln("I like"+ fruits[i]);}
+    </code>
+</pre>
+  
+<p><strong>引用他处内容：</strong></p>
+<blockquote cite="http://enwikipedia.org/wiki/Apple">
+    The apples forms a tree that is small and deciduous,reaching 3 to 12 metres(9.8 to 39 ft)tall,with a broad, often densely twiggy crown.<br>
+    The leaves are.....
+</blockquote>
+
+<h3>分割线</h3>
+<hr>
+<h3>列表</h3>
+<ol type="a" reversed>
+    <li>bananas</li>
+    <li>mongoes</li>
+    <li>plums</li>
+</ol>
+说明:ol的type属性有1、a、i、I；reversed采用降序
+<ul>
+    <li>bananas</li>
+    <li>mongoes</li>
+    <li>plums</li>
+</ul>
+符号样式用CSS属性list-style-type控制
+
+<h3>说明列表</h3>
+<dl>
+    <dt>Apple</dt>
+    <dd>The apple is the pomaceous fruit.</dd>
+    <dd><i>Malus domestica</i></dd>
+    <dt>Banana</dt>
+    <dd>The apple is the pomaceous fruit.</dd>
+    <dd><i>Malus domestica</i></dd>
+</dl>
+
+<h3>使用插图</h3>
+<figure>
+    <figcaption>Listing23.Using the code element</figcaption>
+    <code>var fruits=["apples","oranges","mangoes","cherries"];<br>
+          document.writeln("I like"+fruits.length+"fruits")
+        
+    </code>
+</figure>
+<hr>
+    
+<h2>Chapter10文档分节</h2>
+<h3>使用hgroup元素将几个标题元素作为一个整体处理：</h3>
+<hgroup>
+    <h1>Fruits I like</h1>
+    <h2>How I Learned to love</h2>
+</hgroup>
+<h2>Additional fruits</h2>
+I also like bananas.
+<h3>More information</h3>
+You can see other fruits I like here.
+
+
+<h3>给节添加首部和尾部：</h3>
+<header>
+    <hgroup>
+        <h1>Things I liske</h1>
+        <h2>by Adam Freeman</h2>
+    </hgroup>
+</header>
+<section>
+    <header>
+        <hrgoup>
+            <h1>Fruits I like</h1>
+            <h2>How I learned to love</h2>
+        </hrgoup>
+    </header>
+    <section>
+        <h1>Additional fruits</h1>
+        I also like bananas
+        <section>
+            <header>
+                <h1>Activities I like</h1>
+            </header>
+            <section>
+                <h1>The kind of triathlon</h1>
+            </section>
+        </section>
+    </section>
+</section>
+<footer>
+    Visit Apress
+</footer>
+
+<h3>使用nav导航:</h3>
+<nav>
+    <h1>Contents</h1>
+    <ul>
+        <li><a href="#fruitsilike">Fruits I like</a></li>
+        <ul>
+            <li><a href="#morefruit">Addtional fruits</a></li>
+        </ul>
+        <li><a href="#activitiesilike">Activites i like</a></li>
+    </ul>
+</nav>
+
+<h3>使用article元素:</h3>
+article可以代表HTML文档中一段独立成篇的内容
+
+<h3>aside元素生成附注栏/address元素提供联系信息:</h3>
+<style>
+    aside{
+        width:40%;
+        float:right;
+        border:thick solid black;
+        margin-left: 5px;
+    }
+    aside>section{
+        padding:5px;
+    }
+    aside>h1{
+        text-align: center;
+    }
+</style>
+<article>
+    <header>
+        <hgroup>
+            <h1>Fruits I like</h1>
+            <h2>How I learned to love Citrus</h2>
+        </hgroup>
+        <address>
+            Questions and comments?<a href="mailto:adam@myboringblog.com">Email me</a>
+        </address>
+    </header>
+    <aside>
+        <h1>Why Fruit is Healthy</h1>
+        <section>
+            here are therr reasons:
+            <ol>
+                <li>Fruit contains lots of vitamins</li>
+                <li>Fruit is a source of fibre</li>
+                <li>Fruit contains few calories</li>
+            </ol>
+        </section>
+    </aside>
+</article>
+
+<h3>details和summary元素生成详情区域及其说明标题：</h3>
+<article>
+    <section>
+        <p>I like to swim</p>
+        <details>
+            <summary>Kinds of Triathlon</summary>
+            There are different kinds of triathlon:
+            <ol>
+                <li>1.5km swim</li>
+                <li>40km cycle</li>
+                <li>10km run</li>
+            </ol>
+        </details>
+    </section>
+</article>
+<hr>
+    
+<h2>Chapter11 表格元素</h2>
+<h3>使用table/tr/td制作表格：</h3>
+<style>
+    tr>th{
+        text-align: left;
+        background: grey;
+        color: white;
+    }
+    tr>th:only-of-type{
+        text-align: right;
+        background: lightgrey;
+        color: grey
+    }
+</style>
+<table>
+    <tr>
+        <th>Rank</th>
+        <th>Name</th>
+        <th>Color</th>
+        <th>Size</th>
+    </tr>
+    <tr>
+        <th>Favorit</th>
+        <td>Apples</td>
+        <td>Green</td>
+        <td>Medium</td>
+    </tr>
+    <tr>
+        <th>2nd Favo</th>
+        <td>Oranges</td>
+        <td>Orange</td>
+        <td>Large</td>
+    </tr>
+    <tr>
+        <th>3rd Favo</th>
+        <td>Pmegranate</td>
+        <td>A kind of Green-red</td>
+        <td>Varies from medium to large</td>
+    </tr>
+</table>
+<h3>表示表头和表格主题、表脚：</h3>
+<style>
+    thead th,tfoot th{
+        text-align: left;
+        background: grey;
+        color: white;
+    }
+    tbody th{
+        text-align: right;
+        background: lightgrey;
+        color: grey;
+    }
+    [colspan],[rowspan]{
+        font-weight: bold;
+        border:medium solid black;
+    }
+    thead [colspan], tfoot [colspan]{ /*tfoot [colspan]无效*/
+        text-align: center;
+    }
+    caption{
+        font-weight: bold;
+        font-size: large;
+        margin-bottom:5px;
+    }
+    #colgroup1{
+        background-color: red
+    }
+    #col3{
+        background-color: green;
+        font-size:small;
+    }
+</style>
+<table border="1">
+    <caption>Results of the 2011 Fruit Survey</caption>
+    <colgroup id="colgroup1">
+        <col id="col1And2" span="2"/>
+        <col id="col3"/>
+    </colgroup>
+    <colgroup id="colgroup2" span="2"/>
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Color</th>
+            <th colspan="2">Size&Votes</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Favorite:</th><td>Apples</td><td>Green</td><td>Medium</td><td>500</td>
+        </tr>
+        <tr>
+            <th>2nd Favorite:</th><td>Oranges</td><td>Orange</td><td>Large</td><td>450</td>
+        </tr>
+        <tr>
+            <th>3rd Favorite:</th><td>Pomegranate</td>
+            <td colspan="2" rowspan="2">
+               Pomegranate and cherries can both come in a range of colors and sizes.
+            </td>
+            <td>230</td>
+        </tr>
+        <tr>
+            <th rowspan="2">Joint 4th:</th>
+            <td>Cherries</td>
+            <td rowspan="2">75</td>
+        </tr>
+        <tr>
+            <td>Pineapple</td>
+            <td>Brown</td>
+            <td>Very Large</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="5">&copy;2011 Adam Freeman Fruit Data Enterprises</th>
+        </tr>
+    </tfoot>
+</table>
+<hr>
+    
+<h2>Chapter12表单</h2>
+<h3>基本表单</h3>
+<form autocomplete="on" method="post" action="http://titan:8080/form">
+    <p><label for="fave">Fruit:<input autofocus id="fave" name="fave"/></label></p>
+    <p><label for="name">Name:<input disabled id="name" name="name"/></label></p>
+    
+    <fieldset>
+        <legend>Enter Your Details</legend>
+        <p><label for="name">Name:<input id="name" name="name"/></label></p>
+        <p><label for="city">City:<input id="city" name="city"/></label></p>
+    </fieldset>
+    <fieldset disabled>
+        <legend>Vote For Your Three Favo Fruits</legend>
+        <p><label for="fave1">#1:<input id="fave1" name="fave1"/></label></p>
+        <p><label for="fave2">#2:<input id="fave2" name="fave2"/></label></p>
+        <p><label for="fave3">#3:<input id="fave3" name="fave3"/></label></p>
+    </fieldset>
+   <button type="submit">Submit Vote</button>
+   <button type="reset">Reset</button>
+</form>
+
+
+</body>
+</html>
