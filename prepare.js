@@ -1,3 +1,4 @@
+
 var EventUtil={
     addHandler:function(element,type,handler){
         if (element.addEventListener) {
@@ -39,7 +40,7 @@ var EventUtil={
         if (event.relatedTarget) {
             return event.relatedTarget;
         }
-        else if (event.toElement) {
+        else if (event.toElement) {//IE8之前只有下面两种，IE9三种都有
             return event.toElement;
         }
         else if (event.fromElement) {
@@ -51,10 +52,10 @@ var EventUtil={
     },
    getButton: function(event){
         if (document.implementation.hasFeature("MouseEvents","2.0")) {
-            return event.button;
+            return event.button;//DOM的event.button就三个值：0、1、2
         }
         else{
-            switch (event.button) {
+            switch (event.button) {//IE8之前的很复杂，如下转换
                 case 0:
                 case 1:
                 case 3:
@@ -70,11 +71,11 @@ var EventUtil={
         }
     },
     getWheelDelta:function(event){
-        if (event.wheelDelta) {
+        if (event.wheelDelta) {//大多数浏览器的mousewheel事件，及相应event.wheelDelta属性
             return(client.engine.opera&&client.engine.opera<9.5? -event.wheelDelta:event.wheelDelta);
         }
         else{
-            return -event.detail*40;
+            return -event.detail*40;//Firefox是DOMMouseScroll事件，相应滚动信息在event.detail属性
         }
     },
     getCharCode: function(event){
@@ -100,29 +101,14 @@ var EventUtil={
 };
 
 
-var droptarget=document.getElementById("droptarget");
 
-EventUtil.addHandler(droptarget,"dropover",function(){
-    EventUtil.preventDefault(event);
-});
 
-EventUtil.addHandler(droptarget,"dropenter",function(){
-    EventUtil.preventDefault(event);
-});
-EventUtil.addHandler(droptarget,"drop",function(){
-    EventUtil.preventDefault(event);
-});
+EventUtil.addHandler(window,"beforeunload",function(event){
+       event=EventUtil.getEvent(event);
+       var message="I will miss you";
+       event.returnValue=message;
+       return message;
+       
+       
+});	
 
-var src=document.getElementById("src");
-var msg=document.getElementById("msg");
-
-src.ondragstart=function(e){
-    e.target.classList.add("dragged");
-}
-src.ondragend=function(e){
-    e.target.classList.remove("dragged");
-    msg.innerHTML="Drop Here";
-}
-src.ondrag=function(e){
-    msg.innerHTML=e.target.id;
-}
