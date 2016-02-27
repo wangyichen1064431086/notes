@@ -1,4 +1,6 @@
 
+
+/*
 var EventUtil={
     addHandler:function(element,type,handler){
         if (element.addEventListener) {
@@ -100,15 +102,6 @@ var EventUtil={
     }
 };
 
+*/
 
-
-
-EventUtil.addHandler(window,"beforeunload",function(event){
-       event=EventUtil.getEvent(event);
-       var message="I will miss you";
-       event.returnValue=message;
-       return message;
-       
-       
-});	
 

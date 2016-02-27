@@ -39,7 +39,7 @@
 
 
 ## 4.响应式布局设计
-http://www.educity.cn/jianzhan/403677.html
+<http://www.educity.cn/jianzhan/403677.html>
 
 ***在自己的网站上实现一下***
 
@@ -697,7 +697,7 @@ html部分同上例，此处仅列出javascript部分。
                 xhr.onreadystatechange=handleResponse;//为xhr.onreadystatechange设置事件监听函数，readystatechange改变的时候触发
                 xhr.open("post",form.action,true);//xhr.open()设置post方法，发送到的URL，是否异步
                 xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");//设置请求的首部字段Content-Type为application/json,告诉服务器在发送json数据
-                xhr.send(JSON.stringify(formData));//浏览器向服务器发送数据前，要把数据从Object转换为JSON字符串
+                xhr.send(formData);//浏览器向服务器发送数据前，要把数据从Object转换为JSON字符串
             }
             
             function handleResponse() {
@@ -880,15 +880,274 @@ HTTP+加密+认证+完整性保护=HTTPS
 
 
 
+### 6.缓存实现（css,js等文件）
+#### HTML5appchache简介
+HTML5的应用缓存（application cache,简称appcache)，专门为开发离线Web应用而设计。appcache就是从浏览器的缓存中分出来的一块缓存区。
+
+不支持HTML5应用缓存的浏览器有IE,比较旧的FireFox，比较旧的Safari，其他都支持。
+
+#### appcache使用方法
+##### （1）使用描述文件列出要下载和缓存的资源
+示例描述文件：
+
+	CACHE MANIFEST
+	#Comment
+	
+	file.js
+	file.css
+
+文件扩展名以前推荐.manifest,现在推荐.appcache。
+
+##### （2）将描述文件与页面关联起来
+
+	<html manifest="/offline.manifest">
+
+为html标签设置manifest属性指定该描述文件路径。
+
+##### （3）应用缓存的更新和启用
+###### applicationCache对象
+JavaScript有一个applicationCache对象，其有一个表示status的属性，表示应用缓存的当前状态。
+applicationCache.status的值及其对应状态如下：
+
+	0：无缓存，即没有与页面相关的缓存
+	1：闲置，即应用缓存未得到更新
+	2：检查中，即正在下载描述文件并检查更新
+	3：下载中，即应用缓存中转下载描述文件中指定的资源
+	4：更新完成，即应用缓存已经更新的资源，且新资源都下载完毕，可以通过swampCatch()来使用了。
+	5：废弃，即应用缓存的描述文件已经不在了，故页面无法再访问应用缓存。
+
+应用缓存还有很多相关的事件。
+
+###### 自动/手动检查更新应用缓存
+自动：一般来讲，随着页面加载,applicationCache对象的事件会按上述顺序依次触发。即应用缓存会自动检查更新下载缓存资源。
+
+手动：使用applicationCache.update()方法可以手工干预，可以让应用缓存为了检查更新而触发上述事件。<br>
+	
+	applicationCache.update()
+
+调用update()后，应用缓存就会去检查描述文件是否更新（触发checking事件），然后就像页面刚刚加载一样，继续执行后续操作。<br>
+后面如果触发了cached事件，说明应用缓存已经准备就绪，不再发生其他操作了。<br>
+如果触发了undateready事件，说明新版本缓存已经可用，此时应调用swapCache()来启用新应用缓存。
+
+	Event.Util.addHandler(applicationCache,"updateready",function(){
+		applicationCache.swapCache();
+	});
+
+
+### 7.js继承
+#### 原型链
+ECMAScript只支持实现继承（不支持接口继承），其实现继承主要是依靠原型链。
+
+原型链简单地讲，就是子类型的原型对象为超类型的实例，即把超类型的实例赋值给了子类型的原型。
+
+#### 类继承/经典继承/伪造对象/借用构造函数
+在子类型构造函数的内部调用超类型构造函数。
+
+通过在子类型构造函数内部对超类型构造函数使用 超类型.apply(this)/超类型.call(this)，可以在将来新创建的子类型实例上执行超类型构造函数。故子类型每个实例都会拥有自己的超类型属性副本，即便这个超类型属性是引用类型的。
+
+借用构造函数实例：
+
+	function SuperType() {
+	    this.colors=["red","blue","green"];
+	}
+	
+	function SubType(args) {
+	    SuperType.call(this);
+	}
+	
+	var instance1=new SubType();
+	instance1.colors.push("black");
+	console.log(instance1.colors);
+	
+	var instance2=new SubType();
+	console.log(instance2.colors);
 
 
 
+#### 原型继承
+借助已有的对象创建新的对象。
+
+不必创建自定义对象，在一个函数内部先创建一个临时性构造函数，然后将传入的对象作为这个构造函数的原型，最后返回这个临时类型的新实例。也就是这个函数对传入其中的对象进行了一次浅复制。包含引用类型值的属性始终都会共享相应的值。
+
+	function object(o) {
+	    function F() {
+	        
+	    }
+	    F.prototype=o;
+	    return new F();
+	}
+	
+	var person={
+	    name:"Nicholas",
+	    friends:["Shelby","Court","Van"]
+	};
+	
+	var anotherPerson=object(person);
+	anotherPerson.name="Greg";
+	anotherPerson.friends.push("Rob");
+	
+	var yetAnotherPerson=object(person);
+	yetAnotherPerson.name="Linda";
+	yetAnotherPerson.friends.push("Barbie");
+	
+	console.log(person.friends);
+
+### 8.闭包的用处
+
+内部函数可以访问包含它的外部函数的参数和变量（除了this和arguments）。使代码简洁。等等。
+
+坏处：
+闭包会携带包含它的函数的作用域，因此会比其他函数占用更多的内存。过度使用闭包可能会导致内存占用过度。
+
+### 9.如何实现新闻网站标题的实时更新
+#### （1）Ajax
+可以用个定时器，每隔一段时间用Ajax向网站发送GET请求，获取新的标题
+#### （2）WebSocket
+WebSocket是一种新浏览器API。可在一个单独的持久连接上提供全双工、双向通信。
+
+由于WebSocket使用了自定义的协议而非HTTP协议，故能够在客户端和服务器之间发送非常少量的数据，不必担心HTTP那样字节级的开销。但它必须要求是专门的Web Socket服务器。
+
+实例：
+
+	var socket=new WebSocket("ws://www.example.com/server.php");
+	socket.send("Hello world!");
+	socket.onmessage=function(event){
+		var data=event.data;
+		//处理数据，可以用这些数据更新页面的某部分
+	}
+
+#### （3）SSE
+SSE API用于创建到服务器的单向连接，服务器通过这个连接可以发送任意数量的数据。SSE是通过常规的HTTP通信。如果只需读取服务器，则可以选择SSE。SSE和Ajax结合起来也可以实现双通信。
+
+### 10.JQuery链式操作
+就是可以在一句代码里面对同一个DOM对象实现不同的操作。非链式的话就要每做一次操作就获取一次对象，链式只用获取一次对象。
+
+实例
+
+	$("#mydiv").addClass("current")//给当前元素添加"current"样式
+	.next().show()//获取下一个元素并显示
+	.parent().siblings().children("a").removeClass("current");//获取父元素的兄弟元素的子元素<a>并移除它的"current"样式
+	.next().hide()//隐藏下一个元素
+
+### 11.网页性能优化方法
+####（1）对全局变量解除引用
+确保占用最少的内存。因为局部变量在离开执行环境时解除引用，对于全局变量和全局变量的属性来说，一旦数据不再用，最好通过将其设置为null来释放其引用。
+
+注意：解除一个值的引用并不意味着自动收回该值所占内存。解除引用的真正作用是让值脱离执行环境，以便垃圾收集器下次运行时将其收回。
+
+#### （2）优化事件处理程序
+##### 事件委托
+因为事件都能冒泡，故尽量在DOM树种高层次节点上添加事件侦听器。通过target(事件真正的目标）的id可以对不同的下层节点做出反应。
+
+因为添加到页面上的事件处理程序数量将直接关系到页面的整体运行性能。因为首先，每个函数都是对象，会占用内存；内存中的对象越多，性能就越差。其次，必须事先指定所有事件处理程序而导致的DOM访问次数，会延迟整个页面的交互就绪时间。
+
+##### 移除空事件处理程序
+在不需要的时候，移除事件处理程序。内存中有时会残留一些过时不用的“空事件处理程序”，也是造成Web应用程序内存与性能的主要原因。比如有些带有事件处理程序的元素被innerHTML删除了。
+
+
+#### （3）作用域
+##### 避免全局查找
+在函数内部，如果多次要引用全局对象（比如document)，就讲起存在函数内部的本地变量(如var doc)中，引用的时候就用本地变量doc.getElementById()来代替document.getElementById()。
+
+##### 避免with语句
+with会创建自己的作用域，故会增加其中代码的作用域链的长度。额外的作用域链查找会使with中执行的代码比外面的慢。例如
+
+	function updateBody(){
+		with(document.body){
+			alert(tagName);
+			innerHTML="Hello World";
+		}
+	}
+
+修改为：
+
+	function updateBody(){
+		var body=document.body;
+		alert(body.tagName);
+		body.innerHTML="Hello World";
+	}
+	
+#### (4)使用正确的方法
+##### 避免不必要的属性查找
+变量和数组访问时复杂度O(1)的操作，而对对象的属性查找是复杂度为O(n)的操作。故属性查找越多，执行时间越长。一旦多次用到属性查找，应将其存储在局部变量中。例如
+
+	var query=window.location.href.substring(window.location.href.indexOf("?"));
+
+修改为
+
+	var url=window.location.href;
+	var query=url.substring(url.indexOf("?"));
+
+##### 优化循环
+使用减值迭代。
+简化终止条件。
+简化循环体。
+使用后测试循环（do```while)
+
+##### 展开循环
+当循环的次数是确定的，消除循环并对多次函数调用往往更快。
+
+##### 尽量使用原生方法
+原生方法是用C/C++写的，比自己用JS重写的要快。如Math对象中的方法都是原生方法。
+
+##### Switch语句代替if-else
+单个switch语句比一系列复杂运算的if-else快。还可以把case按照最可能到最不可能的顺序进行组织来进一步优化switch语句。
+
+##### 使用位运算符代替其他运算
+位运算符比任何布尔运算或算数运算快。选择性地运用位运算替换算数运算可以极大地提升复杂计算的性能。
+
+#### （5）最小语句话数
+##### 多个变量声明改为一个变量声明
+
+	var count=5;
+	var color="blue";
+	var values=
+[1,2,3];
+
+改为：
+
+	var count=5,color="blue",values=[1,2,3];
+
+##### 使用迭代值时尽量合并语句
+
+	var name=values[i];
+	i++;
+
+改为
+
+	var name=values[i++];
+
+##### 用对象字面量创建对象代替依次添加属性快
+
+####（6）优化DOM交互
+##### 最小化现场更新：使用文档片段构建DOM结构
+
+##### 使用innerHTML代替createElement()和appendChild()
+因为将innerHTML设置为某值时，后台会创建一个HTML解析器，然后使用内部的DOM调用来创建DOM结构，而非基于JavaScript的DOM调用。而内部方法是编译好的而非解释执行的，故要快得多。
+
+##### 事件委托代理
+上面已经说了
+
+##### 避免循环体内多次调用HTMLCollection
+a.将长度计算放入for循环的初始化部分
+
+	for(var i=0,len=images.length;i<len;i++){
+		```
+	}
+
+b.把HTMLCollection用变量如images存储,每次循环中添加image=images[i]保存当前图像，之后就不用再访问HTMLCollection了。
+
+返回HTMLCollection对象的情况有:
+
+	getElementsByTagName()
+	DOMElement.childNodes
+	DOMElement.attributes
+	document.forms、document.images、document.links(返回带href的元素a、area)
 
 
 
-
-
-
+## (三）
+本次电面考点 先是一段自我介绍，然后问了一下响应式，css3新增的内容，性能优化，js闭包、js原型链，最后就是有什么问题问他
 
 
 # 四、自己的一些模糊点、遗忘点总结
