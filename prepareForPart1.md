@@ -39,10 +39,68 @@
 
 
 ## 4.响应式布局设计
+***参见《HTML5权威指南》P109-113***
 <http://www.educity.cn/jianzhan/403677.html>
+### (1)什么是响应式布局
+一个网站能够兼容多个终端——而不是为每个终端做一个特定的版本。这个概念是为解决移动互联网浏览而诞生的。
+### （2）响应式布局的优点和缺点
+#### 优点
+- 面对不同分辨率设备灵活性强
+- 能够便捷地解决多设备显示适应问题
 
-***在自己的网站上实现一下***
+#### 缺点
+- 为了兼容各种设备，工作量很大
+- 代码累赘，会出现隐藏无用的元素，加载时间加长 
+- 一定程度上改变了网站原有的布局结构
+### （3）如何实现
+#### 示例
+##### a.在style 标签中使用media属性
 
+	<style media="screen AND (max-width:500px)" type="text/css">
+		a{
+
+		}
+		#id{
+		}
+
+	</style>
+	<style media="screen AND (min-width:500px)" type="text/css">
+	</style>
+
+##### b.在样式表中内嵌@media
+
+	<style type="text/css">
+        body{
+            width: 100%;
+            
+        }
+        @media(min-device-width:1024px) and (min-width:900px){
+            div{
+                position: absolute;
+                width: 60%;
+                left: 20%;
+                height: 20px;
+                background-color: yellow;
+            }
+        }
+        @media screen and (max-width:800px){
+            div{
+                position: absolute;
+                width: 98%;
+                left: 1%;
+                height: 20px;
+                background-color: yellow;
+            }
+        }
+     
+    </style>
+
+##### c.在link标签中使用media属性
+
+	　　<link rel=“stylesheet” type=“text/css” media=“only screen and （max-width： 480px），only screen and （max-device-width： 480px）” href=“link.css”/>
+
+#### 语法
+字符间以空格相连，选取条件包含在小括号内，only（限定某种设备，可省略），and（逻辑与），not（排除某种设备）为逻辑关键字，多种设备用逗号分隔，这一点继承了css基本语法。
 ## 5.算法
 
 
@@ -1148,6 +1206,179 @@ b.把HTMLCollection用变量如images存储,每次循环中添加image=images[i]
 
 ## (三）
 本次电面考点 先是一段自我介绍，然后问了一下响应式，css3新增的内容，性能优化，js闭包、js原型链，最后就是有什么问题问他
+
+### 1.CSS3新增内容
+####（1）CSS动画
+##### 示例：
+	
+	 .logoWave{
+	        animation: scaleToBigger 0.5s ease-in-out 1;
+	        -webkit-animation: scaleToBigger 0.5s ease-in-out 1;
+	    }
+	    @-webkit-keyframes scaleToBigger{
+	        0%{
+	           -webkit-transform: scale(1.0);
+	           opacity: 1;
+	        }
+	        100%{
+	           -webkit-transform: scale(1.3);
+	           opacity: 0;
+	        }
+	    }
+
+##### @keframes规则
+通过 @keyframes 规则，能够创建动画。
+- 目前浏览器都不支持 @keyframes 规则。
+- Firefox 支持替代的 @-moz-keyframes 规则。
+- Opera 支持替代的 @-o-keyframes 规则。
+- Safari 和 Chrome 支持替代的 @-webkit-keyframes 规则。
+
+##### animation属性
+提供该属性，将动画与元素绑定
+
+- animation简写属性语法：
+
+		animation: name duration timing-function delay iteration-count direction;
+
+- animation-name 指定动画的名称，即@-webkit-keyframes后面所接名称。
+- animation-duration 设置动画持续播放的时间。（<时间>）
+- animation-time-function 如何计算中间动画值。（ease，linear,ease-in,ease-out,ease-in-out,cubic-bezier
+- animation-delay 设置动画开始前的延迟（<时间>)
+- animation-iteration-count 设置动画播放次数（<数值>)
+- animation-direction 设置动画循环播放时是否语序反向播放（normal,alternate)
+
+#### (2)CSS过渡
+##### 实例
+
+	   #banana{
+            font-size: large;
+            border: medium solid black;
+            background-color: white;
+            color: black;
+        }
+        #banana:hover{
+            font-size: xx-large;
+            border: medium solid white;
+            background-color: green;
+            color: white;
+            -webkit-transition: background-color,color,font-size,border 1s linear .1s
+        }
+
+##### transition属性
+Internet Explorer 10、Firefox、Opera 和 Chrome 支持 transition 属性。
+Safari 支持替代的 -webkit-transition 属性。
+
+- transition: property duration timing-function delay;
+- transition-property	规定设置过渡效果的 CSS 属性的名称。
+- transition-duration	规定完成过渡效果需要多少秒或毫秒。
+- transition-timing-function	规定速度效果的速度曲线。
+- transition-delay	定义过渡效果何时开始。
+
+#### （3）2D/3D变换
+##### 示例
+
+	div
+	{
+		transform:rotate(7deg);
+		-ms-transform:rotate(7deg); 	/* IE 9 */
+		-moz-transform:rotate(7deg); 	/* Firefox */
+		-webkit-transform:rotate(7deg); /* Safari 和 Chrome */
+		-o-transform:rotate(7deg); 	/* Opera */
+	}
+
+##### transform属性
+- Internet Explorer 10、Firefox、Opera 支持 transform 属性。
+- Internet Explorer 9 支持替代的 -ms-transform 属性（仅适用于 2D 转换）。
+- Safari 和 Chrome 支持替代的 -webkit-transform 属性（3D 和 2D 转换）。
+- Opera 只支持 2D 转换。
+
+重要方法：
+- translate(x,y) 定义2D转换，向右，向下移动X和Y
+- translateX(x) 
+- translateY(y)
+- translateZ(z)
+- translate3d(x,y,z) 定义3D转换
+- scale(x,y) 定义2D缩放转换
+- rotate(angle) 定义2D转换
+- rotateX(x)
+- rotateY(y)
+- rotateZ(z)
+- 
+
+#### (4)CSS3边框
+可以创建圆角边框、添加阴影、使用图片绘制边框
+- border-radius
+- box-shadow
+- border-image
+
+border-image示例
+
+	div{
+		-webkit-border-image:url(border.png) 30 30 round//来源 图片边框向内偏移 图片边框宽度 图像边框是否应平铺repeated/铺满rounded/拉伸stretched
+	}
+
+#### (5)CSS3背景
+##### background-size属性
+规定背景图片的尺寸。CSS3之前是由图片实际尺寸决定的。
+
+	background:url(i/bg_flower.gif);
+	background-size:63px 100px;
+
+
+##### background-origin属性
+ 规定background-position 属性相对于什么位置来定位。
+
+	background-origin: padding-box|border-box|content-box;
+	//背景图像相对于内边距框/边框/内容框来定位
+
+##### background-clip属性
+规定背景的绘制区域
+
+	background-clip: border-box|padding-box|content-box;
+	//背景被裁剪到边框盒/内边距盒/内容框
+	
+#### （5）CSS3文本效果
+text-shadow
+向文本添加阴影
+	
+	text-shadow: h-shadow v-shadow blur color;
+
+#### (6)CSS3字体
+##### @font-face规则
+可以定义自己的字体，不用被迫使用"web-safe"字体
+示例
+
+	<style> 
+	@font-face
+	{
+	font-family: myFirstFont;/*font-family定义字体名称*/
+	src: url('Sansation_Light.ttf'),
+	     url('Sansation_Light.eot'); /* IE9+ */
+	font-stretch:  /*定义如何拉伸字体*/
+	font-weight: '/*定义字体粗细*/
+	}
+	
+	div
+	{
+	font-family:myFirstFont;//font-family引用字体
+	}
+	</style>
+
+#### （7）CSS3选择器
+##### 根元素选择器
+- ：root{} 总是匹配html
+##### 子元素选择器
+- ：last-child{}
+- p:last-chile{}
+- :only-child{}
+- :nth-child(n){}
+
+##### UI伪类选择器
+- :enabled 选择启用状态元素
+- :disabled 选择禁用状态元素
+- :checked 选择被选中的input元素
+##### 否定选择器
+- :not(<选择器>) 对括号内的选择器取反
 
 
 # 四、自己的一些模糊点、遗忘点总结

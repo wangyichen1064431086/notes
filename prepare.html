@@ -4,14 +4,24 @@
 <head>
     <title>Page Title</title>
     <style type="text/css">
-       
+        #banana{
+            font-size: large;
+            border: medium solid black;
+            background-color: white;
+            color: black;
+        }
+        #banana:hover{
+            font-size: xx-large;
+            border: medium solid white;
+            background-color: green;
+            color: white;
+            -webkit-transition: background-color,color,font-size,border 1s linear .1s
+        }
     </style>
 </head>
 
 <body>
-    <input type="text" id="myText">click me</div>
-    <div id="show"> </div>
-    <script src="prepare.js"></script>
+    <div id="banana">banana</div>
 </body>
 </html>
  
