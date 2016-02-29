@@ -338,7 +338,7 @@ IE盒子模型和标准盒子模型都是由四个部分组成的：margin,borde
 [Flex布局教程：实例篇](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)(内含骰子布局、网格布局、圣杯布局）<br>
 看《HTML5权威指南》Chapter21
 
-网格布局实例：
+#### 网格布局实例：
    
 	<head>
 	  ```
@@ -368,14 +368,9 @@ IE盒子模型和标准盒子模型都是由四个部分组成的：margin,borde
             <div class="Grid-cell u-lof3">abc</div>
         </div>
         
-       
-        <!--
-        <script src="bootstrap-3.3.5-dist/js/jquery-2.1.4.js"></script>
-        <script src="bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
-        -->
     </body>
 
-圣杯布局实例：
+#### 圣杯布局实例：
     
 	<head>
 	```
@@ -383,11 +378,11 @@ IE盒子模型和标准盒子模型都是由四个部分组成的：margin,borde
 	            .HolyGrail {
 	                display: -webkit-flex;
 	                min-height: 300px;
-	                flex-direction: column;
+	                flex-direction: column;/*容器的flex-direction设置其内部项目排列方式，此处为竖着排列*/
 	            }
 	              
 	            header,footer {
-	                flex: 1;
+	                flex: 1;/*flex是<flex-grow>|<flex-shrink>|<flex-basis>的简写，后两个可以省略。flex-grow为1表示有剩余空间就自动放大填满剩余空间
 	                height: 50px;
 	                background-color: yellow;
 	              }
@@ -405,7 +400,7 @@ IE盒子模型和标准盒子模型都是由四个部分组成的：margin,borde
 	              
 	              .HolyGrail-nav, .HolyGrail-ads {
 	                /* 两个边栏的宽度设为12em */
-	                flex: 0 0 12em;
+	                flex: 0 0 12em;/*即flex-basis为12em*/
 	    
 	              }
 	              
@@ -423,7 +418,7 @@ IE盒子模型和标准盒子模型都是由四个部分组成的：margin,borde
 	                .HolyGrail-nav,
 	                .HolyGrail-ads,
 	                .HolyGrail-content {
-	                  flex: auto;
+	                  flex: auto;/*flex:auto是flex:1 1 auto,flex-basis为auto即项目本来的大小*/
 	                }
 	              }
 					
@@ -439,6 +434,99 @@ IE盒子模型和标准盒子模型都是由四个部分组成的：margin,borde
 	        <footer>...</footer>
 	   </body>
 
+#### 输入框的布局
+输入框往往前面加提示，后面加按钮。其弹性盒布局的思想就是中间输入框的flex-grow为1,即存在剩余空间时，中间框放大占满剩余空间。
+
+HTML:
+
+	<div class="InputAddOn">
+	  <span class="InputAddOn-item">...</span>
+	  <input class="InputAddOn-field">
+	  <button class="InputAddOn-item">...</button>
+	</div>
+
+CSS：
+
+	.InputAddOn {
+	  display: flex;
+	}
+	
+	.InputAddOn-field {
+	  flex: 1;
+	}
+
+#### 悬挂式布局
+主栏的左侧或右侧需添加一个图片栏。此时布局思想是aline-items属性定义为flex-start(即在交叉轴上的上方对齐），然后主栏的flex-grow为1
+
+HTML:
+
+	<div class="Media">
+	  <img class="Media-figure" src="" alt="">
+	  <p class="Media-body">...</p>
+	</div>
+
+CSS:
+
+	.Media {
+	  display: flex;
+	  align-items: flex-start;
+	}
+	
+	.Media-figure {
+	  margin-right: 1em;
+	}
+	
+	.Media-body {
+	  flex: 1;
+	}
+
+#### 固定高的底栏
+页面内容太少，无法占满一屏的话，底栏就会抬高到页面的中间。可以让中间栏的flex-grow为1,自动填满交叉轴的剩余高度。
+
+HTML:
+	
+	<body class="Site">
+	  <header>...</header>
+	  <main class="Site-content">...</main>
+	  <footer>...</footer>
+	</body>
+
+CSS:
+
+	.Site {
+	  display: flex;
+	  min-height: 100vh;
+	  flex-direction: column;
+	}
+	
+	.Site-content {
+	  flex: 1;
+	}
+
+#### 流式布局
+就是每行的项目固定，且可以自动分行。
+实现方法是：<br>
+容器flex-direction为row横向布局，flex-wrap为wrap自动换行，align-content多行对齐方式为flex-start。<br>
+项目的flex为0 0 xx%，即有剩余空间时项目不放大不缩小，每个都在主轴上占一定比例。
+
+CSS:
+
+	.parent {
+	  width: 200px;
+	  height: 150px;
+	  background-color: black;
+	  display: flex;
+	  flex-flow: row wrap;/*flex-flow是<flex-direction和flex-wrap的简写，此处row意为横向排列，wrap意为自动换行，第一行在上*/
+	  align-content: flex-start;/*align-content定义了多跟轴线的对齐方式*/
+	}
+	
+	.child {
+	  box-sizing: border-box;
+	  background-color: white;
+	  flex: 0 0 25%;/*每个项目有剩余空间时不放大，不缩小，占都占主轴空间的25%*/
+	  height: 50px;
+	  border: 1px solid red;
+	}
 
 ### 15.关于HTTP协议，下面哪个说法是正确的？
 
@@ -463,4 +551,4 @@ HTTP协议是无状态协议。无状态是指协议对于事务处理没有记�
 	304	|未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源
 D错。
 
-***怎样区分请求头和响应头？***
+
