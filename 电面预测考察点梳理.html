@@ -303,18 +303,24 @@ img {
 <li><a href="#8">8.http协议了解</a></li>
 <li><a href="#9">9.缓存实现（css,js等文件)</a></li>
 <li><a href="#10">10.如何实现新闻网站标题的实时更新(含WebSocket)</a></li>
-<li><a href="#11">11.浏览器兼容性</a></li>
-<li><a href="#12">12.两个非常大的整数相加</a></li>
-<li><a href="#13">13.自定义右键菜单</a></li>
-<li><a href="#14">14.XSS</a></li>
-<li><a href="#15">15.CSRF</a></li>
-<li><a href="#16">16.nodejs</a></li>
-<li><a href="#17">17.跨域</a></li>
-<li><a href="#18">18.JSONP</a></li>
-<li><a href="#19">19.FLEX布局</a></li>
-<li><a href="#20">20.CSS层叠上下文</a></li>
-<li></li>
+<li><a href="#11">11.JQuery链式操作</a></li>
+<li><a href="#12">12.浏览器兼容性</a></li>
+<li><a href="#13">13.两个非常大的整数相加</a></li>
+<li><a href="#14">14.自定义右键菜单</a></li>
+<li><a href="#15">15.XSS</a></li>
+<li><a href="#16">16.CSRF</a></li>
+<li><a href="#17">17.nodejs</a></li>
+<li><a href="#18">18.跨域</a></li>
+<li><a href="#19">19.JSONP</a></li>
+<li><a href="#20">20.FLEX布局</a></li>
+<li><a href="#21">21.CSS层叠上下文</a></li>
 </ul>
+<p>要另外打开的网页:</p>
+<p>w3s <a href="http://www.w3school.com.cn/jsref/index.asp">http://www.w3school.com.cn/jsref/index.asp</a></p>
+<p>正则网页<a href="http://www.w3school.com.cn/jsref/jsref_obj_regexp.asp">http://www.w3school.com.cn/jsref/jsref_obj_regexp.asp</a></p>
+<p>我的网站<a href="http://www.wetryer.com/wetryer.com-1-2/datanews/index/datanews.html">http://www.wetryer.com/wetryer.com-1-2/datanews/index/datanews.html</a></p>
+<p>我的网站代码</p>
+<p>我的网站nodejs的代码</p>
 <h2><p id="1">1.响应式布局设计</p></h2>
 <p><a href="#0">回到目录</a></p>
 <p><strong><em>参见《HTML5权威指南》P109-113</em></strong>
@@ -383,6 +389,7 @@ img {
 <h4>语法</h4>
 <p>字符间以空格相连，选取条件包含在小括号内，only（限定某种设备，可省略），and（逻辑与），not（排除某种设备）为逻辑关键字，多种设备用逗号分隔，这一点继承了css基本语法。</p>
 <h2><p id='2'>2.CSS3新增内容</p></h2>
+<p><a href="#0">回到目录</a></p>
 <h4>（1）CSS动画 <strong><em>优先说</em></strong></h4>
 <h5>示例：</h5>
 <pre><code> .logoWave{
@@ -562,6 +569,7 @@ font-family:myFirstFont;//font-family引用字体
 <li>:not(<选择器>) 对括号内的选择器取反</li>
 </ul>
 <h2><p id="3">3.网页性能优化方法</p></h2>
+<p><a href="#0">回到目录</a></p>
 <h4>（1）对全局变量解除引用 <strong><em>优先1</em></strong></h4>
 <p>确保占用最少的内存。因为局部变量在离开执行环境时解除引用，对于全局变量和全局变量的属性来说，一旦数据不再用，最好通过将其设置为null来释放其引用。</p>
 <p>注意：解除一个值的引用并不意味着自动收回该值所占内存。解除引用的真正作用是让值脱离执行环境，以便垃圾收集器下次运行时将其收回。</p>
@@ -660,6 +668,7 @@ document.forms、document.images、document.links(返回带href的元素a、area
 </code></pre>
 
 <h2><p id="4">4.js继承/原型链</p></h2>
+<p><a href="#0">回到目录</a></p>
 <h4>原型链</h4>
 <p>ECMAScript只支持实现继承（不支持接口继承），其实现继承主要是依靠原型链。</p>
 <p>原型链简单地讲，就是子类型的原型对象为超类型的实例，即把超类型的实例赋值给了子类型的原型。</p>
@@ -712,6 +721,7 @@ console.log(person.friends);
 
 <p>ECMA5通过新增的Object.create()方法规范了原型继承</p>
 <h2><p id="5">5.js闭包</p></h2>
+<p><a href="#0">回到目录</a></p>
 <h3>什么是闭包</h3>
 <p>闭包指有权访问另一个函数作用域的变量的函数。创建闭包的常见方式就是在一个函数内部创建另一个函数，内部函数可以访问包含它的外部函数的参数和变量（除了this和arguments）。</p>
 <h3>注意闭包的变量</h3>
@@ -880,6 +890,7 @@ for(var i=0,len=lis.length;i&lt;len;i++){
 <p>其实，上述j也可就写作i,因为内部循环参数是在局部函数中的，故循环完成后自动销毁，对外部i没有影响。</p>
 <p>更多关于闭包<a href="http://web.jobbole.com/84456/">其实闭包并不高深莫测</a></p>
 <h2><p id="6">6.从地址栏输入域名，说说接下来会发生的事。</p></h2>
+<p><a href="#0">回到目录</a></p>
 <p>详情参见<a href="http://www.360doc.com/content/16/0226/14/30980813_537536164.shtml">http://www.360doc.com/content/16/0226/14/30980813_537536164.shtml</a></p>
 <h4>1）在浏览器里输入网址</h4>
 <p>例如我的数据新闻网站wetryer.com</p>
@@ -985,6 +996,7 @@ for(var i=0,len=lis.length;i&lt;len;i++){
 <p><strong>ISP</strong>(Internet Service Provider），互联网移动提供商，即向广大用户综合提供互联网接入业务、信息业务、和增值业务的电信运营商。例如三大基础运营商：电信，移动，联通。</p>
 <p><strong>小区局域网宽带接入方式</strong>，是国内大中城市目前最普及的一种宽带接入方式，互联网服务提供商（ISP）采用光纤接入到楼（FTTB），再通过建立小区局域网用网线接入用户家，为整幢楼或小区提供共享带宽（通常是10-100兆/秒）。</p>
 <h2><p id="7">7.Ajax原理和过程</p></h2>
+<p><a href="#0">回到目录</a></p>
 <h4>Ajax原理简介</h4>
 <p>Ajax是异步JavaScript和XML的缩写。该名称诞生于XML还是数据传输首选格式的时期，现在这种情况已经不复存在。</p>
 <p>Ajax技术的核心是XMLHttpRequest对象（简称XHR)。XHR为向服务器发送请求和解析服务器响应提供了流畅的接口。能够以异步方式从服务器取得更多信息，意味着用户单击后，不用刷新页面也能获得新数据。即可以使用XHR对象取得新数据，然后通过DOM将新数据插入到页面中。</p>
@@ -1140,6 +1152,7 @@ for(var i=0,len=lis.length;i&lt;len;i++){
 </code></pre>
 
 <h2><p id="8">8.http协议了解</p></h2>
+<p><a href="#0">回到目录</a></p>
 <p><a href="http://www.cnblogs.com/li0803/archive/2008/11/03/1324746.html">http://www.cnblogs.com/li0803/archive/2008/11/03/1324746.html</a>
 <strong><em>复习《图解HTTP》</em></strong></p>
 <h4>（1）HTTP协议相关网络基础</h4>
@@ -1158,7 +1171,7 @@ TCP/IP协议族的IP（网际协议）在该层。</p>
 <p>数据链路层：<br>
 处理网络连接的硬件部分。包括操作系统、硬件设备驱动、网卡等。</p>
 <h5>负责传输IP协议：与HTTP密切相关的协议之一</h5>
-<p>IP协议的作用是把数据包传送给对方。需要IP地址（节点被分配到的地址）和Mac地址（网卡所属的固定地址）。通信中转时利用中转站Mac地址。传输路线通过路由机制。</p>
+<p>IP协议的作用是把数据包传送给对方。需要IP地址（节点被分配到的地址）和Mac地址（网卡所属的固定地址）。通信中转时利用中转站Mac地址。传输路线通过<strong>路由机制</strong>。</p>
 <h5>确保可靠的TCP协议：与HTTP密切相关的协议之二</h5>
 <p>TCP提供可靠的字节流服务，把大数据分割成报文段为单位的数据包，并能够确认数据最终是否送达了对方。</p>
 <h6>TCP三次握手策略</h6>
@@ -1289,6 +1302,7 @@ a.3其他，比如cookie。</p>
 <h4>（8）确保Web安全的HTTPS</h4>
 <p>HTTP+SSL(安全套接层）[加密+认证+完整性保护]=HTTPS</p>
 <h3><p id="9">9.缓存实现（css,js等文件）</p></h3>
+<p><a href="#0">回到目录</a></p>
 <h4>HTML5appchache简介</h4>
 <p>HTML5的应用缓存（application cache,简称appcache)，专门为开发离线Web应用而设计。appcache就是从浏览器的缓存中分出来的一块缓存区。</p>
 <p>不支持HTML5应用缓存的浏览器有IE,比较旧的FireFox，比较旧的Safari，其他都支持。</p>
@@ -1336,6 +1350,7 @@ applicationCache.status的值及其对应状态如下：</p>
 </code></pre>
 
 <h3><p id="10">10.如何实现新闻网站标题的实时更新</p></h3>
+<p><a href="#0">回到目录</a></p>
 <h4>（1）Ajax</h4>
 <p>可以用个定时器，每隔一段时间用Ajax向网站发送GET请求，获取新的标题</p>
 <h4>（2）WebSocket</h4>
@@ -1352,7 +1367,8 @@ socket.onmessage=function(event){
 
 <h4>（3）SSE</h4>
 <p>SSE API用于创建到服务器的单向连接，服务器通过这个连接可以发送任意数量的数据。SSE是通过常规的HTTP通信。如果只需读取服务器，则可以选择SSE。SSE和Ajax结合起来也可以实现双通信。</p>
-<h2>14.JQuery链式操作</h2>
+<h2><p id="11">11.JQuery链式操作</p></h2>
+<p><a href="#0">回到目录</a></p>
 <p>就是可以在一句代码里面对同一个DOM对象实现不同的操作。非链式的话就要每做一次操作就获取一次对象，链式只用获取一次对象。</p>
 <p>实例</p>
 <pre><code>$(&quot;#mydiv&quot;).addClass(&quot;current&quot;)//给当前元素添加&quot;current&quot;样式
@@ -1361,7 +1377,8 @@ socket.onmessage=function(event){
 .next().hide()//隐藏下一个元素
 </code></pre>
 
-<h2><p id="11">11.浏览器兼容性</p></h2>
+<h2><p id="12">12.浏览器兼容性</p></h2>
+<p><a href="#0">回到目录</a></p>
 <h3>1.事件冒泡方式</h3>
 <p>所有现代浏览器都支持冒泡，IE5.5之前事件冒泡跳过html(从body直接u跳到document)。其他IE9、Firefox、Chrome和Safari则将事件一直冒泡到windows.</p>
 <h3>2.事件捕获支持度</h3>
@@ -1498,7 +1515,8 @@ event.cancelBuble=true只能停止事件冒泡；而event.stopPropagation()则�
 };
 </code></pre>
 
-<h3><p id="12">12.两个非常大的整数相加</p></h3>
+<h3><p id="13">13.两个非常大的整数相加</p></h3>
+<p><a href="#0">回到目录</a></p>
 <p>两个非常大的整数相加，整数大到计算机的整型数据已经无法保存了，要求写一个函数来进行计算。</p>
 <pre><code>  var a=&quot;123456789&quot;;
     var b=&quot;22334455&quot;;
@@ -1555,7 +1573,8 @@ event.cancelBuble=true只能停止事件冒泡；而event.stopPropagation()则�
     console.log(resultStr);
 </code></pre>
 
-<h2><p id="13">13.自定义右键菜单</p></h2>
+<h2><p id="14">14.自定义右键菜单</p></h2>
+<p><a href="#0">回到目录</a></p>
 <p>方法一：使用oncontextmenu事件
 ：所有浏览器都支持 oncontextmenu 事件， contextmenu 元素只有 Firefox 浏览器支持。</p>
 <pre><code>&lt;!DOCTYPE html&gt;
@@ -1600,11 +1619,7 @@ event.cancelBuble=true只能停止事件冒泡；而event.stopPropagation()则�
         }
         ul :nth-child(3){
             top: 100px;
-        }
-
-
-
-
+        }        
     &lt;/style&gt;
 &lt;/head&gt;
 
@@ -1677,12 +1692,15 @@ EventUtil.addHandler(document,&quot;click&quot;,function(event){
 })
 </code></pre>
 
-<h2><p id="14">14.XSS</p></h2>
+<h2><p id="15">15.XSS</p></h2>
+<p><a href="#0">回到目录</a></p>
 <p>跨站脚本攻击(Cross Site Scripting)，为不和层叠样式表(Cascading Style Sheets, CSS)的缩写混淆，故将跨站脚本攻击缩写为XSS。恶意攻击者往Web页面里插入恶意Script代码，当用户浏览该页之时，嵌入其中Web里面的Script代码会被执行，从而达到恶意攻击用户的特殊目的。</p>
 <p>XSS漏洞是Web应用程序中最常见的漏洞之一。如果您的站点没有预防XSS漏洞的固定方法，那么就存在XSS漏洞。这个利用XSS漏洞的病毒之所以具有重要意义是因为，通常难以看到XSS漏洞的威胁，而该病毒则将其发挥得淋漓尽致。</p>
-<h2><p id="15">15.CSRF</p></h2>
+<h2><p id="16">16.CSRF</p></h2>
+<p><a href="#0">回到目录</a></p>
 <p>CSRF（Cross-site request forgery跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本（XSS），但它与XSS非常不同，并且攻击方式几乎相左。XSS利用站点内的信任用户，而CSRF则通过伪装来自受信任用户的请求来利用受信任的网站。与XSS攻击相比，CSRF攻击往往不大流行（因此对其进行防范的资源也相当稀少）和难以防范，所以被认为比XSS更具危险性。</p>
-<h2><p id="16">16.nodejs</p></h2>
+<h2><p id="17">17.nodejs</p></h2>
+<p><a href="#0">回到目录</a></p>
 <h3>总述</h3>
 <p>nodejs是后端JavaScript的运行平台,它保留了前端浏览器JavaScript中那些熟悉的接口，没有改写语言本身的任何特性，依旧基于作用域和原型链，区别在与它将前端的思想迁移到了后端。</p>
 <h3>nodejs的特点</h3>
@@ -1706,7 +1724,8 @@ EventUtil.addHandler(document,&quot;click&quot;,function(event){
 <h3>nodejs应用场景</h3>
 <p>适合I/O密集型和CPU密集型。</p>
 <p><strong><em>看自己写的网站的Nodejs</em></strong></p>
-<h3><p id="17">17.跨域</p></h3>
+<h3><p id="18">18.跨域</p></h3>
+<p><a href="#0">回到目录</a></p>
 <h4>1.CORS技术</h4>
 <p>CORS(Cross-Origin Resource Sharing,跨源资源共享）是定义了在必须访问跨源资源时，浏览器与服务器应该如何沟通。其基本思想，就是使用自定义的HTTP头，让浏览器和服务器进行沟通，从而决定请求或响应是否应该成功。</p>
 <p>做法是：</p>
@@ -1755,16 +1774,61 @@ socket.onmessage=function(event){
 }
 </code></pre>
 
-<h3><p id="18">22.JSONP原理</p></h3>
-<p>参见<a href="http://kb.cnblogs.com/page/139725/">http://kb.cnblogs.com/page/139725/</a>
-- 1、一个众所周知的问题，Ajax直接请求普通文件存在跨域无权限访问的问题，甭管你是静态页面、动态网页、web服务、WCF，只要是跨域请求，一律不准；
-- 2、不过我们又发现，Web页面上调用js文件时则不受是否跨域的影（不仅如此，我们还发现凡是拥有”src”这个属性的标签都拥有跨域的能力，比如<script>、<img>、<iframe>）；
-- 3、于是可以判断，当前阶段如果想通过纯web端（ActiveX控件、服务端代理、属于未来的HTML5之Websocket等方式不算）跨域访问数据就只有一种可能，那就是在远程服务器上设法把数据装进js格式的文件里，供客户端调用和进一步处理；
-- 4、恰巧我们已经知道有一种叫做JSON的纯字符数据格式可以简洁的描述复杂数据，更妙的是JSON还被js原生支持，所以在客户端几乎可以随心所欲的处理这种格式的数据；
-- 5、这样子解决方案就呼之欲出了，<strong>web客户端通过与调用脚本一模一样的方式，来调用跨域服务器上动态生成的js格式文件（一般以JSON为后缀）</strong>，显而易见，服务器之所以要动态生成JSON文件，目的就在于把客户端需要的数据装入进去。
-- 6、客户端在对JSON文件调用成功之后，也就获得了自己所需的数据，剩下的就是按照自己需求进行处理和展现了，这种获取远程数据的方式看起来非常像AJAX，但其实并不一样。
-- 7、<strong>为了便于客户端使用数据，逐渐形成了一种非正式传输协议，人们把它称作JSONP，该协议的一个要点就是允许用户传递一个callback参数给服务端，然后服务端返回数据时会将这个callback参数作为函数名来包裹住JSON数据，这样客户端就可以随意定制自己的函数来自动处理返回数据了。</strong></p>
-<h2><p id="19">19.Flex布局 </p></h2>
+<h3><p id="19">19.JSONP原理</p></h3>
+<p><a href="#0">回到目录</a></p>
+<p>参见<a href="http://kb.cnblogs.com/page/139725/">http://kb.cnblogs.com/page/139725/</a></p>
+<ol>
+<li>一个众所周知的问题，Ajax直接请求普通文件存在跨域无权限访问的问题，甭管你是静态页面、动态网页、web服务、WCF，只要是跨域请求，一律不准；</li>
+<li>不过我们又发现，Web页面上调用js文件时则不受是否跨域的影（不仅如此，我们还发现凡是拥有”src”这个属性的标签都拥有跨域的能力，比如script、img、iframe）；</li>
+<li>于是可以判断，当前阶段如果想通过纯web端（ActiveX控件、服务端代理、属于未来的HTML5之Websocket等方式不算）跨域访问数据就只有一种可能，那就是在远程服务器上设法把数据装进js格式的文件里，供客户端调用和进一步处理；</li>
+<li>恰巧我们已经知道有一种叫做JSON的纯字符数据格式可以简洁的描述复杂数据，更妙的是JSON还被js原生支持，所以在客户端几乎可以随心所欲的处理这种格式的数据；</li>
+<li>这样子解决方案就呼之欲出了，<strong>web客户端通过与调用脚本一模一样的方式，来调用跨域服务器上动态生成的js格式文件（一般以JSON为后缀）</strong>，显而易见，服务器之所以要动态生成JSON文件，目的就在于把客户端需要的数据装入进去。</li>
+<li>客户端在对JSON文件调用成功之后，也就获得了自己所需的数据，剩下的就是按照自己需求进行处理和展现了，这种获取远程数据的方式看起来非常像AJAX，但其实并不一样。</li>
+<li><strong>为了便于客户端使用数据，逐渐形成了一种非正式传输协议，人们把它称作JSONP，该协议的一个要点就是允许用户传递一个callback参数给服务端，然后服务端返回数据时会将这个callback参数作为函数名来包裹住JSON数据，这样客户端就可以随意定制自己的函数来自动处理返回数据了。</strong>
+实例：</li>
+</ol>
+<p>浏览器的HTML:</p>
+<pre><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;
+    &lt;title&gt;&lt;/title&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+    // 得到航班信息查询结果后的回调函数
+    var flightHandler = function(data){
+        alert('你查询的航班结果是：票价 ' + data.price + ' 元，' + '余票 ' + data.tickets + ' 张。');
+    };
+    // 提供jsonp服务的url地址（不管是什么类型的地址，最终生成的返回值都是一段javascript代码）
+    var url = &quot;http://flightQuery.com/jsonp/flightResult.aspx?code=CA1998&amp;callback=flightHandler&quot;;
+    // 创建script标签，设置其属性
+    var script = document.createElement('script');
+    script.setAttribute('src', url);
+    // 把script标签加入head，此时调用开始
+    document.getElementsByTagName('head')[0].appendChild(script);
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>服务器端生成的：</p>
+<pre><code>flightHandler({
+    &quot;code&quot;: &quot;CA1998&quot;,
+    &quot;price&quot;: 1780,
+    &quot;tickets&quot;: 5
+});
+</code></pre>
+
+<p>方法总结：</p>
+<pre><code>（1）浏览器端&lt;script&gt;里面写一个回调函数，用以传入跨域的服务器端调用那里提供的数据，在得到查询结构后调用。
+ (2) 写一个值为其他域的服务器的URL地址的变量，这个变量除了服务器的地址，还有一个?callback=你的回调函数
+（3）再创建一个&lt;script&gt;元素，将这个带其他域服务器地址和回调函数名称的变量赋值给这个script元素的url。
+（4）服务器端动态生成JSON数据就可以被传回来了。
+</code></pre>
+
+<h2><p id="20">20.Flex布局 </p></h2>
+<p><a href="#0">回到目录</a></p>
 <p>关于Flexbox，参见教程：<br>
 <a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">Flex布局教程：语法篇</a><br>
 <a href="http://www.ruanyifeng.com/blog/2015/07/flex-examples.html">Flex布局教程：实例篇</a>(内含骰子布局、网格布局、圣杯布局）<br>
@@ -1955,13 +2019,14 @@ socket.onmessage=function(event){
 }
 </code></pre>
 
-<h2><p id="20">20.关于层叠上下文</p></h2>
+<h2><p id="21">21.关于层叠上下文</p></h2>
+<p><a href="#0">回到目录</a></p>
 <p>参见<a href="http://web.jobbole.com/84812/">http://web.jobbole.com/84812/</a></p>
 <h3>什么是层叠上下文</h3>
 <p>层叠上下文，英文称作”stacking context”. 是HTML中的一个三维的概念。如果一个元素含有层叠上下文，我们可以理解为这个元素在z轴上就“高人一等”。</p>
 <h3>层叠准则</h3>
 <h4>（1）谁大谁上：</h4>
-<p>当具有明显的层叠水平标示的时候，如识别的z-indx值，在同一个层叠上下文领域，层叠水平值大的那一个覆盖小的那一个。通俗讲就是官大的压死官小的。</p>
+<p>当具有明显的层叠水平标示的时候，如识别的z-indx值，在同一个层叠上下文领域，层叠水平值大的那一个覆盖小的那一个。</p>
 <h4>（2）后来居上：</h4>
 <p>当元素的层叠水平一致、层叠顺序相同的时候，在DOM流中处于后面的元素会覆盖前面的元素。</p>
 <h3>实例说明</h3>
