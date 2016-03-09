@@ -1,5 +1,6 @@
 # NOWCODE错题、好题研究整理
 
+# 一、
 ### 1.
 输出对象中值大于2的key的数组
 
@@ -286,7 +287,7 @@ iframe的使用场景有？**html**
 - .col-lg- 大屏幕  >1200px
 
 
-####################以下来自
+## 二、来自阿里巴巴2016前端开发工程师笔试（二）
 ### 12.下列哪个操作是W3C标准定义的阻止事件向父容器传递：
 
 	A. e.preventDefault()
@@ -335,198 +336,8 @@ IE盒子模型和标准盒子模型都是由四个部分组成的：margin,borde
 **答案：** D
 关于Flexbox，参见教程：<br>
 [Flex布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)<br>
-[Flex布局教程：实例篇](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)(内含骰子布局、网格布局、圣杯布局）<br>
-看《HTML5权威指南》Chapter21
-
-#### 网格布局实例：
-   
-	<head>
-	  ```
-	  <style type="text/css">
-            .Grid{
-                display: -webkit-flex;
-            }
-            .Grid-cell{
-                flex:1; /*flex是flex-grow,flex-shrink,flex-basis的简写*/
-                
-                background-color: yellow;
-                border:thin solid black;
-            }
-            .Grid-cell.u-lof3{ /*中间不能有空格*/
-                flex:0 0 33.3333%;
-            }
-            .Grid-cell.u-lof4{
-                flex:0 0 25%;
-            }
-         
-        </style>
-    </head>
-    <body>
-        <div class="Grid">
-            <div class="Grid-cell u-lof4">abc</div>
-            <div class="Grid-cell">abc</div>
-            <div class="Grid-cell u-lof3">abc</div>
-        </div>
-        
-    </body>
-
-#### 圣杯布局实例：
-    
-	<head>
-	```
-	 <style type="text/css">
-	            .HolyGrail {
-	                display: -webkit-flex;
-	                min-height: 300px;
-	                flex-direction: column;/*容器的flex-direction设置其内部项目排列方式，此处为竖着排列*/
-	            }
-	              
-	            header,footer {
-	                flex: 1;/*flex是<flex-grow>|<flex-shrink>|<flex-basis>的简写，后两个可以省略。flex-grow为1表示有剩余空间就自动放大填满剩余空间
-	                height: 50px;
-	                background-color: yellow;
-	              }
-	              
-	              .HolyGrail-body {
-	                display: -webkit-flex;
-	                flex: 1;
-	                min-height: 200px;
-	              }
-	              
-	              .HolyGrail-content {
-	                flex: 1;
-	                background-color: green;
-	              }
-	              
-	              .HolyGrail-nav, .HolyGrail-ads {
-	                /* 两个边栏的宽度设为12em */
-	                flex: 0 0 12em;/*即flex-basis为12em*/
-	    
-	              }
-	              
-	              .HolyGrail-nav {
-	                /* 导航放到最左边 */
-	                order: -1;
-	                background-color: red;
-	              }
-
-				@media (max-width: 768px) {/*小屏幕，躯干的三栏自动变为垂直叠加*/
-	                .HolyGrail-body {
-	                  flex-direction: column;
-	                  flex: 1;
-	                }
-	                .HolyGrail-nav,
-	                .HolyGrail-ads,
-	                .HolyGrail-content {
-	                  flex: auto;/*flex:auto是flex:1 1 auto,flex-basis为auto即项目本来的大小*/
-	                }
-	              }
-					
-	        </style>
-	    </head>
-	   <body class="HolyGrail">
-	        <header>...</header>
-	        <div class="HolyGrail-body">
-	          <div class="HolyGrail-content">...</div>
-	          <nav class="HolyGrail-nav">...</nav>
-	          <aside class="HolyGrail-ads">...</aside>
-	        </div>
-	        <footer>...</footer>
-	   </body>
-
-#### 输入框的布局
-输入框往往前面加提示，后面加按钮。其弹性盒布局的思想就是中间输入框的flex-grow为1,即存在剩余空间时，中间框放大占满剩余空间。
-
-HTML:
-
-	<div class="InputAddOn">
-	  <span class="InputAddOn-item">...</span>
-	  <input class="InputAddOn-field">
-	  <button class="InputAddOn-item">...</button>
-	</div>
-
-CSS：
-
-	.InputAddOn {
-	  display: flex;
-	}
-	
-	.InputAddOn-field {
-	  flex: 1;
-	}
-
-#### 悬挂式布局
-主栏的左侧或右侧需添加一个图片栏。此时布局思想是aline-items属性定义为flex-start(即在交叉轴上的上方对齐），然后主栏的flex-grow为1
-
-HTML:
-
-	<div class="Media">
-	  <img class="Media-figure" src="" alt="">
-	  <p class="Media-body">...</p>
-	</div>
-
-CSS:
-
-	.Media {
-	  display: flex;
-	  align-items: flex-start;
-	}
-	
-	.Media-figure {
-	  margin-right: 1em;
-	}
-	
-	.Media-body {
-	  flex: 1;
-	}
-
-#### 固定高的底栏
-页面内容太少，无法占满一屏的话，底栏就会抬高到页面的中间。可以让中间栏的flex-grow为1,自动填满交叉轴的剩余高度。
-
-HTML:
-	
-	<body class="Site">
-	  <header>...</header>
-	  <main class="Site-content">...</main>
-	  <footer>...</footer>
-	</body>
-
-CSS:
-
-	.Site {
-	  display: flex;
-	  min-height: 100vh;
-	  flex-direction: column;
-	}
-	
-	.Site-content {
-	  flex: 1;
-	}
-
-#### 流式布局
-就是每行的项目固定，且可以自动分行。
-实现方法是：<br>
-容器flex-direction为row横向布局，flex-wrap为wrap自动换行，align-content多行对齐方式为flex-start。<br>
-项目的flex为0 0 xx%，即有剩余空间时项目不放大不缩小，每个都在主轴上占一定比例。
-
-CSS:
-
-	.parent {
-	  width: 200px;
-	  height: 150px;
-	  background-color: black;
-	  display: flex;
-	  flex-flow: row wrap;/*flex-flow是<flex-direction和flex-wrap的简写，此处row意为横向排列，wrap意为自动换行，第一行在上*/
-	  align-content: flex-start;/*align-content定义了多跟轴线的对齐方式*/
-	}
-	
-	.child {
-	  box-sizing: border-box;
-	  background-color: white;
-	  flex: 0 0 25%;/*每个项目有剩余空间时不放大，不缩小，占都占主轴空间的25%*/
-	  height: 50px;
-	  border: 1px solid red;
-	}
+[Flex布局教程：实例篇](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)
+参见 前端好贴整理 10.Flex布局
 
 ### 15.关于HTTP协议，下面哪个说法是正确的？
 
@@ -550,5 +361,142 @@ HTTP协议是无状态协议。无状态是指协议对于事务处理没有记�
 	303	|查看其它地址。与301类似。使用GET和POST请求查看
 	304	|未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源
 D错。
+
+
+### 16.使用 for in 循环数组中的元素会枚举原型链上的所有属性，过滤这些属性的方式是使用__函数。***原型链***
+**答案：** hasownproperty
+
+	function Person() {
+	}
+	
+	Person.prototype.name="Nicholas";
+	Person.prototype.age=29;
+	Person.prototype.sayName=function(){
+	    alert(this.name);
+	}
+	
+	var person1=new Person();
+	person1.name="Greg";
+	
+	var person2=new Person();
+	
+	console.log(person1.hasOwnProperty("name"));//true
+	console.log(person2.hasOwnProperty("name"));//false
+	
+	console.log("name" in person1);//true
+	console.log("name" in person2);//true
+	
+	for (var prop in person1) {
+	    console.log(prop);//name   age   sayName
+	}
+	
+	function hasPrototypeProperty(object,pro) {//如此可判断存在于原型中的属性
+	    return (!object.hasOwnProperty(pro))&&(pro in object);
+	}
+	console.log(hasPrototypeProperty(person1,"name"));//false
+	console.log(hasPrototypeProperty(person2,"name"));//true
+
+
+### 17.在空白处填入适当的代码使输出结果成立。***面向对象***
+
+	function showMoney( ) {
+	   ___
+	};
+	
+	var personA = new Object;
+	var personB = new Object;
+	
+	personA.money= "100";
+	personB.money= "150";
+	
+	personA.showMoney= showMoney;
+	personB.showMoney= showMoney;
+	
+	console.log(personA.showMoney());//100
+	console.log(personB.showMoney());//150
+
+
+**答案：** 
+
+	return this.money;
+
+### 18.删除给定数组中的第二项和第三项，并且在得到的新的数组中第二项后面添加一个新的值。 ***数组方法***
+	
+	var arr1 = ['a','b','c','d','e'];
+	var arr2 = arr1. __ ( __ , __,'newvalue')	
+
+
+**答案：**
+
+	var arr1=['a','b','c','d','e'];
+	var arr2=arr1.splice(1,2,'newvalue');
+	console.log(arr1);//['a','newvalue','d','e']
+	console.log(arr2);//['b','c']
+
+注意：splice操作是在原数组上，操作后返回的是删除项。
+
+### 19.写一个求和函数，达到下面的效果 ***数据类型转换***
+
+	// Should equal 15
+	sum(1, 2, 3, 4, 5);
+
+	// Should equal 0
+	sum(5, null, -5);
+
+	// Should equal 10
+	sum('1.0', false, 1, true, 1, 'A', 1, 'B', 1, 'C', 1, 'D', 1,  'E', 1, 'F', 1, 'G', 1);
+
+	// Should equal 0.3, not 0.30000000000000004
+	sum(0.1, 0.2);
+
+**答案：**
+
+方法1：
+
+		function sum() {
+		    var rel=0,len=arguments.length;
+		    for (var i=0;i<len;i++) {
+		        if ((isNaN(arguments[i])==false)&&(typeof arguments[i]=="number")) {
+		            rel+=arguments[i]*10;
+		        }
+		        else if ((typeof (Number(arguments[i]))=="number")&&(isNaN(Number(arguments[i]))==false)&&(typeof arguments[i]!="boolean")) {
+		            rel+=Number(arguments[i])*10
+		        }
+		        
+		    }
+		    return rel/10;
+		    
+		}
+
+方法2：
+
+	
+
+**知识点复习：**
+
+- Number()函数转换规则
+
+	类型|转换规则
+	-- |-------
+	Booleen|true→1，false→0
+	数值型|不变
+	null|0
+	undefined|NaN
+	字符串|(1)如果其仅包含数字,如“123”，则转换为十进制数字，首位0去掉；<br>(2)如果包含有效的浮点格式，如“1.1”，则将其转为对应的浮点数值；<br>(3)如果包含有效的十六进制格式，例如"0xf"，则将其转换为相同大小的十进制数值(console.log(Number("0xf"));//15);<br>(4)如果是空字符串，“”，则将其转换为0；<br>(4)如果还有其他字符，则将其转换为NaN。
+
+
+- 关于NaN
+	1. 任何涉及NaN的操作都会返回NaN
+	2. NaN与任何值都不相等，包括NaN本身
+	3. typeof NaN结果为 number
+	4. isNaN(x)函数可以确定x是否“不是数值”
+	
+			console.log(typeof(NaN));//number
+			console.log(NaN==NaN);//false
+			console.log(isNaN(NaN));//true
+			console.log(isNaN(10));//false
+			console.log(isNaN("10"));//false,"10"转换为10
+			console.log(isNaN("abc"));//true,"abc"转换为NaN
+			console.log(isNaN(true));//false,true转换为1
 
 
