@@ -1,5 +1,11 @@
 # NOWCODE错题、好题研究整理
 
+## 重要参考手册
+### bootstrap中文文档
+<http://v3.bootcss.com/>
+### jQuery中文手册
+<http://jquery.cuishifeng.cn/>
+
 # 一、
 ### 1.
 输出对象中值大于2的key的数组
@@ -37,13 +43,6 @@ Object.keys(oneObject)：返回对象oneObject的可枚举属性和方法的名�
 	console.log(newdata);
 关于array.filter（）详细介绍：https://msdn.microsoft.com/zh-cn/library/ff679973(v=vs.94).aspx
 
-
-### 2.
-关于IE、FF下脚本的区别：***待求证***
-
-- innerText: IE支持，FIRFOX不支持
-- document.createElement：IE支持，FIRFOX不支持
-- setAttribute('class'，'styleClass')：FIREFOX支持，IE不支持
 
 
 ### 3.
@@ -468,7 +467,7 @@ D错。
 		    
 		}
 
-方法2：
+方法2：待整理
 
 	
 
@@ -499,4 +498,256 @@ D错。
 			console.log(isNaN("abc"));//true,"abc"转换为NaN
 			console.log(isNaN(true));//false,true转换为1
 
+### 20.待整理
+### 21.待整理
 
+
+## 三、来自腾讯2015春招web前端开发练习卷
+
+### 1.jQuery Ajax都支持哪些返回类型？
+**答案：** xml,html,jsonp,json
+
+### 2.下面哪些语句可以在JS里判断一个对象oStringObject是否为String。
+	A.oStringObject instanceof String
+	B.typeof oStringObject == 'string'
+	C.oStringObject is String
+	D.以上答案都不正确
+**答案：** A
+
+**解析：**
+
+	var str1="abc";
+	console.log(typeof str1);//string
+	console.log(str1 instanceof String);//false
+	
+	var str2=new String("abc");
+	console.log(typeof str2);//object
+	console.log(str2 instanceof String);//true
+	console.log(str2 instanceof Object);//true
+
+string如果是基本类型的，用typeof即可判断；如果是引用类型的，要用instanceof判断。
+
+题目说了是一个对象，故用typeof判断出来的是'object'，只能用instanceof 判断。
+
+### 3.常见的浏览器端的存储技术有哪些？
+
+	A.cookie
+	B.localStorage
+	C.session
+	D.userData
+
+**答案：** ABD
+
+**解析：**
+详见《JavaScript高级程序设计》Chapter23
+##### cookie:
+cookie会随着每次HTTP请求头信息一起发送，无形中增加了网络流量，另外，cookie能存储的数据容量有限，根据浏览器类型不同而不同，IE6大约只能存储2K。
+
+##### webStorage（包括sessionStorage,globalStorage和localStorage)
+数据被严格控制在客户端，无须将数据发回服务器，存储量大。<br>
+###### sessionStorage
+sessionStorage对象存储特定于某个会话的数据，该数据只保持到浏览器关闭，且只能由最初给对象存储数据的页面访问到。
+###### globalStorage
+可跨对话存储数据。但要指定哪些域可以访问。
+###### localStorage
+在HTML5规范中作为持久保存客户端数据的方案取代了globalStorage。与globalStorage不同的是，不能给localStorage指定任何访问规则，规则实现就设定好了：同源（同协议，同域名，同端口）
+
+##### userData
+ie用户数据。仅在ie下有效。一旦某元素使用了userData行为，就可以使用setAttribute()方法在上面保存数据。
+
+##### session
+称为“会话控制”。Session 对象存储特定用户会话所需的信息。这样，当用户在应用程序的 Web 页之间跳转时，存储在 Session 对象中的变量将不会丢失，而是在整个用户会话中一直存在下去。当用户请求来自应用程序的 Web 页时，如果该用户还没有会话，则 Web 服务器将自动创建一个 Session 对象。当会话过期或被放弃后，服********务器将终止该会话。
+**session为服务器端存储技术**
+
+### 4.如何规避javascript多人开发函数重名问题。
+
+	A. 根据不同的开发人员实现的功能，在函数名加前缀
+	B. 每个开发人员都把自己的函数封装到类中，然后调用的时候即使函数名相同，但是因为是要类.函数名来调用，所以也减少了重复的可能性
+	C. 以上都不对
+
+**答案：** AB
+
+### 5.javascript基本数据类型有？
+
+	A.字符串
+	B.数字
+	C.null
+	D.undefined
+
+**答案：** ABCD
+
+ECMAScript有
+
+- 5种简单数据类型：Undefined、Null、Number、Boolean、String
+
+- 1种复杂数据类型:Object
+
+- 引用类型：
+	- 5种（正常的）引用类型：Object、Array、Date、RegExp、Function
+	- 3种基本包装类型：Boolean、Number、String
+	- 2个单体内置对象：Global、Math
+
+### 6.有关html结构描述正确的是？
+
+	A.<ul> <li> </li> </ul>
+	B.<ol> <li> </li> </ol>
+	C.<dl><dt><dd></dd></dt></dl>
+	D.<table> <tr> <td></td> </tr> </table>
+**答案：** ABD
+
+关于dl、dt、dd:
+	
+	<dl>
+	   <dt>计算机</dt>
+	   <dd>用来计算的仪器 ... ...</dd>
+	   <dt>显示器</dt>
+	   <dd>以视觉方式显示信息的装置 ... ...</dd>
+	</dl>
+
+dl定义列表。dt定义列表中的项目。dd描述列表中的项目。
+
+### 7.在bootstrap中， 关于导航条，下列说法正确的是?
+	A.应该将被包裹的元素放到navbar-collapse类中
+	B.表单应该放置于navbar-form内
+	C.可以使用navbar-left和navbar-right来对齐导航条
+	D.可以使用navbar-fixed-top和navbar-fixed-bottom来将导航条固定到顶部或底部
+
+**答案：** ABCD
+- .navbar-collapse类：包裹导航条元素
+- .navbar-form类：将表单放置于 .navbar-form 之内可以呈现很好的垂直对齐，并在较窄的视口（viewport）中呈现折叠状态。 
+- .navbar-left和.navbar-right类：对齐导航条
+- .navbar-fixed-top 类：可以让导航条固定在顶部；.navbar-fixed-bottom 类：可以让导航条固定在底部
+
+参见<http://v3.bootcss.com/components/#navbar>
+
+### 8.关于IE、FF下脚本的区别,描述错误的是：
+	A.innerText IE支持，FIREFOX不支持
+	B.document.createElement FIREFOX支持，IE不支持
+	C.setAttribute('class'，'styleClass') FIREFOX支持，IE不支持
+	D.用setAttribute设置事件 FIREFOX不支持，IE支持
+**答案：** BCD
+
+##### innerText: 
+IE支持，FIRFOX不支持
+##### document.createElement：
+IE支持，FIRFOX不支持
+##### setAttribute(属性名，属性值)：
+ Element.setAttribute(属性名，属性值），为所选元素添加指定的属性，并为其赋值。如果这个指定的属性已存在，则仅设置/更改值。
+
+所有主流浏览器均支持setAttribute,除ie8及之前版本。
+
+参见<http://www.w3school.com.cn/jsref/met_element_setattribute.asp>
+
+### 9.下面有关javascript内部对象的描述正确的是？
+
+	A.History 对象包含用户（在浏览器窗口中）访问过的 URL
+	B.Location 对象包含有关当前 URL 的信息
+	C.Window 对象表示浏览器中打开的窗口
+	D.Navigator 对象包含有关浏览器的信息
+
+**答案：**ABCD
+##### History对象
+History是window对象的属性，因此每个浏览器窗口、每个标签页、每个框架都有自己的history对象。<br>
+history对象包含用户（在浏览器窗口中）访问过的URL。只不过出于安全方面的考虑，无法得知浏览过的URL，可以在不知道URL的情况下后退和前进。<br>
+History对象的属性和方法：
+属性/方法|描述
+---------|----
+length|返回历史记录数量，包括所有向前和向后的记录
+back()|后退一页
+forward()|前进一页
+go(number/URL)|在历史记录中任意跳转，或包含该字符串的最近位置。
+
+##### Location对象
+包含有关当前URL的信息。window.location和document.location都可以访问它。
+属性|描述
+----|----
+hash|   设置或返回从井号 (#) 开始的 URL（锚）。
+host|	设置或返回主机名和当前 URL 的端口号。
+hostname|	设置或返回当前 URL 的主机名。
+href|	设置或返回完整的 URL。
+pathname|	设置或返回当前 URL 的路径部分。
+port|	设置或返回当前 URL 的端口号。
+protocol|	设置或返回当前 URL 的协议。
+search|	设置或返回从问号 (?) 开始的 URL（查询部分）。
+
+##### Window 对象
+window对象表示浏览器中打开的窗口。
+
+如果文档包含框架（frame 或 iframe 标签），浏览器会为 HTML 文档创建一个 window 对象，并为每个框架创建一个额外的 window 对象。	
+
+详见<http://www.w3school.com.cn/jsref/dom_obj_window.asp>
+
+##### Navigator对象
+Navigator对象包含有关浏览器的信息。现在已成为识别客户端浏览器的事实标准。
+
+详见《JavaScript高级程序设计》P210
+
+### 9.假设当前屏幕分别率为1024×768，定义一个居中的占屏幕一半大小的表格的语句是。
+	A.<TABLE ALIGN=”CENTER” WIDTH=”50%”></TABLE>
+	B.<TABLE ALIGN=”CENTER” WIDTH=”512″></TABLE>
+	C.<DIV ALIGN=”CENTER”><TABLE WIDTH=”512″></TABLE></DIV>
+	D.<CENTER><TABLE WIDTH=”50%”></TABLE></CENTER>
+
+**答案：**ABCD
+
+### 10.嵌入在HTML文档中的图像格式可以是？
+
+ 	A. *.gif
+	B. *.tif
+	C. *.bmp
+	D. *.jpg
+
+**答案：** ACD
+
+### 11.下面属于CSS3新增属性的有？
+
+	A.box-shadow
+	B.text-shadow
+	C.border-radius
+	D.rgba
+
+**答案：** ABCD
+
+### 12.请给Array本地对象增加一个原型方法，它用于删除数组条目中重复的条目(可能有多个)，返回值是一个包含被删除的重复条目的新数组。
+
+方法一：两层循环比较
+
+	Array.prototype.distinct=function(){
+	    var i=1;
+	    var delArr=[];
+	    while (this[i]) {
+	        for (var j=0;j<i;j++) {
+	            if (this[i]===this[j]) {
+	                delArr=delArr.concat(this.splice(i,1));
+	                break;
+	            }
+	        }
+	        if (j==i) {
+	            i++;
+	        }
+	    }
+	    return delArr;
+	}
+	
+	var myArray=[1,1,1,12,12,12,'a','b','ba','ba','bc','"a"','e','1','2','2','"3"'];
+	var mydelArr=myArray.distinct();
+	console.log(myArray);//[1, 12, "a", "b", "ba", "bc", ""a"", "e", "1", "2", ""3""]
+	console.log(mydelArr);//[1, 1, 12, 12, "ba", "2"]
+
+方法二：巧用素组的indexOf()方法
+
+	Array.prototype.distinct=function(){
+	    var i=1;
+	    var delArr=[];
+	    while (this[i]) {
+	       if (this.indexOf(this[i])!=i) {
+	            delArr=delArr.concat(this.splice(i,1));
+	        }
+	        else{
+	            i++;
+	        }
+	    }
+	    return delArr;
+	}
+
+***复习数组方法，复习Chapter5***

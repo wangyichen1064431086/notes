@@ -735,7 +735,7 @@
 	}
 
 
-### 10.判断某数是否为素数。
+### 10.判断某正整数是否为素数。***标记法判断素数***
 
 	# include<stdio.h>
 	# include<math.h>
@@ -765,4 +765,399 @@
 			;
 		}
 	
+	}
+
+### 11.判断某正整数是否为素数。***break法***
+
+	# include<stdio.h>
+	# include<math.h>
+	
+	void main()
+	{
+	    int i,m;
+		printf("请输入一个正整数:\n");
+		scanf("%d",&m);
+		for(i=2;i<=sqrt(m);i++)
+		{
+			if(m%i==0)
+			{
+				break;
+			}
+		}
+		if(i>sqrt(m))
+		{
+			printf("是素数\n");
+		}
+		else
+		{
+			printf("不是素数\n");
+		}
+		while(1)
+		{
+			;
+		}
+	
+	}
+
+### 12.把100~150间不能被6整除的数输出（每行输出12个）***continue的使用***
+
+	# include<stdio.h>
+	# include<math.h>
+	
+	void main()
+	{
+	    int i,k=1;
+		for(i=100;i<=150;i++)
+		{
+			if(i%6!=0)
+			{	
+				
+				printf("%3d ",i);
+				if(k%12==0)
+				{
+					printf("\n");
+				}
+				k++;
+			}
+			else
+			{
+				continue;
+			}
+		}
+		while(1)
+		{
+			;
+		}
+	
+	}
+
+
+### 13.输入一串字符串，以回车结束，统计其中大写字母的个数。
+方法一：break法
+
+	# include<stdio.h>
+	# include<math.h>
+	
+	void main()
+	{
+	    int n,k=0;
+		printf("请输入一个字符串，以回车结束\n");
+		while(1)
+		{
+			n=getchar();
+			if(n=='\n')
+			{
+				break;
+			}
+			else
+			{
+				if(n>='A'&&n<='Z')
+				{
+					k++;
+				}
+			}
+		}
+		printf("%d",k);
+		while(1)
+		{
+			;
+		}
+	}
+
+方法二:continue法
+
+	# include<stdio.h>
+	# include<math.h>
+	
+	void main()
+	{
+	    int n,k=0;
+		printf("请输入一个字符串，以回车结束\n");
+		while((n=getchar())!='\n')
+		{
+			if(n<'A'||n>'Z')
+			{
+				continue;
+			}
+			k++;
+		}
+		printf("%d",k);
+		while(1)
+		{
+			;
+		}
+	}
+
+
+### 14。打印呈下三角的乘法口诀表***循环嵌套***
+
+	# include<stdio.h>
+	# include<math.h>
+	
+	void main()
+	{
+	    int i,j;
+		for(i=1;i<=9;i++)
+		{
+			for(j=1;j<=i;j++)
+			{
+				printf("%d*%d =%d ",i,j,i*j);
+			}
+			printf("\n");
+		}
+		while(1)
+		{
+			;
+		}
+	}
+
+### 15.打印圣诞树型雪花图案***循环嵌套***
+
+	# include<stdio.h>
+	# include<math.h>
+	
+	void main()
+	{
+	    int i,j,k,n;
+		for(i=1;i<=5;i++)
+		{
+			j=5-i;
+			k=i*2-1;
+			for(n=1;n<=j;n++)
+			{
+				printf(" ");
+			}
+			for(n=1;n<=k;n++)
+			{
+				printf("*");
+			}
+			printf("\n");
+	
+		}
+		while(1)
+		{
+			;
+		}
+	}
+
+## 4.常用基础算法
+### 1.累加法
+利用公式e=1+1/1!+1/2!+1/3!+……+1/n!……计算无理常数e的近似值，要求误差小于1e-5。
+
+方法一：
+
+	# include<stdio.h>
+	# include<math.h>
+	
+	int jiechen(int n)
+	{
+		int i,rel=1;
+		for(i=1;i<=n;i++)
+		{
+			rel=rel*i;
+		}
+		return rel;
+	}
+	void main()
+	{
+	    int i=1;
+		double n,rel=1;
+		while(1)
+		{
+			n=1.0/jiechen(i);//两个整数相除为整数，故两个里面必须有一个是浮点数
+			printf("%f\n",n);
+			if(n<1e-5)
+			{
+				break;
+			}
+			else
+			{
+				rel+=n;
+				i++;
+			}
+			
+		}
+		printf("e近似为%f\n",rel);
+		while(1)
+		{
+			;
+		}
+	}
+
+方法二：
+	
+	# include<stdio.h>
+	# include<math.h>
+	
+	void main()
+	{
+	   int i=1;
+	   double rel=1.0,n=1.0;
+	   while(n>1e-5)
+	   {
+			n=n*(1.0/i);
+			rel+=n;
+			i++;
+	   }
+		printf("e近似为%f\n",rel);
+		while(1)
+		{
+			;
+		}
+	}
+
+### 2.穷举法
+（1）百元买鸡问题。100元买100只鸡。公鸡每只5元，母鸡每只3元，小鸡1元3只。问100元可买公鸡、母鸡、小鸡多少只？
+
+	# include<stdio.h>
+	# include<math.h>
+	
+	void main()
+	{
+	    int x,y,z;
+		for(x=0;x<=(100/5);x++)
+		{
+			for(y=0;y<=(100/3);y++)
+			{
+				for(z=0;z<=100;z++)
+				{
+					if((15*x+9*y+z==300)&&(x+y+z==100))
+					{
+						printf("x=%d,y=%d,z=%d\n",x,y,z);
+					}
+				}
+			}
+		}
+		
+		while(1)
+		{
+			;
+		}
+	}
+
+（2）爱因斯坦阶梯问题。有一阶梯，每步跨2阶最后剩1阶，每步跨3阶最后剩2阶，每步跨4阶，最后剩3阶，每步跨5阶最后剩4阶，每步跨6阶最后剩1阶，只有每步跨7阶时刚好到阶顶。问这个阶梯共有多少阶？
+
+	# include<stdio.h>
+	
+	void main()
+	{
+	    int n=7;
+		while(1)
+		{
+			if((n%2==1)&&(n%3==2)&&(n%5==4)&&(n%6==5)&&(n%7==0))
+			{
+				printf("%d",n);
+				break;
+			}
+			n++;
+		}
+		
+		while(1)
+		{
+			;
+		}
+	}
+
+（3）求100~300间的全部素数（每行输出18项）
+
+	# include<stdio.h>
+	# include<math.h>
+	
+	void main()
+	{
+	    int i,j,k=0;
+		for(i=101;i<300;i++)
+		{
+			for(j=2;j<=sqrt(i);j++)
+			{
+				if(i%j==0)
+				{
+					break;
+				}
+			}
+			if(j>sqrt(i))
+			{
+				printf("%d ",i);
+				k++;
+				if(k%18==0)
+				{
+					printf("\n");
+				}
+			}
+		}
+		
+		while(1)
+		{
+			;
+		}
+	}
+
+
+### 3.迭代法：
+- 什么是迭代法？
+
+ 	用一个变量既描述新状态又描述旧状态，变量的新值是在其旧值上推出的，这种不断用变量的心值取代旧值的过程，就称为迭代。
+
+用牛顿切线法解一元三次方程 x^3+2x^2+10x-20=0在x1=1.2附近的根的近似值。要求精度为10-6。
+思路详见《C语言程序设计》P130
+
+	# include<stdio.h>
+	# include<math.h>
+	
+	void main()
+	{
+	   int count=0;
+	   double x1,x2,f,d;
+	   printf("input x2:");
+	   printf("count\tx1\tx2\n\n");
+	   scanf("%lf",&x2);
+	   do
+	   {
+			x1=x2;
+			f=x1*x1*x1+2*x1*x1+10*x1-20;
+			d=3*x1*x1+4*x1+10;
+			x2=x1-f/d;
+			printf("%d\t%lf\t%lf\n",count++,x1,x2);
+	   }
+	   while(fabs(x2-x1)>1e-6);
+	
+	   printf("\nx=%lf\t",x2);
+	   printf("y=%lf\n",x2*x2*x2+2*x2*x2+10*x2-20);
+	
+		while(1)
+		{
+			;
+		}
+	}
+
+### 4.递推法
+- 什么是递推法？
+
+	新状态用新的变量描述，而新变量的值是在旧变量值的基础上推出来的，这种在旧变量值的基础上推出新变量值的过程，称为递推。
+
+求Fibonacci数列1，1，2，3，5，8……的前30项。每行输出6项。（使用数组也可以求）
+
+	# include<stdio.h>
+	# include<math.h>
+	
+	void main()
+	{
+	   int f1=1,f2=1,i,f,count=2;
+	   printf("%d\t%d\t",f1,f2);
+	   for(i=3;i<=30;i++)
+	   {
+			f=f1+f2;
+			count++;
+			printf("%d\t",f);
+			if(count%6==0)
+			{
+				printf("\n");
+			}
+			f1=f2;
+			f2=f;
+	   }
+		while(1)
+		{
+			;
+		}
 	}
