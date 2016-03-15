@@ -261,7 +261,7 @@ HttpWatch也可以集成到火狐浏览器中。
 	            element.addEventListener(type,handler,false);
 	        }
 	        else if (event.attachEvent) {
-	            element.attachEvent(type,handler);
+	            element.attachEvent("on"+type,handler);
 	        }
 	        else{
 	            element["on"+type]=handler;
@@ -272,7 +272,7 @@ HttpWatch也可以集成到火狐浏览器中。
 	            element.removeEventListener(type,handler,false);
 	        }
 	        else if (element.detachEvent) {
-	            element.detachEvent(type,handler);
+	            element.detachEvent("on"+type,handler);
 	        }
 	        else{
 	            element["on"+type]=null;
@@ -369,7 +369,7 @@ HttpWatch也可以集成到火狐浏览器中。
 	            element.addEventListener(type,handler,false);//表示在冒泡阶段调用事件处理程序
 	        }
 	        else if (element.attachEvent) {//IE8及之前版本
-	            element.attachEvent(type,handler);
+	            element.attachEvent("on"+type,handler);
 	        }
 	        else{
 	            element["on"+event]=handler;
@@ -465,7 +465,7 @@ HttpWatch也可以集成到火狐浏览器中。
 	};
 
 
-### 2.请指以下代码的性能问题，并进行优化。
+#### 2.请指以下代码的性能问题，并进行优化。
 
 	var info="腾讯拍拍网(www.paipai.com)是腾讯旗下知名电子商务网站,";
 	　　info +="拍拍网于2005年9月12日上线发布,";
@@ -514,7 +514,7 @@ HttpWatch也可以集成到火狐浏览器中。
 
 ***复习性能优化，复习字符串操作***
 
-### 3. 请给出异步加载js方案，不少于两种。
+#### 3. 请给出异步加载js方案，不少于两种。
 **答案：**
 默认情况下javascript是同步加载的，就是加载时时阻塞的，后面的元素要等待javascript加载完后才能进行加载。对于一些意义不是很大的javascript，如果放在页头会导致加载很慢的话，是会严重影响用户体验的。
 
@@ -618,7 +618,7 @@ script标签的defer属性。表名脚步在执行时不会影响页面的构造
 所以head里面的先执行。
 
 
-###　4.请写出jQuery绑定事件的方法，不少于两种。
+####　4.请写出jQuery绑定事件的方法，不少于两种。
 
 ##### (1)bind()方法
     
@@ -652,10 +652,189 @@ script标签的defer属性。表名脚步在执行时不会影响页面的构造
 
 ***快速翻一遍jQuery***
 
-###  5.请设计一套方案，用于确保页面中JS加载完全。
+####  5.请设计一套方案，用于确保页面中JS加载完全。
+**答案：** 详见《JavaScript高级程序设计》P365
 
-### 6. 请优化某网页的加载速度。
+	EventUtil={
+	    addHandler:function(element,type,handler){
+	        if (element.addEventListener) {
+	            element.addEventListener(type,handler,false);
+	        }
+	        else if (element.attachEvent) {
+	            element.attachEvent("on"+type,handler);
+	        }
+	        else{
+	            element["on"+type]=handler;
+	        }
+	    }
+	    //EventUtil其他方法略
+	}
+	EventUtil.addHandler(window,"load",function(){
+	    var script=document.createElement("script");
+	    EventUtil.addHandler(script,"load",function(){
+	        alert("Script loaded");
+	    })
+	    script.src="example.js";
+	    document.body.appendChild(script);
+	    
+	})
 
-### 7.对string对象经行扩展，使其具有删除前后空格的方法。
+**说明：**
 
-### 8. 完成一个正则表达式，验证用户输入是否身份证号码。
+- 除IE8及更早版本外，其他浏览器基本都支持script元素的load事件，以便确认动态加载的JavaScript文件是否加载完毕。
+- 向DOM添加新元素前，必须确定页面已经加载完毕。因为如果在页面加载前操作document.body会导致错误。
+- **只有在设置了script元素的src并将该元素添加到文档后，才会开始下载JavaScript文件。**故对于script元素，指定src属性和事件处理程序的先后顺序并不重要。
+
+**对比延伸：**
+
+###### （1）图像img上触发load事件：
+
+	EventUtil={
+	    getEvent:function(event){
+	        return event?event:window.event;   
+	    },
+	    getTarget:function(event){
+	        return event.target||event.srcElement;
+	    },
+	    addHandler:function(element,type,handler){
+	        if (element.addEventListener) {
+	            element.addEventListener(type,handler,false);
+	        }
+	        else if (element.attachEvent) {
+	            element.attachEvent("on"+type,handler);
+	        }
+	        else{
+	            element["on"+type]=handler;
+	        }
+	    }
+	    //其他方法略
+	};
+	
+	EventUtil.addHandler(window,"load",function(){
+	    var image=document.createElement("img");
+	    EventUtil.addHandler(image,"load",function(){
+	        event=EventUtil.getEvent(event);
+	        alert(EventUtil.getTarget(event).src);
+	    });
+	    document.body.appendChild(image);
+	    image.src="apple.png";
+	});
+
+- 因为新图像元素不一定要从添加到文档后才开始下载，只要设置了src属性就会下载。所有一定要在指定src属性前绑定事件。
+
+###### （2）link上触发load事件：确保样式表是否加载完毕
+
+	EventUtil.addHandler(window,"load",function(){
+	    var style=document.createElement("link");
+	    EventUtil.addHandler(style,"load",function(){
+	        alert("CSS loaded");
+	    });
+	    style.rel="stylesheet";
+	    style.type="text/css";
+	    style.href="text1.css";
+	    document.getElementsByTagName("head")[0].appendChild(style);
+	})
+
+与script类似，只有在指定href属性并将其添加到文档之后，才会开始下载样式表。故不用在意指定href属性和事件处理程序的顺序。
+
+#### 6. 请优化某网页的加载速度。
+<http://www.codeceo.com/article/14-ways-website-page-speed.html>
+***待研究整理***
+#### 7.对string对象经行扩展，使其具有删除前后空格的方法。
+**答案：**
+
+	String.prototype.myTrim=function(){
+	    var a=" ";
+	    var str=this;
+	    var pos=str.indexOf(a);
+	    while (pos>-1&&pos==0) {
+	        str=str.slice(1);
+	        pos=str.indexOf(a);
+	    }
+	    var pos2=str.lastIndexOf(a);
+	    while (pos>-1&&pos2==(str.length-1)) {
+	        str=str.slice(0,str.length-1);
+	        pos2=str.lastIndexOf(a);
+	    }
+	    return str;
+	}
+
+	var myStr=" Hello World   ";
+	console.log(myStr);//" Hello World   "
+	console.log(myStr.myTrim());//"Hello World"
+	console.log(myStr.length);//15
+	console.log(myStr.myTrim().length);//11
+
+**说明：**
+其实，也可以直接利用String类型的trim()方法直接删除前后空格。
+
+	var str=" hello world ";
+	var newStr=str.trim();
+	console.log(str);
+	console.log(newStr);
+
+
+#### 8. 完成一个正则表达式，验证用户输入是否身份证号码。
+
+	var pattern=/^[0-9]{17}[0-9X]$/;
+	console.log(pattern.test("420602199201231548"));
+
+### 3. 腾讯web前端开发方向实习笔试需要准备什么？
+<https://www.zhihu.com/question/20966351/answer/24401878>
+#### 1)基础计算机知识和算法数据结构
+看C和《程序员面试宝典》
+
+#### 2）必考题目js部分：
+
+dom的操作，删除，移动，复制，插入，前插后插，指定插一类。
+
+事件的处理，兼容性写法，参数作用，扑获冒泡，委派代理。
+
+ie下的一些兼容性问题，js的，举例。
+
+动画方面，加速度，重力模拟实现。
+
+正则，基本的用法和相关函数作用考查。
+
+闭包，原型链，作用域，变量引用，类继承方法。
+
+内存泄露的原因和场景。
+
+h5里一些新增api的了解。
+
+性能优化和重构知识。
+
+#### 3）html、css部分
+模型盒，haslayout，doctype，hack写法，常见经典布局写法刷一下
+
+### 4.腾讯2013笔试题
+<http://www.cnblogs.com/wolm/p/3383474.html>
+
+编写一个javascript的函数把url解析为与页面的javascript.location对象相似的实体对象，如：url ：'http://www.qq.com/index.html?key1=1&key2=2'，最后输出的对象是：
+
+	{
+	    protocol: "http", 
+	    hostname: "www.qq.com", 
+	    pathname: "index.html", 
+	    query: "key1=1&key2=2"
+	}
+
+**答案：**
+
+	function parseUrl(url) {
+	    var parsedUrl={
+	        protocol:"",
+	        hostname:"",
+	        pathname:"",
+	        query:""
+	    };
+	    var urlArray=url.split(/[(://)/?]+/m)//正则的/怎么写？？
+	    console.log(urlArray);
+	    parsedUrl.protocol=urlArray[0];
+	    parsedUrl.hostname=urlArray[1];
+	    parsedUrl.pathname=urlArray[2];
+	    parsedUrl.query=urlArray[3];
+	    return parsedUrl;
+	}
+	url="http://www.qq.com/index.html?key1=1&key2=2";
+	console.log(parseUrl(url));

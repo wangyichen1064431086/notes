@@ -1161,3 +1161,199 @@
 			;
 		}
 	}
+
+## 5.函数Chapter6
+
+### 1.编写计算n!的函数
+
+	# include <stdio.h>
+	long fac(int n)
+	{
+		long f=1,i;
+		for(i=1;i<=n;i++)
+		{
+			f=f*i;
+		}
+		return f;
+	}
+	main()
+	{
+		int k;
+		printf("输入一个正整数计算阶乘:");
+		scanf("%d",&k);
+		printf("%d!=%ld",k,fac(k));
+	
+		while(1)
+		{
+			;
+		}
+	}
+
+
+### 2.编写模块函数，计算x+x^2+x^3+……x^n的值（其中x=1.2,n=10)
+
+	# include <stdio.h>
+	
+	main()
+	{
+		int i=1,n;
+		double x,sum=0.0;
+		double mymul(double x,int n);
+		printf("请输入底数x和项数n:");
+		scanf("%lf%d",&x,&n);
+		for(i=1;i<=n;i++)
+		{
+			sum=sum+mymul(x,i);
+		}
+		printf("%lf\n",sum);
+		while(1)
+		{
+			;
+		}
+	}
+	
+	double mymul(double x,int n)
+	{
+	   int i;
+	   double t=1.0;
+	   for(i=1;i<=n;i++)
+	   {
+			t=t*x;
+	   }
+	   printf("%lf\n",t);
+	   return t;
+	}
+
+### 3.寻找11~9999间的正整数m,要求m,m*m,m*m*m都为回文数。
+
+	# include <stdio.h>
+	
+	int isHuiwen(int m)//判断是否为回文数
+	{
+		int a=m,t,n=0;
+		while(a)
+		{
+			t=a%10;
+			n=n*10+t;
+			a=a/10;
+		}
+		if (n==m)//或直接 return(n==m)
+		{
+			return 1;
+		}	
+		else
+		{
+			return 0;
+		}
+	}
+	
+	main()
+	{
+		int i;
+		for(i=11;i<=9999;i++)
+		{
+			if(isHuiwen(i)&&isHuiwen(i*i)&&isHuiwen(i*i*i))
+			{
+				printf("%d\n",i);
+			}
+		}
+		while(1)
+		{
+			;
+		}
+	}
+
+### 4.嵌套调用函数 求最小公倍数。
+
+	# include <stdio.h>
+	
+	int gcd(int m,int n)//辗转相除求最大公约数，牢记！
+	{
+		int t,r;
+		if(m<n)
+		{
+			t=m;
+			m=n;
+			n=t;
+		}
+		while(m%n)
+		{
+			r=m%n;
+			m=n;
+			n=r;
+		}
+		return n;
+	}
+	
+	int sct(int m,int n)//最小公倍数=m*n/最大公约数
+	{
+		return m*n/gcd(m,n);
+	}
+	
+	main()
+	{
+		int a,b;
+		printf("请输入要求最小公倍数的两个正整数a,b：\n");
+		scanf("%d%d",&a,&b);
+		printf("最小公倍数为%d\n",sct(a,b));
+		while(1)
+		{
+			;
+		}
+	}
+
+### 5.递归求阶乘
+
+	# include <stdio.h>
+	
+	long jiechen(int n)
+	{
+		if(n==1)
+		{
+			return 1;
+		}
+		else
+		{
+			return n*jiechen(n-1);
+		}
+	}
+	
+	main()
+	{
+		int a;
+		printf("请输入一个求阶乘的数a:\n");
+		scanf("%d",&a);
+		printf("阶乘是%ld",jiechen(a));
+		while(1)
+		{
+			;
+		}
+	}
+
+### 6.递归求Fibonacci数列。
+
+	# include <stdio.h>
+	
+	int fibonacci(int n)
+	{
+		if(n==1||n==2)
+		{
+			return 1;
+		}
+		else
+		{
+			return fibonacci(n-1)+fibonacci(n-2);
+		}
+	}
+	
+	main()
+	{
+		int n;
+		printf("请输入项数n:\n");
+		scanf("%d",&n);
+		printf("Fibonacci数列第%d项的值是%d",n,fibonacci(n));
+		while(1)
+		{
+			;
+		}
+	}
