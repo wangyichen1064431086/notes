@@ -786,23 +786,171 @@ script标签的defer属性。表名脚步在执行时不会影响页面的构造
 
 #### 2）必考题目js部分：
 
-dom的操作，删除，移动，复制，插入，前插后插，指定插一类。
+##### (1)dom的操作，删除，移动，复制，插入，前插后插，指定插一类。
+嚼透《JavaScript高级程序设计》Chapter10
+###### a.删除节点
+node.removeChild()
 
-事件的处理，兼容性写法，参数作用，扑获冒泡，委派代理。
+	var myNode=document.getElementsByTagName("ol")[0];
+	var removedNode=myNode.removeChild(myNode.firstChild);
 
-ie下的一些兼容性问题，js的，举例。
+###### b.替换节点
+node.replaceChild(,)
 
-动画方面，加速度，重力模拟实现。
+	var myNode=document.getElementsByTagName("ol")[0];
+	
+	var newNode=document.createElement("li");
+	newNode.appendChild(document.createTextNode("newItem"));
+	myNode.replaceChild(newNode,myNode.lastChild);
 
-正则，基本的用法和相关函数作用考查。
+###### c.复制节点
+node.cloneNode(true/false)
 
-闭包，原型链，作用域，变量引用，类继承方法。
+	var myNode=document.getElementsByTagName("ol")[0];
+	
+	var deepClone=myNode.cloneNode(true);
+	console.log(deepClone);
+	
+	var shallowClone=myNode.cloneNode(false);
+	console.log(shallowClone);
 
-内存泄露的原因和场景。
+###### d.后插节点（最常用）
+node.appendChild()
 
-h5里一些新增api的了解。
+	var newNode=document.createElement("dl");
+	var someNode=document.body;
+	someNode.appendChild(newNode);
 
-性能优化和重构知识。
+###### e.前插节点
+node.insertBefore(,)
+
+	var newNode=document.createElement("dl");
+	var someNode=document.body;
+	someNode.insertBefore(newNode,someNode.firstChild);
+	
+	someNode.insertBefore(newNode,null);//参照节点为null,则和appendChild执行相同的操作
+
+	someNode.insertBefore(newNode,someNode.childNodes[1]);//通过childNodes属性，可实现指定插
+
+###### f.移动节点
+
+	var newNode=document.createElement("dl");
+	var someNode=document.body;
+	someNode.appendChild(someNode.childNodes[0]);//把第一个子节点移动到了最后一个
+
+
+##### (2）事件的处理，兼容性写法，参数作用，捕获冒泡，委派代理。
+
+###### a.EventUtil对象即兼容性写法
+参数作用略
+
+	var EventUtil={
+	    addHandler:function(element,type,handler){
+	        if (element.addEventListener) {
+	            element.addEventListener(type,handler,false);
+	        }
+	        else if (element.attachEvent) {
+	            element.attachEvent("on"+type,handler);
+	        }
+	        else{
+	            element["on"+type]=handler;
+	        }
+	    },
+	    removeHandler:function(element,type,handler){
+	        if (element.removeEventListener) {
+	            element.removeEventListener(type,handler,false);
+	        }
+	        else if (element.detachEvent) {
+	            element.detachEvent("on"+type,handler);
+	        }
+	        else{
+	            element["on"+type]=null;
+	        }
+	    },
+	    getEvent:function(event){
+	        return event?event:window.event;
+	    },
+	    getTarget:function(event){
+	        return event.target?event.target:event.srcElement;
+	    },
+	    preventDefault:function(event){
+	        if (event.preventDefault) {
+	            event.preventDefault();
+	        }
+	        else{
+	            event.returnValue=false;
+	        }
+	    } 
+	}
+
+###### b.捕获冒泡
+事件冒泡：事件开始时由最具体的元素接受，然后逐级向上传播到较为不具体的节点。
+
+事件捕获： 不同具体的节点更早接收到事件，最具体的节点最后接收到事件。用意在事件到达具体目标前捕获它。
+
+###### c.委托代理
+利用事件可以冒泡到不具体的节点上，在不具体的节点上绑定事件处理程序以替代在每个具体节点上绑定事件处理程序。
+
+这样的好处是，减少事件处理函数。（1）每个函数都是对象，都会占用内存；内存越多，性能就越差。（2）必须事先指定所有事件处理程序而导致的DOM访问次数，会延迟整个页面的交互就绪时间。
+
+	var bigElem=document.getElementsByTagName("ul")[0];
+	
+    //使用上述EventUtil对象
+	EventUtil.addHandler(bigElem,"click",function(){
+	    var event=EventUtil.getEvent(event);
+	    var target=EventUtil.getTarget(event);
+	    alert(target.innerHTML+target.nodeValue+target.nodeName);
+	})
+
+##### （3）ie下的一些兼容性问题，js的，举例。
+如上述EventUtil。
+###### a.ie事件处理程序
+ie是attachEvent,detachEvent。
+DOM2级事件处理程序是addEventListener,removeEventListener。
+
+###### b.event对象
+ie如果使用DOM0级方法绑定事件处理程序，其event需要通过window.event获取。
+
+###### c.取消默认事件处理程序的方法
+ie是
+
+	event.returnValue=false。
+
+其他事
+
+	event.preventDefault()。
+
+###### d.获取target的方法。
+ie是
+
+	event.srcElement
+
+其他是
+
+	event.target。
+
+###### e.取消事件冒泡
+其他是
+	
+	event.cancelBubble=true
+
+DOM2是
+
+	event.stopPropagation()
+
+##### （4)动画方面，加速度，重力模拟实现。
+***复习CSS动画***
+
+##### （5）正则，基本的用法和相关函数作用考查。
+***狂复习正则***
+
+##### （6）闭包，原型链，作用域，变量引用，类继承方法。
+
+##### （7）内存泄露的原因和场景。
+
+##### （8）h5里一些新增api的了解。
+
+##### （9）性能优化和重构知识。
 
 #### 3）html、css部分
 模型盒，haslayout，doctype，hack写法，常见经典布局写法刷一下
@@ -838,3 +986,293 @@ h5里一些新增api的了解。
 	}
 	url="http://www.qq.com/index.html?key1=1&key2=2";
 	console.log(parseUrl(url));
+
+### 5.2012腾讯实习生web前端笔试题
+<http://www.mianwww.com/html/2012/04/16214.html>
+
+#### 1.为div设置类a和B,编写HTML代码。
+
+	<div class="a b"></div>
+
+#### 2.设置CSS属性clear为什么可清楚两边浮动
+
+	clear:both
+
+#### 3.什么标签必须直接嵌套于ul、ol中?
+
+	li
+
+#### 4.CSS属性(margin)可为元素设置外补丁。
+
+#### 5.设置CSS属性float为(none）可取消元素的浮动。
+
+#### 6.文字水平居中的代码是:
+
+	text-align:center
+
+#### 7. 下列哪个样式定义后,内联(非块状)元素可以定义宽度和高度
+
+	A. display:inline 
+	B. display:none
+	C. display:block 
+	D. display:inheric
+
+**答案：** C 即便这样成为了一个独立的块。上下都换行了。
+
+要想不换行，设为inline-block比较好。
+
+#### 8.不换行必须设置
+
+	A.word-break
+	B.letter-spacint
+	C.white-space
+	D.word-spacing
+
+**答案：** AC
+
+**知识恶补：** 看《HTML权威指南》Chapter22
+
+##### A.word-break:
+在恰当的断字点进行换行。
+属性值：
+
+- normal:使用浏览器默认换行规则
+- break-all:允许在单词内换行
+- keep-all:只能在半角空格或连字符处换行。
+- hyphenate:单词会在一个合适的时候换行。
+
+		<style type="text/css">
+	            p.test1{
+	                width: 11em;
+	                border: 1px solid #000000;
+	                word-break: keep-all;/*不换行*/
+	            }
+	            p.test2{
+	                width: 11em;
+	                border: 1px solid #000000;
+	                word-break: break-all;/*换行*/
+	            }
+	
+	        </style>
+	    </head>
+	    <body>
+	        <p class="test1">This is a veryveryveryveryveryveryveryveryveryveryveryvery long paragraph</p>
+	        <p class="test2">This is a veryveryveryveryveryveryveryveryveryveryveryvery long paragraph</p>
+	
+	    </body>
+
+##### B.letter-spacing属性
+增加或减少字符间的空白（即字符间距）。
+属性值：
+
+- normal	默认。规定字符间没有额外的空间。
+- length	定义字符间的固定空间（允许使用负值）。
+- inherit	规定应该从父元素继承 letter-spacing 属性的值。
+	
+		<head>
+	    	<style type="text/css">
+	            p.test1{
+	                letter-spacing:-1px;
+	            }
+	            
+	            p.test2{
+	                letter-spacing:10px;
+	            }
+	
+	        </style>
+	    </head>
+	    <body>
+	        <p class="test1">Hello World</p>
+	        <p class="test2">Hello World</p>
+	       
+	       
+	   </body>
+
+##### C.white-space:
+设置如何处理元素内的空白。
+可能的值：
+
+- normal	默认。空白会被浏览器忽略。
+- pre	空白会被浏览器保留。其行为方式类似 HTML 中的 <pre> 标签。
+- nowrap	文本不会换行，文本会在在同一行上继续，直到遇到 <br> 标签为止。
+- pre-wrap	保留空白符序列，但是正常地进行换行。
+- pre-line	合并空白符序列，但是保留换行符。
+- inherit	规定应该从父元素继承 white-space 属性的值。
+
+示例：（规定段落内文本不换行）
+
+	   <style type="text/css">
+	            p{
+	                /*white-space: normal;遇到浏览器窗口边界就会换行*/
+	                white-space: nowrap;/*一直不换行，靠浏览器的水平滚动条*/
+	            }
+	            
+	        </style>
+	    </head>
+	    <body>
+	        <p>
+	            这是一些文本。
+	            这是一些文本。
+	            这是一些文本。
+	            这是一些文本。
+	            这是一些文本。
+	            这是一些文本。
+	            这是一些文本。
+	            这是一些文本。
+	            这是一些文本。
+	            这是一些文本。
+	        </p>
+	        
+	    </body>
+
+##### D.word-spacing
+增加或减少单词间的空白（即字间隔）。
+
+- normal	默认。定义单词间的标准空间。
+- length	定义单词间的固定空间。（可为负）
+- inherit	规定应该从父元素继承 word-spacing 属性的值。
+
+#### 9.在使用table表现数据时，有时候表现出来的会比自己实际设置的宽度要宽，为此需要设置下面哪些属性值()
+
+	A. cellpadding=”0″ 
+	B. padding:0 
+	C. margin:0 
+	D. cellspacing=”0″
+
+
+**知识恶补：**
+table标签的属性。
+
+参见<http://www.w3school.com.cn/tags/tag_table.asp>
+
+- cellpadding: 规定单元边沿与其内容之间的空白。
+- cellspacing: 规定单元格之间的空白。
+
+示例：
+
+    	<table border="8" cellpadding="0" cellspacing="0">
+            <tr>
+              <th>Month</th>
+              <th>Savings</th>
+            </tr>
+            <tr>
+              <td>January</td>
+              <td>$100</td>
+            </tr>
+        </table>
+
+#### 10. CSS属性font-style 用于设置字体的粗细。
+
+**答案：** 错。
+
+font-style用于设置字体风格。可有normal,italic(斜体），oblique(倾斜），inherit(继承父元素的字体样式）
+
+
+#### 11. CSS属性overflow用于设置元素超过宽度时是否隐藏或显示滚动条。 
+
+**答案：** 对
+
+over-flow规定当内容溢出元素边框时发生的事情。
+
+- visible	默认值。内容不会被修剪，会呈现在元素框之外。
+- hidden	内容会被修剪，并且其余内容是不可见的。
+- scroll	内容会被修剪，但是浏览器会显示滚动条以便查看其余的内容。
+- auto	如果内容被修剪，则浏览器会显示滚动条以便查看其余的内容。
+- inherit	规定应该从父元素继承 overflow 属性的值。
+
+
+***复习CSS参考手册 定位属性***
+#### 12. 在不涉及样式情况下,页面元素的优先显示与结构摆放顺序无关。 
+ **答案：** 错
+
+#### 13. 在不涉及样式情况下,页面元素的优先显示与标签选用无关。 
+**答案：** 对
+
+#### 14. display:inline兼容所有的浏览器。 
+**答案：** 对
+
+#### 15. input属于窗体元素,层级显示比flash、其它元素都高。 
+**答案：** 错
+页面元素的优先显示与元素标签选用无关。
+
+#### 16.写出ul、ol、dl三种列表的html结构
+
+		<ul>
+            <li>item1</li>
+            <li>item2</li>
+            <li>item3</li>
+        </ul>
+        <ol>
+            <li>item1</li>
+            <li>item2</li>
+            <li>item3</li>
+        </ol>
+        <dl>
+            <dt>item1</dt>
+            <dd>item1 is a …………………………………</dd>
+            <dt>item2</dt>
+            <dd>item2 is a ……………………………………</dd>
+        </dl>
+
+**说明：** 
+
+dl dt dd比较生疏。dt用于定义列表中的项目。dd用于描述列表中的项目。
+
+#### 17.2. 将以下CSS代码进行缩写，注意要符合缩写的规范。
+##### a) 代码一：
+	border-width:1px;
+	border-color:#000;
+	border-style:solid;
+
+**答案：** 
+
+	border:1px solid #000
+
+顺序是可以打乱的
+##### b) 代码二：
+
+	background-position:0 0;
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+	background-color:#f00;
+	background-image:url(background.gif);
+
+**答案：** 
+
+	background: #f00 url(background.gif) no-repeat fixed 0 0
+
+复制代码
+##### c)代码三：
+font-style:italic;
+font-family:”Lucida Grande”,sans-serif;
+font-size:1em;
+font-weight:bold;
+font-variant:small-caps;
+line-height:140%;
+
+**答案：** 
+参见<http://www.w3school.com.cn/cssref/pr_font_font.asp>
+
+	font:italic small-caps bold 1em 140% ”Lucida Grande”,sans-serif
+
+##### d) 代码四：
+	list-style-position:inside;
+	list-style-type:square;
+	list-style-image:url(image.gif);
+
+##### e)代码五：
+	margin-left:20px;
+	margin-right:20px;
+	margin-bottom:5px;
+	margin-top:20px;
+
+##### f)代码六：
+	color:#336699;
+	color:#ffcc00;
+
+***研究一下这些简写的排列顺序问题***
+
+#### 17. 简述border:none以及border:0的区别，并给出使用建议。
+
+
+#### 18.使用重构的方式制作出一个如下图的水平、垂直都居中短边为50px，长边为150px的红色十字架。

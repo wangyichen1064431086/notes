@@ -203,7 +203,7 @@
 		}
 	}
 
-### 6.指向函数的指针——使函数参数得以传递函数（即传递代码）
+### 6.指向函数的指针——使函数参数得以传递函数（即传递代码）***Very Good and Difficult***
 求函数在任意区间上的积分。
 
 	# include<stdio.h>
@@ -284,7 +284,7 @@
 	}
 
 ### 8.数组名作为函数参数
-求素组元素的平均值。
+#### 求素组元素的平均值。
 
 	# include<stdio.h>
 	void main()
@@ -316,9 +316,11 @@
 		return sum/5;
 	}
 
-逆序输出数组元素。
 
-	# include<stdio.h>
+#### 逆序输出数组元素。
+方法一：数组名赋值给新指针变量
+
+	#include<stdio.h>
 	void main()
 	{
 		void list(int *a,int n);
@@ -349,10 +351,43 @@
 		for(i=0;i<n/2;i++)
 		{
 			t=*(a+i);
-			*(a+i)=*(a+4-i);
-			*(a+4-i)=t;
+			*(a+i)=*(a+n-i);
+			*(a+n-i)=t;
 		}
 	}
+
+方法二：直接调换原数组指针
+
+	#include <stdio.h>
+	void main()
+	{ 
+		void list(int *a,int n);
+		int score[]={60,70,80,90,100};
+		int i;
+		list(score,5);
+		for(i=0;i<5;i++)
+		{
+			printf("%d\t",*(score+i));
+		}
+		while(1)
+		{
+			;
+		}
+	}
+	
+	void list(int *a,int n)
+	{
+		int i,t1,t2;
+		for(i=0;i<n/2;i++)
+		{
+			t1=*(a+i);
+			t2=*(a+n-1-i);
+			*(a+i)=t2;
+			*(a+n-1-i)=t1;
+		}
+	}
+
+
 
 
 ### 9.字符串指针运算
@@ -429,9 +464,30 @@
 		}
 	}
 
+自创新方法：
 
+	#include <stdio.h>
+	int strlen(char *str)
+	{
+		int i=0;
+		while(*(str+i))
+		{
+			i++;
+		}
+		return i;
+	}
+	
+	void main()
+	{ 
+		char *a="ABCD";
+		printf("len=%d\n",strlen(a));
+		while(1)
+		{
+			;
+		}
+	}
 
-### 11.利用字符串指针，自定义字符串连接函数。
+### 11.利用字符串指针，自定义字符串连接函数。***第二遍未开，下次重点看***
 
 	# include<stdio.h>
 	
@@ -1357,3 +1413,270 @@
 			;
 		}
 	}
+
+
+### 7.全局、局部变量作用域理解
+#### eg1 分析下列程序的运行结果
+
+	# include <stdio.h>
+	
+	int x=10,y=6;
+	int min(int x,int y)
+	{
+		int z;
+		z=x<y?x:y;
+		return z;
+	}
+	
+	main()
+	{
+		int x=3;
+		printf("%d\t",min(x,y));//3
+	
+		{
+			int x=1,y=2;
+			printf("%d\t",min(x,y));//1
+		}
+	
+		printf("%d\t",min(x,y));//3
+		while(1)
+		{
+			;
+		}
+	}
+
+对比：
+
+	# include <stdio.h>
+	
+	int x=10,y=6;
+	int min(int x,int y)
+	{
+		int z;
+		z=x<y?x:y;
+		return z;
+	}
+	
+	main()
+	{
+		int x=3;
+		printf("%d\t",min(x,y));//3
+	
+		{
+			int x=1;
+			y=2;//此处y是全局变量y
+			printf("%d\t",min(x,y));//1
+		}
+	
+		printf("%d\t",min(x,y));//2
+		while(1)
+		{
+			;
+		}
+	}
+
+
+#### eg2 分析下列程序的运行结果
+
+	# include <stdio.h>
+	
+	int x,y;
+	void swap()
+	{
+		int t;
+		t=x;x=y;y=t;
+	}
+	
+	main()
+	{
+		scanf("x=%d,y=%d",&x,&y);
+		printf("x=%d,y=%d\n",x,y);//x=5,y=3
+		swap();
+		printf("x=%d,y=%d\n",x,y);//x=3,y=5
+	
+		while(1)
+		{
+			;
+		}
+	
+	}
+
+对比：
+
+	# include <stdio.h>
+
+	void swap(int x,int y)
+	{
+		int t;
+		t=x;x=y;y=t;
+	}
+	
+	main()
+	{
+		int x,y;
+		scanf("x=%d,y=%d",&x,&y);
+		printf("x=%d,y=%d\n",x,y);//x=5,y=3
+		swap(x,y);
+		printf("x=%d,y=%d\n",x,y);//x=5,y=3
+	
+		while(1)
+		{
+			;
+		}
+	
+	}
+
+### 8、自动局部变量与静态局部变量理解。
+程序1：自动局部变量
+
+	# include <stdio.h>
+	
+	int x,y;
+	void fun()
+	{
+		int x=1;//x是自动变量，每次调用fun时，x都要重新分配存储单元及重新初始化为1
+		x++;
+		printf("x=%d\n",x);
+	}
+	
+	main()
+	{
+		int i;
+		for(i=0;i<3;i++)
+		{
+			fun();//x=2 x=2 x=2
+		}
+		while(1)
+		{
+			;
+		}
+	
+	}
+
+程序2：自动局部变量
+
+	# include <stdio.h>
+	
+	int x,y;
+	void fun()
+	{
+		static int x=1;//x是静态局部变量，仅初始化一次。在函数调用结束后仍能保持其值。
+		x++;
+		printf("x=%d\n",x);
+	}
+	
+	main()
+	{
+		int i;
+		for(i=0;i<3;i++)
+		{
+			fun();//x=2 x=3 x=4
+		}
+		while(1)
+		{
+			;
+		}
+	
+	}
+
+
+### 9.利用静态局部变量输出1~4的阶乘值。*
+
+	# include <stdio.h>
+	long fac(int n)
+	{
+		static long k=1;
+		k=k*n;
+		return k;;
+	}
+	
+	main()
+	{
+		int i;
+		for(i=1;i<=4;i++)
+		{
+			printf("%d!=%d\n",i,fac(i));
+		}
+		while(1)
+		{
+			;
+		}
+	
+	}
+
+
+### 10.在多文件中使用extern 对全局变量进行声明
+
+text1.c文件：
+
+	# include <stdio.h>
+	float PI=3.1415926;//如果这里使用static float PI则限制该全局变量只在本文件中使用，在text2.c中就算声明了extern float PI也会报错
+	
+	main()
+	{
+		float area(float r);
+		float volume(float r);
+		float r;
+		printf("请输入球的半径r:");
+		scanf("%f",&r);
+		printf("S=%f\tV=%f\n",area(r),volume(r));
+	
+	
+		while(1)
+		{
+			;
+		}
+	
+	}
+
+text2.c文件：
+
+	extern float PI;
+	float area(float r)
+	{
+		return 4.0*PI*r*r;
+	}
+	float volume(float r)
+	{
+		return 4.0*PI*r*r*r/3;
+	}
+
+## 6.编译预处理，宏（Chapter7)
+### 1.比较项目的宏扩展和函数调用
+
+	#include <stdio.h>
+	#define CUBE(x) ((x)*(x)*(x))
+	int cube(int x)
+	{
+		return x*x*x;
+	}
+	
+	main()
+	{
+		int a=2,b;
+		b=CUBE(a++);
+		printf("%d\n",b);//8
+		printf("%d\n",a);//5
+		b=CUBE(a);//125
+		printf("%d\n",b);
+	
+		a=2;
+		b=cube(a++);
+		printf("%d\n",b);//8
+		printf("%d\n",a);//3
+		b=cube(a);
+		printf("%d\n",b);//27
+	
+		while(1)
+		{
+			;
+		}
+	}
+
+宏调用CUBE(a++)将被扩展为((a++)*(a++)*(a++))，因此执行后a由2变为了5。
+
+
+
+## 8.待研究问题
+
+### 1.C的编译、链接步骤到底在做什么工作？
