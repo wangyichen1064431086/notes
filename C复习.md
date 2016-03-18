@@ -1675,6 +1675,162 @@ text2.c文件：
 
 宏调用CUBE(a++)将被扩展为((a++)*(a++)*(a++))，因此执行后a由2变为了5。
 
+## 7.链表
+《C语言程序设计》P254
+### 1.单链表的建立和输出。建立包含5个结点的单链表，5个结点的值分别是101，89；102、77；105、92；107，68；109，91。
+
+	#include <stdio.h>
+	#include <stdlib.h>
+	
+	struct node
+	{
+		int num,score;
+		struct node *link;
+	};
+	
+	
+	
+	void main()
+	{ 
+		struct node *creat(int n);
+		void print(struct node *h);
+		struct node *find(struct node *h,int x);
+		struct node *dele(struct node *h,int x);
+		struct node *add(struct node *h);
+	
+		struct node *head=0,*newhead=0,*newhead2=0;
+		head=creat(5);//创建链表
+		print(head);//输出链表
+		printf("\n");
+	
+		find(head,105);//查找学号为105的链表结点，输出该结点数据域
+		printf("\n");
+	
+		newhead=dele(head,107);//删除学号为107的链表结点
+		print(newhead);//输出删除后的新链表
+		printf("\n");
+		print(head);
+		printf("\n");
+	
+		newhead2=add(newhead);//插入新结点
+		print(newhead2);//输出插入新结点后的链表
+		printf("\n");
+	
+		while(1)
+		{
+			;
+		}
+	}
+	
+	struct node *creat(int n)//链表创建函数，参数n为节点个数，函数返回表头指针
+	{
+		struct node *h=0,*p,*q;
+		int i;
+		for(i=1;i<=n;i++)
+		{
+			q=(struct node *)malloc(sizeof(struct node));
+			scanf("%d%d",&q->num,&q->score);
+			q->link=0;//为新结点指针域赋值为0,故最后效果即最后一个结点指针域为0
+	
+			if(h==0)//第一次进入for循环，把链头地址q用h保存
+			{
+				h=q;
+			}
+			else
+			{
+				p->link=q;
+	
+			}
+			p=q;//p依次指向新的链表节点
+		}
+		return h;
+	}
+	
+	void print(struct node *h)//输出链表函数
+	{
+		while(h)
+		{
+			printf("num=%d\tscore=%d\n",h->num,h->score);
+			h=h->link;
+		}
+	}
+	
+	struct node *find(struct node *h,int x)//查找链表函数
+	{
+		struct node *p;
+		p=h;
+		while(p!=0&&p->num!=x)//由上创建链表的函数create(n)知，最后一个结点的指针域为0。
+		{					  //这里条件即为如果当前结点不是最后一个结点指向的节点，且数据域的学号不为我们要找的x
+			p=p->link;//p指向下一个结点
+		}
+		if(p)     //p最后不等于0表示找到了指定学号的学生
+		{
+			printf("num=%d\tscore=%d\n",p->num,p->score);
+		}
+		else
+		{
+			printf("查无此学生\n");
+		}
+	}
+	
+	struct node *dele(struct node *h,int x)//删除链表结点函数
+	{
+		struct node *p,*q;
+		p=h;
+		while(p!=0&&p->num!=x)
+		{
+			q=p;//最终q是要删除节点的上一个结点的指针
+			p=p->link;//最终p是要删除的节点的指针
+	
+		}
+		if(p==0)
+		{
+			printf("链表中无此结点!\n");
+		}
+		else if(p==h)
+		{
+			h=p->link;
+		}
+		else
+		{
+			q->link=p->link;
+		}
+		return h;
+	}
+	
+	struct node *add(struct node *h)//插入新结点，要求插入后新节点的num与旧结点的num们是由小到大的顺序排列
+	{
+		struct node *q,*p,*t;
+		q=(struct node *)malloc(sizeof(struct node));
+		printf("输入要插入结点的数据域num,score:\n");
+		scanf("%d%d",&(q->num),&(q->score));
+		p=h;
+		while(p!=0)
+		{
+			if(p->num<q->num)
+			{
+				t=p;
+				p=p->link;
+			}
+			else
+			{
+				break;
+			}
+		}
+		if(p==h)
+		{
+			q->link=h;
+			h=q;
+		}
+		else
+		{
+			t->link=q;
+			q->link=p;
+		}
+		return h;
+	}
+
+
 
 
 ## 8.待研究问题

@@ -1093,8 +1093,8 @@ DOM2是
 可能的值：
 
 - normal	默认。空白会被浏览器忽略。
-- pre	空白会被浏览器保留。其行为方式类似 HTML 中的 <pre> 标签。
-- nowrap	文本不会换行，文本会在在同一行上继续，直到遇到 <br> 标签为止。
+- pre	空白会被浏览器保留。其行为方式类似 HTML 中的pre标签。
+- nowrap	文本不会换行，文本会在在同一行上继续，直到遇到br标签为止。
 - pre-wrap	保留空白符序列，但是正常地进行换行。
 - pre-line	合并空白符序列，但是保留换行符。
 - inherit	规定应该从父元素继承 white-space 属性的值。
@@ -1228,7 +1228,8 @@ dl dt dd比较生疏。dt用于定义列表中的项目。dd用于描述列表�
 
 	border:1px solid #000
 
-顺序是可以打乱的
+**顺序是可以打乱的**
+
 ##### b) 代码二：
 
 	background-position:0 0;
@@ -1239,9 +1240,21 @@ dl dt dd比较生疏。dt用于定义列表中的项目。dd用于描述列表�
 
 **答案：** 
 
-	background: #f00 url(background.gif) no-repeat fixed 0 0
+	background: #f00 0 0 url(background.gif) no-repeat fixed 
 
-复制代码
+background简写属性属性参见<http://www.w3school.com.cn/cssref/pr_background.asp>
+
+- background-color 颜色
+- background-image 设置背景图像，可设置一个以上图像，则后面的图像在前面的下面——none或url(图像地址） 
+- background-position  设置背景图像的位置——top/left/right/bottom/center/x% y%/xpx ypx
+- background-size 规定背景图片的尺寸——contain/cover/auto/xpx [ypx]/x% [y%]
+- background-repeat 设置图像的重复样式——repeat-x/repeat-y/repeat/no-repeat
+- background-origin 设置背景定位区域——padding-box/border-box/content-box
+- background-clip 设置背景裁剪方式——值同background-origin
+- background-attachment 设置背景附着方式——scroll/fixed/local/inherit
+
+**顺序是可以打乱的**
+
 ##### c)代码三：
 font-style:italic;
 font-family:”Lucida Grande”,sans-serif;
@@ -1251,14 +1264,39 @@ font-variant:small-caps;
 line-height:140%;
 
 **答案：** 
-参见<http://www.w3school.com.cn/cssref/pr_font_font.asp>
 
-	font:italic small-caps bold 1em 140% ”Lucida Grande”,sans-serif
+	font:italic small-caps bold 1em/140% ”Lucida Grande”,sans-serif
+
+font简写属性参见<http://www.w3school.com.cn/cssref/pr_font_font.asp>
+
+- font-style 指定字体样式——normal/italic/oblique/inherit
+- font-variant 指定字体是否以小型大写字母显示——normal/small-caps/inherit
+- font-weight 设置字体粗细——normal/bold/bolder/lighter/100~900的数字/inherit
+- font-size 设置文本块字体大小——xx-small/x-small/small/medium/large/x-large/xx-large/smaller/larger/length(长度值)/%、inherit
+- line-height 设置文本行间距——narmal/number(与当前的字体尺寸相乘来设置行间距)/length(固定长度值）/%/inherit
+- font-family 指定文本块采用的字体名称——serif/sans-serif/
+
+**注意:**
+1. font-size和line-height**必须**要以 font-size/line-height的形式书写
+2. 顺序不能打乱，一定是 fontstyle font-variant font-weight font-size/line-height font-family
+3. 至少要指定font-size和font-family，其他可以不设其中某值。
 
 ##### d) 代码四：
 	list-style-position:inside;
 	list-style-type:square;
 	list-style-image:url(image.gif);
+
+**答案：** 
+
+	list-style:square inside url(image.gif)
+
+list简写属性参见<http://www.w3school.com.cn/cssref/pr_list-style.asp>
+
+- list-style-type 指定列表中使用的标记的类型——none/disc(默认实心圆）/circle/square……（很多）
+- list-style-position 指定标记相对于列表项目盒子的位置——outside(默认）/inside
+- list-style-image 指定图像作为列表标记——url(图像路径)
+
+**可以不设某个值，亲测也可打乱顺序**
 
 ##### e)代码五：
 	margin-left:20px;
@@ -1266,13 +1304,34 @@ line-height:140%;
 	margin-bottom:5px;
 	margin-top:20px;
 
+**答案：**
+
+	margin:20px 20px 5px 20px;
+	//或margin: 20px 20px 5px;
+
+margin简写参见http://www.w3school.com.cn/cssref/pr_margin.asp
+
+- 当有四个值  margin:上 右 下 左
+- 当有三个值  margin:上  左/右  下 
+- 当有两个值  margin:上/下  左/右
+- 当有一个值  margin:上/下/左/右
+
+
+
 ##### f)代码六：
 	color:#336699;
 	color:#ffcc00;
+**答案：**
 
-***研究一下这些简写的排列顺序问题***
+	color:#369;
+	color:#fc0;
+
 
 #### 17. 简述border:none以及border:0的区别，并给出使用建议。
+border:none表示边框样式无。border:0表示边框宽度为0。
 
+当定义了border:none,即隐藏了边框的显示，实际就是边框宽度为0。
+
+定义边框时，必须定义边框的显示样式。因为边框默认样式为不显示none,所以如果仅设置边框宽度，由于样式不存在，边框的宽度也会被自动设置为0。
 
 #### 18.使用重构的方式制作出一个如下图的水平、垂直都居中短边为50px，长边为150px的红色十字架。
