@@ -9,7 +9,7 @@
 <http://jquery.cuishifeng.cn/>
 
 # 一
-### 1.
+### 1.（***数组/字符串方法***）
 输出对象中值大于2的key的数组
 
 	var data = {a: 1, b: 2, c: 3, d: 4};
@@ -21,6 +21,7 @@
 **答案：** data[x]>2 或 arguments[1]>2
 
 **解析：** 
+###### 方法一：
 
 	var data={a:1,b:2,c:3,d:4};
 	var newdata=Object.keys(data).filter(
@@ -31,10 +32,21 @@
 	console.log(newdata);
 
 Object.keys(oneObject)：返回对象oneObject的可枚举属性和方法的名称。
+	
+	console.log(Object.keys(data));//["a", "b", "c", "d"]
+**注意：** 其获取的属性和方法的名称是带""的故，利用它们访问属性值使不能使用.法，只能使用[]法。
 
 (Array.)filer(callback)：对数组的每个元素调用定义的回调函数，并返回回调函数返回为true的值的项组成的素组。
 
-另一种方法：
+数组迭代方法：
+
+- every():对数组中的每一项运行给定函数，若函数对每一项都返回true,则返回true。
+- some()：对数组的每一项运行给定函数，若函数对任一项返回true,则返回true。
+- filter():对数组的每一项运行给定函数，返回该函数返回true的项组成的数组。
+- map():对数组的每一项运行给定函数，返回每次函数调用的结果组成的数组。
+- forEach():对数组的每一项运行给定函数。该方法无返回值。
+
+方法二：
 
 	var data={a:1,b:2,c:3,d:4};
 	var newdata=Object.keys(data).filter(
@@ -46,8 +58,7 @@ Object.keys(oneObject)：返回对象oneObject的可枚举属性和方法的名�
 关于array.filter（）详细介绍：https://msdn.microsoft.com/zh-cn/library/ff679973(v=vs.94).aspx
 
 
-
-### 3.
+### 2.（***CSS构图***）
 请用CSS实现如下图的样式，相关尺寸如图示，其中dom结构为：
 
 	<div id=”demo”></div>
@@ -174,101 +185,120 @@ Object.keys(oneObject)：返回对象oneObject的可枚举属性和方法的名�
 	
 	用一个正方形设置transform:rotate(45deg)来实现
 
-### 3. 
+
+
+### 3. （***JavaScript理论***）
 简述document.write和innerHTML的区别。
 
 **答案：**
 document.write只能重绘整个页面,
 innerHTML可以重绘页面的一部分。
 
-### 4.
+### 4.（***JavaScript理论***）
 你知道的，javascript语言的执行环境是"单线程模式"，这种模式的好处是实现起来比较简单，执行环境相对单纯；坏处是只要有一个任务耗时很长，后面的任务都必须排队等着，会拖延整个程序的执行，因此很多时候需要进行“异步模式”，请列举js异步编程的方法。
 
 **答案：**
 	
-	（1）回调函数，这是异步编程最基本的方法。
-	（2）事件监听，另一种思路是采用事件驱动模式。任务的执行不取决于代码的顺序，而取决于某个事件是否发生。
-	（3）发布/订阅，上一节的"事件"，完全可以理解成"信号"。
-	 (4)Promises对象，Promises 对象是CommonJS 工作组提出的一种规范，目的是为异步编程提供统一接口。
+1. 回调函数，这是异步编程最基本的方法。
+2. 事件监听，另一种思路是采用事件驱动模式。任务的执行不取决于代码的顺序，而取决于某个事件是否发生。
+3. 发布/订阅，上一节的"事件"，完全可以理解成"信号"。***待查资料***
+<http://www.codesec.net/view/190798.html>
+4. Promises对象，Promises 对象是CommonJS 工作组提出的一种规范，目的是为异步编程提供统一接口。
 
-***CommonJS待了解***
-
-### 5.
+### 5.（***其他***）
 用户从手机的浏览器访问www.baidu.com，看到的可能跟桌面PC电脑，是不太一样的网页效果，会更适合移动设备使用。请简要分析一下，实现这种网页区分显示的原因及技术原理。
 
 **答案：**
 
-参考答案：
+#### 1)总述：
 
 	手机的网速问题、屏幕大小、内存、CPU等。
 	通过不同设备的特征，实现不同的网页展现或输出效果。
 	根据useragent、屏幕大小信息、IP、网速、css media Query等原理，实现前端或后端的特征识别和行为改变
 
-我的答案：
+#### 2)关于userAgent和客户端检测技术：
 	
+
 	这种网页区分显示的原因是其应用了客户端检测技术。
 	其技术原理为，检测用户代理字符串。
 	如要检测是移动设备，则须检测navigator.userAgent.indexOf("iphone")>-1或navigator.userAgent.indexOf("Android")>-1或navigator.userAgent.indexOf("NokiaN")>-1是否为true。然后针对不同的检测结果向网页应用不同的板式效果。
 
-### 6. 
-angularjs中指令的link参数是什么时候运行的？**angularjs**
+#### 2)关于响应式布局
 
-**答案：** 在compile后
+     技术原理还包括响应式布局。
 
-	Angularjs诞生于2009年，由Misko Hevery 等人创建，后为Google
-	所收购。是一款优秀的前端JS框架，已经被用于Google的多款产品当
-	中。AngularJS有着诸多特性，最为核心的是：MVVM、模块化、自动化
-	双向数据绑定、语义化标签、依赖注入等等。
-   [angularjs教程](http://www.runoob.com/angularjs/angularjs-tutorial.html)
+##### (1)什么是响应式布局
+一个网站能够兼容多个终端——而不是为每个终端做一个特定的版本。
+##### （2）响应式布局的优点和缺点
+###### 优点
+- 面对不同分辨率设备灵活性强
+- 能够便捷地解决多设备显示适应问题
 
-### 7.
-哪些可以给文字加上背景？**bootstrap**
+###### 缺点
+- 为了兼容各种设备，工作量很大
+- 代码累赘，会出现隐藏无用的元素，加载时间加长 
+- 一定程度上改变了网站原有的布局结构
+##### （3）如何实现
+##### 示例
+###### a.在style 标签中使用media属性
 
-	bg-primary(主要蓝)
-	bg-success(成功绿）
-	bg-info(信息蓝)
-	bg-warning(危险红)
+	<style media="screen AND (max-width:500px)" type="text/css">
+		a{
 
-**答案：** 以上都可以
-[详见bootstrap中文文档-CSS-辅助类](http://v3.bootcss.com/css/#helper-classes)
+		}
+		#id{
+		}
 
+	</style>
+	<style media="screen AND (min-width:500px)" type="text/css">
+	</style>
 
-### 8.
-关于一些html标签  **html**
+##### b.在样式表中内嵌@media
+
+	<style type="text/css">
+        body{
+            width: 100%;
+            
+        }
+        @media(min-device-width:1024px) and (min-width:900px){
+            div{
+                position: absolute;
+                width: 60%;
+                left: 20%;
+                height: 20px;
+                background-color: yellow;
+            }
+        }
+        @media screen and (max-width:800px){
+            div{
+                position: absolute;
+                width: 98%;
+                left: 1%;
+                height: 20px;
+                background-color: yellow;
+            }
+        }
+     
+    </style>
+
+##### c.在link标签中使用media属性
+
+	　　<link rel=“stylesheet” type=“text/css” media=“only screen and （max-width： 480px），only screen and （max-device-width： 480px）” href=“link.css”/>
+
+#### 语法
+字符间以空格相连，选取条件包含在小括号内，only（限定某种设备，可省略），and（逻辑与），not（排除某种设备）为逻辑关键字，多种设备用逗号分隔，这一点继承了css基本语法。
+
+### 6.（***html***）
+关于一些html标签  
 
 	<mark> 高亮显示文本
 	<del> 用于显示删除的文本
-	<ins> 文字会带下划线
+	<ins> 文字会带下划线（表新插入的文本）
 	<strong> 用于强调文本
 
-### 9.
-为了在input两侧添加额外元素，以下说法正确的是 **bootstrap**
-	
-	A.使用input-group来封装控件
-	B.使用input-group-addon来添加前置元素
-	C.使用input-group-tailon来添加后置元素
-	D.必须为input添加form-control类
 
-**答案：** ABD
-[参见bootstrap中文文档-css-forms](http://v3.bootcss.com/css/#forms)
-添加前置后置元素都用input-group-addon
-
-	  <form class="form-inline">
-	        <div class="form-group">
-	          <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
-	          <div class="input-group">
-	            <div class="input-group-addon">$</div>
-	            <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
-	            <div class="input-group-addon">.00</div>
-	          </div>
-	        </div>
-	        <button type="submit" class="btn btn-primary">Transfer cash</button>
-	      </form>
-
-没有 input-group-tailon吧？前后置元素都用input-group-addon来添加
-
-### 10.
-iframe的使用场景有？**html**
+### 10.（***html*** / ***跨域***）
+iframe的使用场景有？
 
 	A.与第三方域名下的页面共享cookie
 	B.上传图片，避免当前页刷新
@@ -277,19 +307,13 @@ iframe的使用场景有？**html**
 
 **答案：** ABCD
 
-### 11.
-能在1024的windows机器上显示8列而在肾6手机上显示12列的是？
+关于A说明：cookie在性质上是绑定在特定的域名下的。当设定了一个cookie后，再给创建它的域名发送请求时，都会包含这个cookie。这个限制确保了cookie中的信息无法被其他域访问。使用iframe可以解决这个问题。
 
-**答案**：col-md-8 col-xs-12
-
-- .col-xs- 超小屏幕 手机 <768px
-- .col-sm- 小屏幕 平板  >=768px
-- .col-md- 中等屏幕  >=992px
-- .col-lg- 大屏幕  >1200px
-
+关于cookie参见《JavaScript高级程序设计》P629
 
 ## 二、来自阿里巴巴2016前端开发工程师笔试（二）
-### 12.下列哪个操作是W3C标准定义的阻止事件向父容器传递：
+### 1.（***JavaScript***)
+下列哪个操作是W3C标准定义的阻止事件向父容器传递：
 
 	A. e.preventDefault()
 	B. e.cancelBubble=true
@@ -300,18 +324,25 @@ iframe的使用场景有？**html**
 
 参见《JavaScript高级程序设计》P355
 
-DOM中的事件对象的方法/属性：event.+
-
-	preventDefault() |Function |取消事件的默认行为。在cancelable是true的时候可以用这个方法。
-	stopImmediatePropagation() |Function | 取消事件冒泡同时阻止当前节点上的事件处理程序被调用。
-	stopPropagation() |Function |取消事件的进一步捕获或冒泡，对当前节点无影响。在bubbles是true的时候可以用这个方法。
+DOM中的事件对象的方法/属性：**event.+**
+    
+方法/属性名称|类别|作用
+---|---|---
+preventDefault() |Function |取消事件的默认行为。在cancelable是true的时候可以用这个方法。
+stopImmediatePropagation() |Function | 取消事件冒泡同时阻止当前节点上的事件处理程序被调用。
+stopPropagation() |Function |取消事件的进一步捕获或冒泡，对当前节点无影响。在bubbles是true的时候可以用这个方法。
+target|Element|事件真正的具体的目标
 
 IE中的事件对象
 
-	cancelBubble |Boolean | 默认为false,设置为true可以取消事件冒泡（与DOM的stopPropagation()方法作业相同）
-	returnValue |Boolean |默认为true,设置为false可以取消事件的默认行为（与DOM的preventDefault()方法作用相同）
+方法/属性名称|类别|作用
+---|---|---
+cancelBubble |Boolean | 默认为false,设置为true可以取消事件冒泡（与DOM的stopPropagation()方法作业相同）
+returnValue |Boolean |默认为true,设置为false可以取消事件的默认行为（与DOM的preventDefault()方法作用相同）
+srcElement|Element|事件的真正的具体的目标（与DOM的target属性作用相同）
 
-### 13. 以下有关盒子模型的描述正确的是：
+### 2. (***CSS***)
+以下有关盒子模型的描述正确的是：
 
 	A.标准盒子模型中：盒子的总宽度 ＝ 左右margin + 左右border + 左右padding + width
 	B.IE盒子模型中：盒子总宽度 ＝ 左右margin + 左右border + width
@@ -319,15 +350,20 @@ IE中的事件对象
 	D.IE盒子模型中：盒子总宽度 ＝ width
 
 **答案：** A
-IE盒子模型和标准盒子模型都是由四个部分组成的：margin,border,padding,content这四个部分！！！
 
-不同的是在标准盒子模型中content是一个独立的部分不包含其他部分！！但是 **在IE盒子模型中content包含了border,padding。**
+- IE盒子模型和标准盒子模型都是由四个部分组成的：margin,border,padding,content这四个部分！！！
+
+- 不同的是在标准盒子模型中content是一个独立的部分不包含其他部分(即height和width属性指的是中间部分！！但是 **在IE盒子模型中content包含了border,padding**（即height和width属性不仅包括的中间部分，还包括padding和border部分）。
 
 <img src="NOWCODE_1.png" alt="标准盒子模型">
 
 <img src="NOWCODE_2.png" alt="标准盒子模型">
 
-### 14.使用CSS的flexbox布局，不能实现以下哪一个效果： **Flexbox**
+- 背景应用于由内容和内边距、边框组成的区域。
+
+ 
+### 3.（***CSS***)                   【***较生***】
+使用CSS的flexbox布局，不能实现以下哪一个效果： 
 
 	A. 三列布局，随容器宽度等宽弹性伸缩
 	B. 多列布局，每列的高度按内容最高的一列等高
@@ -340,7 +376,8 @@ IE盒子模型和标准盒子模型都是由四个部分组成的：margin,borde
 [Flex布局教程：实例篇](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)
 参见 前端好贴整理 10.Flex布局
 
-### 15.关于HTTP协议，下面哪个说法是正确的？
+### 4.（***网络协议***）
+关于HTTP协议，下面哪个说法是正确的？
 
 	A.HTTP协议是有状态协议。
 	B.以下是一个Http链接的response 的响应头： GET /xxx/xxx/js/lib/test.js HTTP/1.1 Host: 127.0.0.1 Connection: keep-alive Pragma: no-cache Cache-Control: no-cache Accept: */*
@@ -352,19 +389,44 @@ IE盒子模型和标准盒子模型都是由四个部分组成的：margin,borde
 参考：<http://www.runoob.com/http/http-intro.html><br>
 [http请求头响应头大全](http://tools.jb51.net/table/http_header)
 
-HTTP协议是无状态协议。无状态是指协议对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次连接传送的数据量增大。另一方面，在服务器不需要先前信息时它的应答就较快。A错
+##### 关于A:
+HTTP协议自身不对请求和响应之间的通信状态进行保存，即不保存之前的一切请求或响应报文的信息。
 
+目的：为了更快地大量处理事务，所以要这么简单。
 
+为了解决保持状态的技术：cookie技术。
 
+##### 关于B：
+Http报文格式：
+###### 请求报文
+包括：a.报文首部 (空行) b.报文主体<br>
+a.报文首部包括：<br>
+a.1请求行。<br>
+包含用于请求的方法。请求行构成：方法+ URI+ 协议版本。<br>
+a.2首部字段（请求首部字段，通用首部字段，实体首部字段）<br>
+a.3其他，比如cookie。
 
-	301	|永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替
-	302	|临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI
-	303	|查看其它地址。与301类似。使用GET和POST请求查看
-	304	|未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源
+###### 响应报文
+包括：a.报文首部 b.空行 c.报文主体<br>
+a.报文首部包括：<br>
+a.1状态行。<br>
+包含表明请求结果的状态码。状态行构成：协议版本+ 状态码+ 状态码的原因短语。<br>
+a.2首部字段（响应首部字段，通用首部字段，实体首部字段）<br>
+a.3其他，比如cookie。
+
+##### 关于D:
+http状态码：
+###### 3XX （重定向状态码）需要进行附加操作以完成请求
+- 301 Moved Permanently//永久重定向。表请求的资源已被分配了新的URI,如指定资源路径最后没有加/
+- 302 Found//临时重定向。
+- 303 See Other//同302，但明确表示客户端应当采用GET方法获取资源。
+- 304 Not Modified//未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。和重定向无关。可以从缓存加载
+
 D错。
 
 
-### 16.使用 for in 循环数组中的元素会枚举原型链上的所有属性，过滤这些属性的方式是使用__函数。***原型链***
+### 5.（***JavaScript ECMAScritpt***）
+使用 for in 循环数组中的元素会枚举原型链上的所有属性，过滤这些属性的方式是使用__函数。***原型链***
 **答案：** hasownproperty
 
 	function Person() {
@@ -397,8 +459,14 @@ D错。
 	console.log(hasPrototypeProperty(person1,"name"));//false
 	console.log(hasPrototypeProperty(person2,"name"));//true
 
+- for in 会枚举对象所有属性，包括原型链上的和自身属性；
+- hasOwnProperty()可判断该属性是否是自身属性，如果是则返回true,否则返回false;
+- in会判断对象是否有该属性，不管该属性是原型链属性还是自身属性，都返回true。
 
-### 17.在空白处填入适当的代码使输出结果成立。***面向对象***
+***看到这里了***
+__________________________
+### 6.（***JavaScript——ECMAScritpt***）
+在空白处填入适当的代码使输出结果成立。
 
 	function showMoney( ) {
 	   ___
@@ -421,7 +489,8 @@ D错。
 
 	return this.money;
 
-### 18.删除给定数组中的第二项和第三项，并且在得到的新的数组中第二项后面添加一个新的值。 ***数组方法***
+### 18.(***JavaScript——ECMAScript——数组方法***）
+删除给定数组中的第二项和第三项，并且在得到的新的数组中第二项后面添加一个新的值。
 	
 	var arr1 = ['a','b','c','d','e'];
 	var arr2 = arr1. __ ( __ , __,'newvalue')	
@@ -436,7 +505,8 @@ D错。
 
 注意：splice操作是在原数组上，操作后返回的是删除项。
 
-### 19.写一个求和函数，达到下面的效果 ***数据类型转换***
+### 19.(***JavaScript——ECMAScript——数据类型***）
+写一个求和函数，达到下面的效果
 
 	// Should equal 15
 	sum(1, 2, 3, 4, 5);
@@ -503,19 +573,21 @@ D错。
 ### 20.待整理
 ### 21.待整理
 
-
 ## 三、来自腾讯2015春招web前端开发练习卷
 
-### 1.jQuery Ajax都支持哪些返回类型？
+### 1.（***前端其他技术***）
+jQuery Ajax都支持哪些返回类型？
+
 **答案：** xml,html,jsonp,json
 
-### 2. 
-下面哪些语句可以在JS里判断一个对象oStringObject是否为String
+### 2.（***JavaScript——ECMAScript***)
+下面哪些语句可以在JS里判断一个对象oStringObject是否为String？
 
-	A.oStringObject instanceof String
-	B.typeof oStringObject == 'string'
-	C.oStringObject is String
-	D.以上答案都不正确
+		A.oStringObject instanceof String
+		B.typeof oStringObject == 'string'
+		C.oStringObject is String
+		D.以上答案都不正确
+
 **答案：** A
 
 **解析：**
@@ -533,7 +605,8 @@ string如果是基本类型的，用typeof即可判断；如果是引用类型�
 
 题目说了是一个对象，故用typeof判断出来的是'object'，只能用instanceof 判断。
 
-### 3.常见的浏览器端的存储技术有哪些？
+### 3. （***前端其他技术***）
+常见的浏览器端的存储技术有哪些？
 
 	A.cookie
 	B.localStorage
@@ -544,11 +617,12 @@ string如果是基本类型的，用typeof即可判断；如果是引用类型�
 
 **解析：**
 详见《JavaScript高级程序设计》Chapter23
-##### cookie:
+##### (1)cookie:
 cookie会随着每次HTTP请求头信息一起发送，无形中增加了网络流量，另外，cookie能存储的数据容量有限，根据浏览器类型不同而不同，IE6大约只能存储2K。
 
-##### webStorage（包括sessionStorage,globalStorage和localStorage)
-数据被严格控制在客户端，无须将数据发回服务器，存储量大。<br>
+##### (2)webStorage（包括sessionStorage,globalStorage和localStorage)
+数据被严格控制在客户端，无须将数据发回服务器，存储量大。
+
 ###### sessionStorage
 sessionStorage对象存储特定于某个会话的数据，该数据只保持到浏览器关闭，且只能由最初给对象存储数据的页面访问到。
 ###### globalStorage
@@ -556,14 +630,15 @@ sessionStorage对象存储特定于某个会话的数据，该数据只保持到
 ###### localStorage
 在HTML5规范中作为持久保存客户端数据的方案取代了globalStorage。与globalStorage不同的是，不能给localStorage指定任何访问规则，规则实现就设定好了：同源（同协议，同域名，同端口）
 
-##### userData
+##### (3)userData
 ie用户数据。仅在ie下有效。一旦某元素使用了userData行为，就可以使用setAttribute()方法在上面保存数据。
 
-##### session
-称为“会话控制”。Session 对象存储特定用户会话所需的信息。这样，当用户在应用程序的 Web 页之间跳转时，存储在 Session 对象中的变量将不会丢失，而是在整个用户会话中一直存在下去。当用户请求来自应用程序的 Web 页时，如果该用户还没有会话，则 Web 服务器将自动创建一个 Session 对象。当会话过期或被放弃后，服********务器将终止该会话。
+##### (4)session
+称为“会话控制”。Session 对象存储特定用户会话所需的信息。这样，当用户在应用程序的 Web 页之间跳转时，存储在 Session 对象中的变量将不会丢失，而是在整个用户会话中一直存在下去。当用户请求来自应用程序的 Web 页时，如果该用户还没有会话，则 Web 服务器将自动创建一个 Session 对象。当会话过期或被放弃后，服务器将终止该会话。
 **session为服务器端存储技术**
 
-### 4.如何规避javascript多人开发函数重名问题。
+### 4.(***JavaScript——ECMAScript***)
+如何规避javascript多人开发函数重名问题。
 
 	A. 根据不同的开发人员实现的功能，在函数名加前缀
 	B. 每个开发人员都把自己的函数封装到类中，然后调用的时候即使函数名相同，但是因为是要类.函数名来调用，所以也减少了重复的可能性
@@ -571,7 +646,8 @@ ie用户数据。仅在ie下有效。一旦某元素使用了userData行为，�
 
 **答案：** AB
 
-### 5.javascript基本数据类型有？
+### 5.(***JavaScript——ECMAScript——数据类型***）
+javascript基本数据类型有？
 
 	A.字符串
 	B.数字
@@ -591,7 +667,8 @@ ECMAScript有
 	- 3种基本包装类型：Boolean、Number、String
 	- 2个单体内置对象：Global、Math
 
-### 6.有关html结构描述正确的是？
+### 6.(***HTML***)
+有关html结构描述正确的是？
 
 	A.<ul> <li> </li> </ul>
 	B.<ol> <li> </li> </ol>
@@ -610,37 +687,59 @@ ECMAScript有
 
 dl定义列表。dt定义列表中的项目。dd描述列表中的项目。
 
-### 7.在bootstrap中， 关于导航条，下列说法正确的是?
-	A.应该将被包裹的元素放到navbar-collapse类中
-	B.表单应该放置于navbar-form内
-	C.可以使用navbar-left和navbar-right来对齐导航条
-	D.可以使用navbar-fixed-top和navbar-fixed-bottom来将导航条固定到顶部或底部
+### 8.（***浏览器兼容性***）
+关于IE、FF下脚本的区别,描述错误的是：***赶紧再复习Chapter10***
 
-**答案：** ABCD
-- .navbar-collapse类：包裹导航条元素
-- .navbar-form类：将表单放置于 .navbar-form 之内可以呈现很好的垂直对齐，并在较窄的视口（viewport）中呈现折叠状态。 
-- .navbar-left和.navbar-right类：对齐导航条
-- .navbar-fixed-top 类：可以让导航条固定在顶部；.navbar-fixed-bottom 类：可以让导航条固定在底部
-
-参见<http://v3.bootcss.com/components/#navbar>
-
-### 8.关于IE、FF下脚本的区别,描述错误的是：
 	A.innerText IE支持，FIREFOX不支持
 	B.document.createElement FIREFOX支持，IE不支持
 	C.setAttribute('class'，'styleClass') FIREFOX支持，IE不支持
 	D.用setAttribute设置事件 FIREFOX不支持，IE支持
 **答案：** BCD
 
-##### innerText: 
+##### （1）innerText: 
 IE支持，FIRFOX不支持
-##### document.createElement：
-IE支持，FIRFOX不支持
-##### setAttribute(属性名，属性值)：
+
+- innerText、outerText原为IE专有属性，但没有被HTML5看中（对innerHTML、outerHTML也是IE专有属性，但被HTML5看中了）。
+- 支持innerText的浏览器有IE4+、Safari8+、Opera8+和Chrome。
+- **Firefox不支持innerText，但其支持类似的textContent属性**。故可用得到跨浏览器的代码：
+
+	function getInnerText(element) {
+	    return (typeof element.textContent=="String")? element.textContent: element.innerText;
+	}
+	
+	function setInnerText(element,text) {
+	    if (typeof element.textContent=="string") {
+	        element.textContent=text;
+	    }
+	    else{
+	        element.innerText=text;
+	    }
+	}
+
+***参见《JavaScript高级程序设计》P301***
+
+##### （2）document.createElement（）：
+IE支持，FIRFOX也支持。
+
+###### IE有3种方式都可以创建一个元素:
+	1 document.createElement("<input type=text>")
+	2 document.createElement("<input>")
+	3 document.createElement("input")
+###### Firefox只支持一种方式:
+	document.createElement("input");document.setAttribute(name,value);
+
+***参见《JavaScript高级程序设计》P268***
+
+##### （3）setAttribute(属性名，属性值)
  Element.setAttribute(属性名，属性值），为所选元素添加指定的属性，并为其赋值。如果这个指定的属性已存在，则仅设置/更改值。
 
-所有主流浏览器均支持setAttribute,除ie8及之前版本。
+**所有主流浏览器均支持setAttribute,除ie7及之前版本。**
 
-参见<http://www.w3school.com.cn/jsref/met_element_setattribute.asp>
+***参见《JavaScript高级程序设计》P265***
+
+
+___________
+复习到这里
 
 ### 9.下面有关javascript内部对象的描述正确的是？
 

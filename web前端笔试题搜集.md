@@ -208,6 +208,8 @@ sort（）对数组就地重排序。排序时，sort()会调用每个数组项�
 
 arguments.length就是已经传递过来的参数个数。
 
+实践发现二者是相等的。
+
 #### 8.软件HttpWatch的作用？
 **答案：** 参见<http://baike.baidu.com/view/425789.htm>
 
@@ -245,7 +247,7 @@ HttpWatch也可以集成到火狐浏览器中。
 
 方法一：直接考虑跨浏览器问题
 
-	var dom=document.getElementsByTagName("body")[0];
+	var dom=document.getElementsByTagName("body")[0];//可换成document.body
 	
 	dom.onclick=function(){
 	    var event= event?event:window.event;
@@ -317,7 +319,7 @@ HttpWatch也可以集成到火狐浏览器中。
 	    //省略其他   
 	}
 	
-	var dom=document.getElementsByTagName("body")[0];
+	var dom=document.getElementsByTagName("body")[0];//可换成document.body
 	var event=EventUtil.getEvent(event);
 	EventUtil.addHandler(dom,"click",function(){
 	    var getTarget=EventUtil.getTarget(event);
@@ -491,14 +493,26 @@ HttpWatch也可以集成到火狐浏览器中。
 
 ###### （3）使用数组对象代替字符串连接
 **在js中，字符串连接是性能最低的操作之一**。
+###### 参见《JavaScript高级程序设计》P33:
+	
+	var lang="Java";
+	lang=lang+"Script";
 
-参见<http://www.jb51.net/article/56074.htm>
+实现这个操作的过程为：
+
+1. 首先创建一个可以容纳10个字符的新字符串；
+2. 在这个新字符串中填充"Java"和"Script"；
+3. 销毁原来的字符串"Java"和"Script"。
+
+这个过程在后台发生，这也是某些旧版本浏览器拼接字符串速度很慢的原因。
+
+###### 更多相关解释，参见<http://www.jb51.net/article/56074.htm>
      
 由于字符串是不可变的，这意味着要创建中间字符串来存储连接的结果。频繁地在后台创建和销毁字符串导制性能异常低下。
 
 可直接使用数组对象进行优化。
 
-最终答案为：
+###### 最终答案为：
 	
 	(function(){
 	    var info=[],i=0;
@@ -652,7 +666,7 @@ script标签的defer属性。表名脚步在执行时不会影响页面的构造
 
 ***快速翻一遍jQuery***
 
-####  5.请设计一套方案，用于确保页面中JS加载完全。
+####  5.请设计一套方案，用于确保页面中JS加载完全。***看到这里***
 **答案：** 详见《JavaScript高级程序设计》P365
 
 	EventUtil={
