@@ -3,17 +3,17 @@
 - 在全局作用域声明的所有变量、函数，都会变成window对象的属性和方法。
 - 用var 定义的全局变量不能用delete删除，而直接在window对象上定义的属性可以用delete删除。因为用var添加的window属性的configurable特性为false。
 
-	var age=29;
-	console.log(window.age);
-	
-	window.color="red";
-	console.log(window.color);
-	
-	delete window.age;//29 在ie<9时会抛出错误，在其他浏览器都返回false
-	delete window.color;//"red" 在ie<9是会抛出错误，在其他浏览器都返回true
-	
-	console.log(window.age);//29 
-	console.log(window.color);//undefined
+		var age=29;
+		console.log(window.age);
+		
+		window.color="red";
+		console.log(window.color);
+		
+		delete window.age;//29 在ie<9时会抛出错误，在其他浏览器都返回false
+		delete window.color;//"red" 在ie<9是会抛出错误，在其他浏览器都返回true
+		
+		console.log(window.age);//29 
+		console.log(window.color);//undefined
 
 #### 2）访问未声明的变量
 

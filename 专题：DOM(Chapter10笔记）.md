@@ -1,3 +1,4 @@
+## 一、节点层次
 ### 1.Node类型
 #### 1）(Node).nodeType属性
 节点nodeType属性有12种。
@@ -342,3 +343,268 @@ attribute属性包含的是一个NamedNodeMap对象，与Nodelist类似，也是
 	}
 	
 	console.log(outputAttributes(div));//"id="myDiv" class="bd" title="text" lang="en" dir="ltr""
+
+#### 6)创建元素
+##### document.createElement()
+
+	var div=document.createElement("div");
+	div.id="newDiv";
+	document.body.appendChild(div);
+
+##### IE7及更早期版本用法
+	
+	if(client.brower.ie&&client.brower.ie<=7){//来自Chapter9客户端检测创建的对象client
+		var div=document.createElement("<div id=\"myNewDiv\"></div>");
+		document.body.appendChild(div);
+	}
+
+该法要求浏览器检测。其他浏览器都不支持。只有在需要避开IE早期版本的问题的情况下使用。
+
+#### 7）元素的子元素
+##### （1）element.childNodes
+一定要检测子元素类型。因为有的浏览器包含文本节点，有的不包含。
+
+HTML为：
+
+	 <ul>
+        <li>item1</li>
+        <li>item2</li>
+        <li>item3</li>
+    </ul>
+
+
+JS为：
+
+	var element=document.getElementsByTagName("ul")[0];
+	
+	for (var i=0,len=element.childNodes.length;i<len;i++) {
+	    if (element.childNodes[i].nodeType==1) {//检测子节点是否为元素
+	        console.log(element.childNodes[i].tagName);
+	    }
+	}
+
+##### （2）document.getElementsByTagName（）
+可通过某个特定标签名取得子节点或后代节点
+
+	var element=document.getElementsByTagName("ul")[0];
+	var items=element.getElementsByTagName("li");
+	
+	console.log(items);//[li, li, li]
+
+如果ul包含更多次的后代元素，**每个层次中的li都会返回**。
+
+### 4.Text类型
+#### 1)基本属性
+- nodeType:3
+- nodeName:"#text"
+- nodeValue:获取或设置节点包含的文本
+- parentNode:一个ELement
+- 没有子节点
+- data: 和nodeValue一样可以获取或设置Text节点所包含的文本。
+- nodeValue.length/data.length
+
+		var div=document.getElementById("myDiv");
+		var textNode=div.firstChild;
+		console.log(textNode.nodeValue);//"abcd"
+		
+		textNode.nodeValue="Other Message.";
+		console.log(textNode.data);//"Other Message."
+
+		textNode.data="Some <strong>other</strong> message.";//（1）
+		console.log(textNode.data);//"Some <strong>other</strong> message."
+
+注意：(1)语句网页上的呈现结果就是该文本本身（strong标签效果没有呈现，而是呈现出标签文本）。因为**此时字符串会经过HTML编码。即大于、小于、引号都会转义**。
+
+转义方式如下：
+
+		"Some &lt;strong&gt;other&lt;/strong&gt; message."
+
+#### 2）创建文本节点： document.createTextNode()
+
+	var element=document.createElement("div");;
+	
+	var textNode=document.createTextNode("Hello world!");
+	element.appendChild(textNode);
+	
+	document.body.appendChild(element);
+
+注意，作为参数的文本也会进行HTML编码，如果文本中带有标签，我们在结果中只能看到带标签的文本而非具有标签效果的文本：
+
+	var element=document.createElement("div");;
+	
+	var textNode=document.createTextNode("<strong>Hello</strong> world!");
+	element.appendChild(textNode);
+	
+	document.body.appendChild(element);
+
+也可以为元素设置多个文本节点，它们会连起来显示：
+
+	var element=document.createElement("div");;
+	
+	var textNode=document.createTextNode("Hello world!");
+	element.appendChild(textNode);
+	
+	var anotherTextNode=document.createTextNode("Yippee!");
+	element.appendChild(anotherTextNode);
+	
+	document.body.appendChild(element);
+
+#### 3）规范化文本节点（将相邻文本节点合并）：element.normalize()
+
+	var element=document.createElement("div");;
+	
+	var textNode=document.createTextNode("Hello world!");
+	element.appendChild(textNode);
+	
+	var anotherTextNode=document.createTextNode("Yippee!");
+	element.appendChild(anotherTextNode);
+	
+	document.body.appendChild(element);
+	
+	console.log(element.childNodes.length);//2
+	
+	element.normalize();
+	console.log(element.childNodes.length);//1
+	console.log(element.firstChild.nodeValue);//"Hello world!Yippee!"
+
+#### 4)分割文本节点：（Element).splitText(n)
+新节点将包含指定位置开始到末尾的内容。
+
+	var element=document.createElement("div");;
+	
+	var textNode=document.createTextNode("Hello world!");
+	element.appendChild(textNode);
+	
+	var newNode=element.firstChild.splitText(5);
+	console.log(element.firstChild.nodeValue);//"Hello"
+	console.log(newNode.nodeValue);//" world!"
+
+### 5.Comment类型
+
+### 6.CDATASection类型
+略
+
+### 7.DocumentType类型
+ 	console.log(document.doctype.name);//"html"
+
+### 8.DocumentFragment类型
+文本片段继承了Node的所有方法。如果将文档中的节点添加到片段中，就会从文档树种移除。添加到文档片段的新节点也不属于文档树。可通过appendChild()或insertBefore()将其添加到文档中。
+
+	var fragment=document.createDocumentFragment();
+	var ul=document.getElementById("myList");
+	var li=null;
+	
+	for (var i=0;i<3;i++) {
+	    li=document.createElement("li");
+	    li.appendChild(document.createTextNode("Item "+(i+1)));
+	    fragment.appendChild(li);
+	}
+	
+	ul.appendChild(fragment);
+
+### 9.Att特性
+即元素的attributes属性中的节点。
+- nodeType:2
+- nodeName:特性名称
+- nodeValue:特性值
+- parentNode:null
+- 无子节点
+
+不建议直接访问特性节点。 推荐使用getAttribute(),setAttribute(),removeAttribute()
+
+## 二、DOM操作技术
+### 1.动态脚本
+动态脚本含义：页面加载时不存在，但在将来某一时刻刻通过修改DOM动态添加的脚本。
+
+#### 1）动态加载外部JS文件
+
+	function loadScript(url) {
+	    var script=document.createElement("script");
+	    script.type="text/javascript";
+	    script.src=url;
+	    document.body.appendChild(script);
+	}
+	
+	loadScript("test2.js");
+
+在执行document.body.appendChild(script)前是不会下载外部文件的。也可以添加到head元素。
+
+#### 2）行内方式指定JS代码
+跨浏览器方式：
+
+	function loadScriptString(code) {
+	    var script=document.createElement("script");
+	    script.type="text/javascript";
+	    try {
+	        script.appendChild(document.createTextNode(code));//Firefox、Safari、Chrome、Opera中
+	    } catch(ex) {
+	        script.text=code;//IE中
+	    }
+	   
+	    document.body.appendChild(script);
+	}
+	
+	loadScriptString("function sayHi(){alert('hi');} sayHi();");
+
+#### 2）动态样式
+动态样式含义：页面刚加载时不存在的样式，在页面加载完动态添加到页面中。
+
+##### （1）动态加载外部样式
+	
+	function loadStryles(url) {
+	    var link=document.createElement("link");
+	    link.rel="stylesheet";
+	    link.type="text/css";
+	    link.href=url;
+	    var head=document.getElementsByTagName("head")[0];
+	    head.appendChild(link);
+	}
+	
+	loadStyles("test1.css");
+
+动态加载外部样式文件是异步的
+
+##### （2）动态添加嵌入式样式
+
+	function loadStyleString(css) {
+	    var style=document.createElement("style");
+	    style.type="text/css";
+	    try {
+	        style.appendChild(document.createTextNode(css));//除IE外其他浏览器，IE不允许访问style元素的子节点故会报错
+	    } catch(ex) {
+	        style.styleSheet.cssText=css;//IE的解决办法
+	    }
+	    var head=document.getElementsByTagName("head")[0];
+	    head.appendChild(style);
+	}
+	
+	loadStyleString("body{background-color:red}");
+
+### 3.操作表格
+便捷方法：
+
+	var table=document.createElement("table");
+	table.border=1;
+	table.width="100%";
+	
+	var tbody=document.createElement("tbody");
+	table.appendChild(tbody);
+	
+	tbody.insertRow(0);//创建第一行
+	tbody.rows[0].insertCell(0);
+	tbody.rows[0].cells[0].appendChild(document.createTextNode("Cell 1,1"));
+	tbody.rows[0].insertCell(1);
+	tbody.rows[0].cells[1].appendChild(document.createTextNode("Cell 1,2"));
+	
+	tbody.insertRow(1);//创建第二行
+	tbody.rows[1].insertCell(0);
+	tbody.rows[1].cells[0].appendChild(document.createTextNode("Cell 2,1"));
+	tbody.rows[1].insertCell(1);
+	tbody.rows[1].cells[1].appendChild(document.createTextNode("Cell 2,2"));
+	
+	document.body.appendChild(table);
+
+### 4.使用NodeList
+与NamedNodeMap、HTMLCollection三个集合都是动态的。每当文档结构发生变化时它们都会更新。
+
+一般应减少NodeList访问次数。因为每次访问它都会进行一次基于文档的查询。
