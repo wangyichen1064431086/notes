@@ -113,6 +113,20 @@
 	    
 	})();
 
+更好的写法：
+
+	function to2(number) {
+	    var a=new Array();
+	    while (number) {
+	        var t=number%2;
+	        number=Math.floor(number/2);
+	        a.unshift(t);
+	    }
+	    var rel=a.join("");
+	    return rel;
+	}
+	
+	console.log(to2(302));
 ***注意！！：***
 
 与C不同，js两个整数相除会得到小数，要实现C一样的效果就需要把结果向下取整。向下取整方法有
@@ -122,13 +136,13 @@
 
 方法二:利用现成方法.toString(2)
 
-	(function () {
+	(function (p) {
 	    var a=302;
 	    var rel=a.toString(2);
 	    console.log(a);//302
 	    console.log(typeof a);//number
 	    console.log(rel);//100101110
-	    console.log(typeof rel);//string
+	    console.log(tyeof rel);//string
 	})();
 
 #### 4.js运算符的优先级
@@ -220,8 +234,8 @@ HttpWatch也可以集成到火狐浏览器中。
 #### 9.JS如何得到HTTP头信息？
 **答案：** 利用Ajax的XMLHttpRequest对象的方法。
 	
-	- xhr.setRequestHeader() 可设置自定义请求头部信息
-	- xhr.getResponseHeader(头部字段) 可取得相应相应头部的信息
+	- xhr.setRequestHeader(（自定义）头部字段名称，头部字段值) 可设置自定义请求头部信息
+	- xhr.getResponseHeader(头部字段名称) 可取得相应相应头部的信息
 	- xhr.getAllResponseHeader()可取得包含所有响应头部信息的长字符串
 	
 
@@ -320,8 +334,9 @@ HttpWatch也可以集成到火狐浏览器中。
 	}
 	
 	var dom=document.getElementsByTagName("body")[0];//可换成document.body
-	var event=EventUtil.getEvent(event);
-	EventUtil.addHandler(dom,"click",function(){
+
+	EventUtil.addHandler(dom,"click",function(event){
+		var event=EventUtil.getEvent(event);
 	    var getTarget=EventUtil.getTarget(event);
 	    alert(getTarget.tagName);
 	})

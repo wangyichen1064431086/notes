@@ -154,11 +154,210 @@
 		}
 		return h;
 	}
+#### 第二次写
 
+	#include<stdio.h>
+	#include<stdlib.h>
+	
+	typedef struct node
+	{
+		int data;
+		struct node *next;
+	}node;
+	
+	//固定长度单链表的建立
+	node *Create(int n)
+	{
+		node *p,*q,*h=0;
+		int i;
+		printf("请输入%d个数:\n",n);
+		for(i=0;i<n;i++)
+		{
+			q=(node *)malloc(sizeof(node));
+			scanf("%d",&q->data);
+			q->next=NULL;
+		
+			if(h==0)
+			{
+				h=q;
+				p=q;
+			}
+			else
+			{
+				p->next=q;
+				p=q;
+			}
+		}
+		return h;
+	}
+	//单链表的打印
+	void Print(node *h)
+	{
+		node *p=h;
+		while(p)
+		{
+			printf("%d",p->data);
+			if(p->next)
+			{
+				printf("->");
+			}
+			p=p->next;
+		}
+		printf("\n");
+	}
+	//非固定长度单链表的建立
+	node *Createany()
+	{
+		node *p,*q,*h=0;
+		int x;
+		printf("请输入任意多个正数:\n");
+		while(1)
+		{
+			scanf("%d",&x);
+			if(x!=-1)//输入-1退出录入
+			{
+				q=(node *)malloc(sizeof(node));
+				q->data=x;
+				q->next=NULL;
+				if(h==0)
+				{
+					h=q;
+					p=q;
+				}
+				else
+				{
+					p->next=q;
+					p=q;
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+		return h;
+	}
+	//未知长度链表测长
+	int Findlen(node *h)
+	{
+		node *q=h;
+		int i=0;
+		while(q)
+		{
+			i++;
+			q=q->next;
+		}
+		return i;
+	}
+	
+	//删除单链表节点
+	node *Delchain(node *h,int mydata)
+	{
+		node *q=h,*t;
+		while(q)
+		{
+			if(mydata==q->data)
+			{
+				if(q==h)//删除的是表头(包括只有表头一个节点和多于一个节点两种情况）
+				{
+					if(q->next)
+					{
+						h=q->next;
+					}
+					else
+					{
+						h=NULL;
+					}
+				}
+				else if(q->next==NULL)//删除的是表尾
+				{
+					t->next=NULL;
+				}
+				else
+				{
+					t->next=q->next;
+				}
+				free(q);
+				break;
+			}
+			else
+			{
+				t=q;
+				q=q->next;
+				
+			}
+		}
+		if(q==NULL)//q一直遍历到了最后为NULL还没有找到相等的数
+		{
+			printf("没有这个结点!\n");	
+		}
+		return h;
+	
+	}
+	
+	//增加单链表的节点到合适位置（按从小到大排列）
+	node *Insert(node *head, int mydata)
+	{
+		node *q=head,*p=(node *)malloc(sizeof(node)),*t;
+		p->data=mydata;
+		p->next=NULL;
+		if(mydata<head->data)//如果mydata比表头的data还小
+		{
+			p->next=head;
+			head=p;
+		}
+		else
+		{
+			while(q!=NULL&&mydata>q->data)
+			{
+				t=q;
+				q=q->next;
+			}
+			if(q)
+			{
+				t->next=p;
+				p->next=q;
+			}
+			else
+			{
+				t->next=p;
+			}
+		}
+		return head;
+	
+	
+	}
+	main()
+	{
+		node *myhead,*myhead2,*myhead3,*myhead4;
+		int i,len,mydata,mydata2;
+		myhead=Create(5);
+		Print(myhead);
+	
+		/*
+		myhead2=Createany();
+		Print(myhead2);
+		len=Findlen(myhead2);
+		printf("链表长度为%d\n",len);
+		
+		printf("请输入要删除的节点数据域:\n");
+		scanf("%d",&mydata);
+		myhead3=Delchain(myhead,mydata);
+		Print(myhead3);
+		*/
+	
+		printf("请输入要添加的节点数据域:\n");
+		scanf("%d",&mydata2);
+		myhead4=Insert(myhead,mydata2);
+		Print(myhead4);
+		system("pause");
+	}
+		
 
 ### 2.双链表
 创建双链表，并实现其删除、插入结点。
 （见《程序员面试宝典》P139)
+
 	#include<stdio.h>
 	#include<stdlib.h>
 	
@@ -468,7 +667,342 @@
 			;
 		}
 	}
+#### 第二次操作队列
 
+	#include<stdio.h>
+	#include<stdlib.h>
+	
+	typedef struct node
+	{
+		int data;
+		struct node *next;
+	}node;
+	
+	typedef struct queue
+	{
+		node *head,*rear;
+	}queue;
+	
+	//创建队列
+	queue * Createqueue()
+	{
+		node *q,*p,*h=NULL;
+		queue *myqueue=(queue *)malloc(sizeof(queue));
+		int x;
+	
+		printf("请输入队列节点数据域值:\n");
+		while(1)
+		{
+			scanf("%d",&x);
+			if(x!=-1)
+			{
+				q=(node *)malloc(sizeof(node));
+				q->data=x;
+				q->next=NULL;
+	
+				if(h==NULL)
+				{
+					h=q;
+					p=q;
+				}
+				else
+				{
+					p->next=q;
+					p=q;
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+	
+		if(h==NULL)
+		{
+			myqueue->head=NULL;
+			myqueue->rear=NULL;
+		}
+		else
+		{
+			myqueue->head=h;
+			myqueue->rear=q;//若h==q，这样写也可以包含
+		}
+		return myqueue;
+		
+	}
+	
+	//打印队列
+	void Print(queue *myqueue)
+	{
+		node *q;
+		q=myqueue->head;
+		while(q)
+		{
+			printf("%d",q->data);
+			if(q->next)
+			{
+				printf("->");
+			}
+			q=q->next;
+		}
+	}
+	
+	//队列入列
+	queue *Insert(queue *myqueue,int x)
+	{
+		node *q=(node *)malloc(sizeof(node));
+		q->data=x;
+		q->next=NULL;
+	
+		if(myqueue->head==NULL)
+		{
+			myqueue->head=q;
+			myqueue->rear=q;
+		}
+		else
+		{
+			myqueue->rear->next=q;
+			myqueue->rear=q;
+		}
+		return myqueue;
+	}
+	//队列出队
+	queue *Del(queue *myqueue)
+	{
+		node *q;
+		if(myqueue->head==NULL)
+		{
+			printf("溢出\n");
+		}
+		else if(myqueue->head==myqueue->rear)
+		{
+			myqueue->head=NULL;
+			myqueue->rear=NULL;
+		}
+		else
+		{
+			q=myqueue->head;
+			myqueue->head=q->next;
+			free(q);
+		}
+		return myqueue;
+	}
+	
+	main()
+	{
+		queue *myqueue=Createqueue();
+		int x;
+		Print(myqueue);
+	
+		printf("请输入要入队的值:\n");
+		scanf("%d",&x);
+		myqueue=Insert(myqueue,x);
+		Print(myqueue);
+		myqueue=Del(myqueue);
+		Print(myqueue);
+	
+		system("pause");
+	
+	}
+
+#### 排队系统 ***有错误，待改正***
+
+	#include<stdio.h>
+	#include<stdlib.h>
+	#include<string.h>
+	
+	typedef struct node
+	{
+		char name;
+		int index;
+		struct node *next;
+	}node;
+	
+	typedef struct queue
+	{
+		node *head;
+		node *rear;
+	}queue;
+	
+	queue *Createqueue()//建立队列
+	{
+		char c;
+		int d=0;
+		node *p=NULL,*q=NULL,*h=NULL;
+		queue *l;
+		printf("请输入排队的人的代号:\n");
+		while(1)
+		{
+			scanf("%c",&c);
+			if(c!='#')//'#'结束
+			{
+				p=(node *)malloc(sizeof(node));
+				p->name=c;
+				p->index=d;
+				d++;
+				p->next=NULL;
+				if(h==NULL)
+				{
+					h=p;
+					q=p;
+				}
+				else
+				{
+					q->next=p;
+					q=p;
+				}	
+			}
+			else
+			{
+				p=NULL;
+				break;
+			}
+		}
+	
+		
+		l=(queue *)malloc(sizeof(queue));
+		l->head=h;
+		l->rear=p;
+		return l;
+	}
+	
+	void Printqueue(queue *l)//打印队列
+	{
+		node *p=l->head;
+		while(p)
+		{
+			if(p->next)
+			{
+				printf("%c,%d ->",p->name,p->index);
+			}
+			else
+			{
+				printf("%c,%d\n",p->name,p->index);
+			}
+			p=p->next;
+		}
+	}
+	
+	
+	queue *Addqueue(queue *l)//某人加入队列最后
+	{
+		node *p=NULL;
+		char c;
+		int d,dr;
+		printf("请输入新加入的人的代号:\n");
+		scanf("%c",&c);
+		if(c!='#')
+		{
+			p=(node *)malloc(sizeof(node));
+			p->name=c;
+			p->next=NULL;
+			if(l==NULL)
+			{
+				p->index=0;
+				l->head=p;
+				l->rear=p;
+			}
+			else
+			{
+				dr=l->rear->index;
+				p->index=dr+1;
+				l->rear->next=p;
+				l->rear=p;
+			}
+		}
+		return l;
+	}
+	
+	void *Findqueue(queue *l)//查找队列中的某人
+	{
+		char c;
+		int d;
+		node *p=l->head;
+		printf("请输入要查找的人代号:\n");
+		scanf("%c",&c);
+		while(p&&p->name!=c)
+		{
+			p=p->next;
+		}
+		if(p->name==c)
+		{
+			d=p->index;
+			printf("此人在队伍中的序号为:%d\n",d);
+		}
+		else
+		{
+			printf("无此人");
+		}
+	
+	}
+	queue *Delqueue(queue *l)//某人退出队列：包括正常第一个走掉，和中间有人退出两种情况
+	{
+		char c;
+		int d;
+		node *p=l->head;
+		node *q;
+		printf("请输入离开的人代号:\n");
+		scanf("%c",&c);
+		while(p&&p->name!=c)
+		{
+			q=p;
+			p=p->next;
+		}
+		if(p->name==c)
+		{
+			if(p->index==0)//如果离开的是第一个人
+			{
+				if(p->next==NULL)//如果队伍只有这一个人
+				{
+					l->head=NULL;
+					l->rear=NULL;
+				}
+				else
+				{
+					l->head=p->next;
+					p=p->next;
+					while(p)
+					{
+						p->index=p->index-1;
+						p=p->next;
+					}
+				}
+			}
+			else
+			{
+				q->next=p->next;
+				p=p->next;
+				while(p)
+				{
+					p->index=p->index-1;
+				}
+			}
+			return l;
+		}
+		else
+		{
+			printf("无此人");
+		}
+		
+	}
+	
+	void main()
+	{
+		queue *myl=Createqueue();
+		queue *myl2,*myl3;
+		Printqueue(myl);
+		/*
+		myl2=Addqueue(myl);
+		Printqueue(myl2);
+	
+		myl3=Delqueue(myl2);
+		Printqueue(myl3);
+	
+		Findqueue(myl3);
+		*/
+		system("pause");
+	}
+		
 ### 5.栈
 编程实现入栈出栈操作
 
@@ -752,6 +1286,190 @@
 			;
 		}
 	}
+
+#### 第二次做
+
+	#include<stdio.h>
+	#include<string.h>
+	#include<stdlib.h>
+	
+	typedef struct node
+	{
+		char data;
+		struct node *lchild,*rchild;
+	}node,*Tree;
+	
+	Tree CreateTree()//创建二叉树
+	{
+		node *p=NULL;
+		char c;
+	
+		scanf("%c",&c);
+		if(c!='#')
+		{
+			p=(node *)malloc(sizeof(node));
+			p->data=c;
+			p->lchild=CreateTree();
+			p->rchild=CreateTree();
+		}
+		else
+		{
+			p=NULL;
+		}
+		return p;
+	}
+	
+	void PrePrintTree(Tree mytree)
+	{
+		node *p=mytree;
+		char c;
+		if(p)
+		{	
+			c=p->data;
+			printf("%c",c);
+			PrePrintTree(p->lchild);
+			PrePrintTree(p->rchild);
+		}
+	}
+	
+	void MidPrintTree(Tree mytree)
+	{
+		node *p=mytree;
+		char c;
+		if(p)
+		{
+			c=p->data;
+			MidPrintTree(p->lchild);
+			printf("%c",c);
+			MidPrintTree(p->rchild);
+		}
+	}
+	
+	void LastPrintTree(Tree mytree)
+	{
+		node *p=mytree;
+		char c;
+		if(p)
+		{
+			c=p->data;
+			LastPrintTree(p->lchild);
+			LastPrintTree(p->rchild);
+			printf("%c",c);
+		}
+	}
+	
+	void PrePrintLeaf(Tree mytree)//先序输出叶子节点
+	{
+		node *p=mytree;
+		char c;
+		if(p)
+		{
+			if(p->lchild==NULL&&p->rchild==NULL)
+			{
+				c=p->data;
+				printf("%c",c);
+			}
+			else
+			{
+				PrePrintLeaf(p->lchild);
+				PrePrintLeaf(p->rchild);
+			}
+				
+		}
+	}
+	
+	int CountLeaf(Tree mytree)//统计叶子节点数目
+	{
+		node *p=mytree;
+		static int n=0;
+		if(p)
+		{
+			if(p->lchild==NULL&&p->rchild==NULL)
+			{
+				n++;
+			}
+			else
+			{
+				CountLeaf(p->lchild);
+				CountLeaf(p->rchild);
+			}	
+		}
+		return n;
+	}
+	
+	int CountLeaf2(Tree mytree)//统计叶子节点数目方法二
+	{
+		node *p=mytree;
+		int n=0;
+		if(p)
+		{	
+			if(p->lchild==NULL&&p->rchild==NULL)
+			{
+				n=1;
+			}
+			else
+			{
+				n=CountLeaf2(p->lchild)+CountLeaf2(p->rchild);
+			}
+		}
+		return n;
+	}
+	
+	
+	
+	int CountTreeHeight(Tree mytree)//计算树的高度
+	{
+		node *p=mytree;
+		int n=0,l,r;
+		if(p)
+		{	
+			if(p->lchild==NULL&&p->rchild==NULL)
+			{
+				n=1;
+			}
+			else
+			{
+				l=CountTreeHeight(p->lchild);
+				r=CountTreeHeight(p->rchild);
+				n=l>r?(l+1):(r+1);
+				
+			}
+		}
+		return n;
+	}
+	
+	
+	void main()
+	{
+		Tree mytree=NULL;
+		int n1,n2,n3;
+		printf("请输入二叉树各节点:\n");
+		mytree=CreateTree();
+		
+		PrePrintTree(mytree);
+		printf("\n");
+	
+		MidPrintTree(mytree);
+		printf("\n");
+	
+		LastPrintTree(mytree);
+		printf("\n");
+	    
+		PrePrintLeaf(mytree);
+		printf("\n");
+	
+		n1=CountLeaf(mytree);
+		printf("%d\n",n1);
+	
+		n2=CountLeaf2(mytree);
+		printf("%d\n",n2);
+	
+		n3=CountTreeHeight(mytree);
+		printf("%d\n",n3);
+		system("pause");
+	
+	}
+
 
 [C语言scanf详细解释](http://blog.csdn.net/kobesdu/article/details/39051399)
 

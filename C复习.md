@@ -1836,3 +1836,341 @@ text2.c文件：
 ## 8.待研究问题
 
 ### 1.C的编译、链接步骤到底在做什么工作？
+
+## 9.牛客编程题
+### 1.发红包问题
+
+		#include<stdio.h>
+		void CocktailSort(float *gift,int n)
+		{
+		    int low=0,high=n-1,i,flag;
+		    float t;
+		    
+		    while(low<high)
+		    {
+		        flag=0;
+		        
+		        if(low<high)
+		        {
+		            for(i=low;i<high;i++)
+		            {
+		                if(gift[i]>gift[i+1])
+		                {
+		                    t=gift[i];
+		                    gift[i]=gift[i+1];
+		                    gift[i+1]=t;
+		                    flag=1;
+		                }
+		            }
+		        }
+		        
+		        if(flag==0)
+		        {
+		            break;
+		        }
+		        high--;
+		        
+		        flag=0;
+		        if(low<high)
+		        {
+		            for(i=high;i>low;i--)
+		            {
+		                if(gift[i]<gift[i-1])
+		                {
+		                    t=gift[i];
+		                    gift[i]=gift[i-1];
+		                    gift[i-1]=t;
+		                    flag=1;
+		                }
+		            }
+		       }
+		       if(flag==0)
+		       {
+		       		break;    
+		       }
+		       low++;
+		       
+		    }
+		}
+		
+		int searchGift(float *sortedgifts,int n)
+		{
+		    float  t=sortedgifts[0];
+		    int i,count=1;
+		    
+		    for(i=1;i<n;i++)
+		    {
+		        if(sortedgifts[i]==t)
+		        {
+		           count++;
+		        }
+		        else
+		        {
+		            t=sortedgifts[i];
+		            count=1;
+		        }
+				if(count>n/2)
+				{
+					return t;
+				}
+		    }
+		
+		
+		}
+		
+		void main()
+		{
+		    float gift[5]={1,2,3,2,2},rel;
+		    int n=5,i;
+		    
+		    CocktailSort(gift,5);
+		    for(i=0;i<5;i++)
+			{
+				printf("%f\t",gift[i]);
+			}
+			printf("\n");
+			rel=searchGift(gift,5);
+		    printf("%f\n",rel);
+		    
+		    while(1)
+			{
+				;
+			}
+		}
+
+
+### 2.大数相乘
+
+	#include<stdio.h>
+	#include<string.h>
+	#include<stdlib.h>
+	
+	#define maxlen 1000
+	void BigMulti(char *a, char *b,char *c)
+	{
+	    int m=strlen(a),n=strlen(b);//求出被乘数长度m，乘数长度n
+		int i,j,h,l=m+n;//l为乘积长度（最高位l[0]可能为0）
+		int *p,*q;
+		int t,jinwei;
+	
+		p=(int *)malloc(sizeof(int)*m);//数组p存放乘数的某一位与被乘数的m位数字分别相乘的结果，长为m。因为都是数字与数字相乘，最大为81，整数足够。
+		memset(p,0,m*sizeof(int));//初始化p每一位为0
+	
+		q=(int *)malloc(sizeof(int)*l);//数组q存放乘积的每一位，长度为l。
+		memset(q,0,l*sizeof(int));//初始化q每一位为0
+	
+		memset(c,'0',l*sizeof(char));//初始化c每一位为'0'，下面因为为'\0'结束字符串输出
+		c[l]='\0';
+	
+	
+		jinwei=0;
+		for(i=n-1;i>=0;i--)//计算n-i轮p。
+		{
+			h=l-1-(n-1-i);//每一轮要讲数组p的最低位即p[n-1]加到q[h]上，p[n-2]加到q[h-1]上.....直到p加完，进位加完。
+			for(j=m-1;j>=0;j--)
+			{
+				p[j]=((int)(a[j]-'0'))*((int)(b[i]-'0'));
+				t=q[h]+p[j]+jinwei;
+				q[h]=t%10;
+				jinwei=t/10;
+				h--;
+			}
+			while(jinwei)
+			{
+				t=q[h]+jinwei;
+				q[h]=t%10;
+				jinwei=t/10;
+				h--;
+			}
+			
+			
+		}
+	
+		for(i=l-1;i>=0;i--)
+		{
+			c[i]=(char)(q[i]+'0');
+		}
+		if(c[0]=='0')
+		{
+			c[0]=' ';//最高一位为0则变为空格
+		}
+	
+	
+	}
+	void main()
+	{
+		char a[maxlen],b[maxlen],c[2*maxlen];
+		
+		puts("输入被乘数:\n");
+		gets(a);
+		puts("输入乘数:\n");
+		gets(b);
+		
+	
+		BigMulti(a,b,c);
+		puts("乘积为:");
+		puts(c);
+	
+	    system("pause");
+	}
+
+### 3.大数相加
+
+	#include<stdio.h>
+	#include<stdlib.h>
+	#include<string.h>
+	
+	#define max 1000
+	void BigAdd(char *a,char *b,char *c)
+	{
+		int m=strlen(a),n=strlen(b);
+		int l;
+		int *p;
+		int t,t1,t2,i,j,h,jinwei;
+		char *q=a;
+		if(m<n)//确保第一个加数比第二个加数长。
+		{
+			a=b;
+			b=q;
+			m=strlen(a);
+			n=strlen(b);
+		}
+		l=m+1;
+		
+		p=(int *)malloc(l*sizeof(int));
+		memset(p,0,l*sizeof(int));
+		memset(c,'0',l*sizeof(char));
+		c[l]='\0';
+	
+		jinwei=0;
+		h=l-1;
+		i=m-1;
+		j=n-1;
+		while(j>=0)
+		{
+			t=(int)(a[i]-'0')+(int)(b[j]-'0')+jinwei;
+			p[h]=t%10;
+			jinwei=t/10;
+			i--;
+			j--;
+			h--;
+		}
+		while(i>=0)
+		{
+			t=(int)(a[i]-'0')+jinwei;
+			p[h]=t%10;
+			jinwei=t/10;
+			i--;
+			h--;
+		}
+		p[h]=jinwei;
+	
+	
+		for(i=l-1;i>=0;i--)
+		{
+			c[i]=(char)(p[i]+'0');
+		}
+		if(c[0]=='0')
+		{
+			c[0]=' ';
+		}
+	
+	
+		
+	}
+	void main()
+	{
+		char a[max],b[max],c[max+1];
+		puts("请输入加数1：");
+		gets(a);
+		puts("请输入加数2：");
+		gets(b);
+		BigAdd(a,b,c);
+		puts("和为:");
+		puts(c);
+	
+		system("pause");
+	}
+
+### 4.A，B两个整数集合，设计一个算法求他们的交集。
+
+	#include<stdio.h>
+	#include<string.h>
+	#include<stdlib.h>
+	
+	#define max 100
+	int *qiujiao(int *a,int *b,int al,int bl, int *cll)
+	{
+		int *p=a,t=al,i,j,h=0,*c=NULL,*rel=NULL;
+		if(al<bl)
+		{
+			a=b;
+			b=p;
+			al=bl;
+			bl=t;
+		}
+	
+		c=(int *)malloc(bl*sizeof(int));
+		memset(c,0,bl*sizeof(int));
+	
+		for(i=0;i<bl;i++)
+		{
+			for(j=0;j<al;j++)
+			{
+				if(a[j]==b[i])
+				{
+					c[h]=a[j];
+					h++;
+				}
+			}
+		}
+	
+		rel=(int *)malloc(h*sizeof(int));
+		*cll=h;
+		for(i=0;i<h;i++)
+		{
+			rel[i]=c[i];
+		}
+		return rel;
+	}
+	
+	main()
+	{
+		int a[max],b[max],al,bl,i=0,*c=NULL,cl;
+		
+		printf("请输入数组a,以回车结束:\n");
+	
+		while(1)
+		{
+			scanf("%d",&a[i]);
+			i++;
+			if(getchar()=='\n')
+			{
+				break;
+			}
+		}
+		al=i;
+	
+		i=0;
+		printf("请输入数组b,以回车结束:\n");
+		while(1)
+		{
+			scanf("%d",&b[i]);
+			i++;
+			if(getchar()=='\n')
+			{
+				break;
+			}
+	
+	
+		}
+		bl=i;
+	
+		c=qiujiao(a,b,al,bl,&cl);
+		for(i=0;i<cl;i++)
+		{
+			printf("%d\t",c[i]);
+		}
+	
+		system("pause");
+	}
