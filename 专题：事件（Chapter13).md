@@ -32,7 +32,7 @@
 #### 3）缺点
 - 1.时差问题：用户可能会在HTML元素一出现就在页面触发相应事件，但事件处理程序可能还不具备执行条件。如下改进：
 
-	<input type="button" value="click me" onclick="try{showMessage();}catch(ex){}"/>
+		<input type="button" value="click me" onclick="try{showMessage();}catch(ex){}"/>
 
 - 2.作用域扩展事件处理程序的作用域链在不同浏览器中会导致不同结果。
 - 3.HTML与JavaScript代码紧密耦合。
@@ -42,25 +42,26 @@
 - this:引用当前元素；即其是在当前元素的作用域运行。
 - 缺点：一个元素只能这样添加一个事件处理程序。
 
-	var btn=document.getElementById("myBtn");
-	btn.onclick=function(){//添加事件处理程序
-	    alert(this.id);
-	}
-
-
-	btn.onclick=null;//取消事件处理程序
+		var btn=document.getElementById("myBtn");
+		btn.onclick=function(){//添加事件处理程序
+		    alert(this.id);
+		}
+	
+	
+		btn.onclick=null;//取消事件处理程序
 
 ### 3.DOM2级事件处理程序
 #### （1）添加事件处理程序：(Element).addEventListener(,,)
+
 - 优势：可以添加多个事件处理程序,按顺序触发。
-- 
-	var btn=document.getElementById("myBtn");
-	btn.addEventListener("click",function(){
-	    alert(this.id)    
-	},false);
-	btn.addEventListener("click",function(){
-	    alert("Hello world");
-	},false);
+
+		var btn=document.getElementById("myBtn");
+		btn.addEventListener("click",function(){
+		    alert(this.id)    
+		},false);
+		btn.addEventListener("click",function(){
+		    alert("Hello world");
+		},false);
 
 #### （2）移除事件处理程序：（Element).removeEventListener(,,)
 
@@ -83,7 +84,7 @@
 	btn.addEventListener("click",handler,false);
 	btn.removeEventListener("click",handler,false);//有效
 
-**一般第三个参数都为false(添加到冒泡阶段）,这样可以最大限度地兼容浏览器。
+**一般第三个参数都为false(添加到冒泡阶段）,这样可以最大限度地兼容浏览器。**
 
 
 ### 4.IE事件处理程序：attachEvent()、detachEvent()
@@ -246,3 +247,298 @@ eventPhase|Integer|调用事件处理的阶段：1、2、3（捕获、目标、�
 cancelBubble |Boolean | 默认为false,设置为true可以取消事件冒泡（与DOM的stopPropagation()方法作业相同）
 returnValue |Boolean |默认为true,设置为false可以取消事件的默认行为（与DOM的preventDefault()方法作用相同）
 srcElement|Element|事件的真正的具体的目标（与DOM的target属性作用相同）
+
+### 3.跨浏览器的事件处理对象
+
+	var EventUtil={
+	    addHandler:function(element,type,handler){
+	        if (element.addEventListener) {
+	            element.addEventListener(type,handler,false);
+	        }
+	        else if (element.attachEvent) {
+	            element.attachEvent("on"+type,handler);
+	        }
+	        else{
+	            element["on"+type]=handler;
+	        }
+	    },
+	    removeHandler:function(element,type,handler){
+	        if (element.removeEventListener) {
+	            element.removeEventListener(type,handler,false);
+	        }
+	        else if (element.detachEvent) {
+	            element.detachEvent("on"+type,handler);
+	        }
+	        else{
+	            element["on"+type]=null;
+	        }
+	    },
+	    getEvent:function(event){
+	        return event?event:window.event;
+	    },
+	    preventDefault:function(event){
+	        if (event.preventDefault) {
+	            event.preventDefault();
+	        }
+	        else{
+	            event.returnValue=false;
+	        }
+	    },
+	    getTarget:function(event){
+	        return event.target?event.target:event.srcElement;
+	    },
+	    stopPropagation:function(event){
+	        if (event.stopPropagation) {
+	            event.stopPropagation();
+	        }
+	        else{
+	            event.cancelBubble=true;
+	        }
+	    }
+	};
+	
+
+EventUtil对象使用例子：
+
+	var link=document.getElementById("mylink");
+	
+	EventUtil.addHandler(link,"click",function(event){
+	    event=EventUtil.getEvent(event);
+	    EventUtil.preventDefault(event);
+	    target=EventUtil.getTarget(event);
+	    alert(target.tagName);
+	});
+
+
+## 3.事件类型
+### 1.UI事件
+不一定与用户操作有关的事件。
+#### 1）load事件
+
+##### 简介：
+当页面完全加载后（包括所有图像、JavaScript文件、CSS文件等外部资源），就会触发window上面的load事件。
+
+此时为该事件处理程序传入的event对象不包含有关这个事件的任何附加信息。只有在兼容DOM的浏览器中，event.target属性被设置为document。
+
+##### 绑定方法：
+
+方法一：
+
+	EventUtil.addHandler(window,"load",function(event){
+	    alert("loaded"); 
+	})
+
+方法二：
+
+	<body onload="alert('loaded')">//只能为body添加onload属性，不能如方法一那样为body绑定load事件
+	···
+	<\body>
+
+##### 应用
+###### （1）动态创建img后确认是否加载完毕
+
+	EventUtil.addHandler(window,"load",function(){
+	    var image=document.createElement("img");
+	    EventUtil.addHandler(image,"load",function(event){
+	        event=EventUtil.getEvent(event);
+	        var target=EventUtil.getTarget(event);
+	        alert(target.src);
+	    });
+	    document.body.appendChild(image);
+	    image.src="news.png";
+	})
+
+注意：
+
+- window要首先绑定onload事件处理程序。因为向DOM中添加新元素的话必须保证页面已经加载完毕。**如果在页面加载完毕前操作document.body会导致错误**。
+- 新图像元素不一定从添加到文档后才开始下载，而是一旦设置src就会下载，故得**在指定src属性之前先指定事件**。
+
+###### （2）动态创建script后确认是否加载完毕
+
+	EventUtil.addHandler(window,"load",function(){//该处括号内写上event也没事
+	    var script=document.createElement("script");
+	    EventUtil.addHandler(script,"load",function(event){
+	        alert("loaded");
+	    });
+	    script.src="test2.js";
+	    document.body.appendChild(script);
+	})
+- 与图像不同，只有在设置了src元素并将其添加到文档之后才会开始下载JS文件，故指定src和事件处理程序的先后顺序随意。
+
+###### （3）动态创建样式后确认是否加载完毕
+
+	EventUtil.addHandler(window,"load",function(event){
+	   var link=document.createElement("link");
+	   link.type="text/css";
+	   link.rel="stylesheet";
+	   EventUtil.addHandler(link,"load",function(event){
+	        alert("loaded");
+	   });
+	   link.href="test1.css";
+	   document.getElementsByTagName("head")[0].appendChild(link);
+	   
+	});
+- 与图像不同，与script类似，只有在设置了href属性并将其添加到文档之后才会开始下载样式表。故绑定事件处理程序和设置href的顺序随意。
+
+#### 2）unload事件
+##### 简介
+在文档完全被卸载时触发
+
+#### 3）resize事件
+##### 简介
+当浏览器窗口被调整到一个新的高度或宽度时触发。IE、Safari、Chrome、Opera会在窗口变化了1像素时就触发resize事件。Firefox在用户停止调整窗口大小时才触发resize。
+
+	EventUtil.addHandler(window,"resize",function(event){
+	   alert("resized");
+	});
+
+#### 4)scroll事件
+##### 简介
+在window对象上发送，实际表示页面中相应元素的变化。可用scrollLeft和scrollTop来监控这一变化。
+
+	EventUtil.addHandler(window,"scroll",function(event){
+	   if (document.compatMode=="CSS1Compat") {//标准模式用document.documentElement
+	        alert(document.documentElement.scrollTop);
+	   }
+	   else{//"backMode"混杂模式用document.body
+	        alert(document.body.scrollTop);
+	   }
+	});
+
+### 2.焦点事件
+
+#### 1）blur事件：
+在元素失去焦点时触发。不冒泡。
+
+#### 2）focus事件：
+在元素获得焦点时触发。不冒泡。
+
+#### 3）focusin事件：
+在元素获得焦点时触发。与focus等价，但它冒泡。
+
+#### 4) focusout事件：
+在元素失去焦点时触发。是blur的通用版，但它冒泡。
+
+注意：
+focusin/focusout支持浏览器是IE5.5+、Safari5.1+、Opera11.5+和Chrome；另有相同作用的DOMFocusIn/DOMFocusOut,只有Opera支持。
+
+### 3.鼠标与滚轮事件
+#### 1）常用鼠标事件
+##### 简介
+事件名称|简介
+-------|---
+click|单击鼠标左键或按下回车触发
+dbclick|双击鼠标左键触发
+mousedown|用户按下任意鼠标按钮时触发
+mouseup|用户释放鼠标按钮时触发
+mouseover|用户首次将鼠标从一个元素移入另一个元素边界之内时触发
+mouseout|用户将鼠标从一个元素移入另一个元素时触发，另一个元素可能位于前一个元素的内部或外部、子元素
+mouseenter|在鼠标光标从元素外部首次移动到元素范围之内（包括其子元素）时触发。不冒泡。
+mouseleave|在位于元素上方的鼠标光标移动到元素范围之外时触发（移到后代元素上不触发）。不冒泡。
+
+##### 注意：
+- 除mouseenter,mouseleave不冒泡，其他都冒泡
+- 几个相关事件的触发顺序：
+	1. mousedown
+	2. mouseup
+	3. click
+	4. mousedown
+	5. mouseup
+	6. click
+	7. dbclick
+
+#### 2)几种坐标位置
+##### （1）光标视口位置：event.clientX/clientY
+表示事件发生时,鼠标光标在**视口**中的水平和垂直坐标。注意：其不包括页面滚动距离。
+
+	EventUtil.addHandler(document.body,"click",function(event){
+	    event=EventUtil.getEvent(event);
+	    alert("clientX:"+event.clientX+" clientY:"+event.clientY);
+	})
+
+##### （2）光标页面位置：event.pageX/pageY
+表示事件发生时，鼠标光标在页面中的位置。注意：其实从页面本身计算坐标而非视口。
+
+	EventUtil.addHandler(document.body,"click",function(event){
+	    event=EventUtil.getEvent(event);
+	    alert("pageX:"+event.pageX+" pageY:"+event.pageY);
+	})
+
+##### (3)屏幕坐标位置:event.screenX/screenY
+
+	EventUtil.addHandler(document.body,"click",function(event){
+	    event=EventUtil.getEvent(event);
+	    alert("screenX:"+event.screenX+" screenY:"+event.screenY);
+	})
+
+#### 3)修改键属性:event.shiftKey/ctrlKey/altKey/metaKey
+这些键常常被用来修改鼠标事件的行为，对应四个属性表示修改键的状态：shiftKey,ctrlKey,altKey,metaKey。键被按下，则值为true;否则为false。
+
+	var btn=document.getElementById("myBtn");
+	EventUtil.addHandler(btn,"click",function(event){
+	    event=EventUtil.getEvent(event);
+	    var keys=new Array();
+	    
+	    if (event.shiftKey) {
+	        keys.push("shift");
+	    }
+	    if (event.ctrlKey) {
+	        keys.push("ctrl");
+	    }
+	    if (event.altKey) {
+	        keys.push("alt");
+	    }
+	    if (event.metaKey) {
+	        keys.push("meta");
+	    }
+	    alert("Keys:"+keys.join(","));
+	    
+	})
+
+#### 4)相关元素
+- 对mouseover而言：事件主目标是获得光标的元素，相关元素是失去光标的元素。
+- 对mouseout而言：事件主目标是失去光标的元素，修改元素是获得光标的元素。
+
+相关元素为:event.relatedTarget属性（DOM),event.fromElement/toElement(IE)
+
+兼容性代码：
+
+	var EventUtil={
+		···
+		 getRelatedTarget: function(event){
+	        if (event.relatedTarget) {
+	            return event.relatedTarget;
+	        }
+	        else if(event.fromElement) {
+	            return event.fromElement;
+	        }
+	        else if(evnet.toElement){
+	            return event.toElement;
+	        }
+	        else{
+	            return null;
+	        }
+	    }
+	}
+
+#### 5）鼠标按钮属性：event.button
+
+对于mousedown和mouseup事件来说，其具有event.button属性。
+DOM的event.button可为：
+- 0：左键
+- 1：中间滚轮
+- 2：右键
+
+IE较复杂
+
+#### 6）鼠标滚轮事件：
+##### （1）mousewheel事件（IE/Opera/Chrome/Safari)
+可检测器event.wheelData属性，该属性是120的倍数（正数表向前滚，负数表向后滚,Opera中正负号颠倒）。
+
+	EventUtil.addHandler(document,"mousewheel",function(event){
+	    event=EventUtil.getEvent(event);
+	    alert(event.wheelData);
+	})
+
+##### (2)DOMMouseScroll事件（FireFox)
+与mousewheel事件类似，对应信息保存在detail属性中,为3的倍数（正数表向前滚，负数表向后滚）。

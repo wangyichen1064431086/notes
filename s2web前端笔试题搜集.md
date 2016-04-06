@@ -21,6 +21,9 @@
 ### 7.2015腾讯暑期实习生Web前端开发笔试面试经历
 <http://www.360doc.com/content/15/0414/22/7864192_463251422.shtml>
 
+### 8.2014唯品会web前端开发工程师面试经历
+<http://cv.qiaobutang.com/post/55c4172e0cf243f94906d0e7>
+
 ## 二、题目解答研究
 ### 1.腾讯web前端开发工程师笔试题及答案
 <http://wenku.baidu.com/link?url=BZHymcJp0IEOl_EDrDHXCZv7CNwBXAVjSUsZ19AbxqmmgImkRlGAsPPfjQEQVkXuzt7VIBiwh6zPCZVuCTJnw8dusl8Lp1o9UHoUge7NC-C>

@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>专题1：数组&字符串&正则</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h2>1.数组方法复习</h2>
+<h4>1. concat()</h4>
+<p>连接两个或多个数组。不会改变现有数组，返回的是被连接数组的副本。</p>
+<pre><code>Array1.concat(Array2,Array3,……，Arrayn)
+</code></pre>
+
+<p><strong>参数:</strong> 可以是具体的值，也可以是素组对象。可以是1个或任意多个。</p>
+<p><strong>返回：</strong> 被连接数组的副本。原数组不变。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var arr1=[1,2,3];
+console.log(arr1.concat(4,5,6,7));//[1,2,3,4,5,6,7]
+
+var arr2=[7,8];
+console.log(arr1.concat(arr2));//[1,2,3,7,8]
+
+var arr3=[&quot;Tom&quot;,&quot;Eve&quot;];
+console.log(arr1.concat(arr2,arr3));//[1, 2, 3, 7, 8, &quot;Tom&quot;, &quot;Eve&quot;]
+</code></pre>
+
+<h4>2.join()</h4>
+<p>把数组中所有元素放入一个字符串。元素通过指定的分隔符分隔。</p>
+<pre><code>Array.join(separator)
+</code></pre>
+
+<p><strong>参数：</strong>可选。指定要使用的分隔符。如果省略该参数或传入undefined(ie及早期版本会使用字符串&quot;undefined&quot;做为分隔符)，则使用逗号作为分隔符。</p>
+<p><strong>返回：</strong>连接成的字符串。原数组不变</p>
+<p><strong>示例：</strong></p>
+<pre><code>var arr1=[1,2,3,&quot;Tom&quot;,&quot;Eve&quot;];
+console.log(arr1.join());
+console.log(arr1.join(&quot;\t&quot;));
+</code></pre>
+
+<h4>3.pop()</h4>
+<p>删除并返回数组的最后一个元素。</p>
+<pre><code>Array.pop()
+</code></pre>
+
+<p><strong>返回：</strong> 素组的最后一个元素。原数组改变。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var arr1=[1,2,3,&quot;Tom&quot;,&quot;Eve&quot;];
+var arr2=arr1.pop();
+console.log(arr2);//&quot;Eve&quot;
+console.log(typeof arr2);//string
+console.log(arr1);//[1,2,3,&quot;Tom&quot;]
+</code></pre>
+
+<h4>4.push()</h4>
+<p>向素组末尾顺序添加一个或多个元素，并返回新的长度。</p>
+<pre><code>Array.push(newValue1,newValue2,……，newValueN)
+</code></pre>
+
+<p><strong>参数：</strong>至少有一个参数</p>
+<p><strong>返回：</strong>添加后数组的新长度。原数组改变。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var arr1=[1,2,3,&quot;Tom&quot;,&quot;Eve&quot;];
+console.log(arr1.push(&quot;Lulu&quot;));//6
+console.log(arr1);//[1, 2, 3, &quot;Tom&quot;, &quot;Eve&quot;, &quot;Lulu&quot;]
+console.log(arr1.push(4,5,&quot;Ben&quot;));//9
+console.log(arr1);//[1, 2, 3, &quot;Tom&quot;, &quot;Eve&quot;, &quot;Lulu&quot;, 4, 5, &quot;Ben&quot;]
+</code></pre>
+
+<h4>5.reverse()</h4>
+<p>就地颠倒素组中元素的顺序。</p>
+<pre><code>Array.reverse()
+</code></pre>
+
+<p><strong>返回：</strong> 顺序颠倒后的数组。这就是原数组，原数组改变。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var arr1=[1,2,3,&quot;Tom&quot;,&quot;Eve&quot;];
+console.log(arr1.reverse());//[&quot;Eve&quot;, &quot;Tom&quot;, 3, 2, 1]
+console.log(arr1);//[&quot;Eve&quot;, &quot;Tom&quot;, 3, 2, 1]
+</code></pre>
+
+<h4>6.shift()</h4>
+<p>删除素组的第一个元素，返回第一个元素的值。</p>
+<pre><code>Array.shift()
+</code></pre>
+
+<p><strong>返回：</strong>
+删除的值，即数组原来第一个元素的值。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var arr1=[1,2,3,&quot;Tom&quot;,&quot;Eve&quot;];
+console.log(arr1.shift());//1
+console.log(arr1);//[2, 3, &quot;Tom&quot;, &quot;Eve&quot;]
+</code></pre>
+
+<h4>7.unshift()</h4>
+<p>向数组的开头添加一个或多个元素。返回新的长度。</p>
+<pre><code>Array.unshift(newValue1,newValue2,……，newValueN)
+</code></pre>
+
+<p><strong>参数：</strong>至少一个。</p>
+<p><strong>返回：</strong>数组的新长度。原数组改变。</p>
+<p><strong>注意：</strong>该方法的第一个参数将成为数组的新元素 0，如果还有第二个参数，它将成为新的元素 1，以此类推。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var arr1=[1,2,3,&quot;Tom&quot;,&quot;Eve&quot;];
+console.log(arr1.unshift(4,&quot;Lily&quot;));//7
+console.log(arr1);//[4, &quot;Lily&quot;, 1, 2, 3, &quot;Tom&quot;, &quot;Eve&quot;]
+</code></pre>
+
+<h4>8.slice()</h4>
+<p>从已有数组中返回选定的元素。</p>
+<pre><code>Array.slice(startIndex,endIndex)
+</code></pre>
+
+<p><strong>参数：</strong> <br>
+至少有startIndex,规定从何处开始选取。0为第一个元素。也可以是负数，-1指最后一个元素，-2 指倒数第二个元素。</p>
+<p>endIndex可选。规定从何处结束选取。该参数是选取的数组片断结束后下一个元素的数组下标。如果没有指定该参数，那么切分的数组包含从 startIndex 到数组结束的所有元素。如果这个参数是负数，那么它规定的是从数组尾部开始算起的元素。</p>
+<p><strong>返回：</strong>选取的新数组。原数组不变。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var arr1=[1,2,3,&quot;Tom&quot;,&quot;Eve&quot;];
+console.log(arr1.slice(2,4));//[3, &quot;Tom&quot;]
+console.log(arr1);//[1, 2, 3, &quot;Tom&quot;, &quot;Eve&quot;]
+console.log(arr1.slice(1));//[2, 3, &quot;Tom&quot;, &quot;Eve&quot;]
+console.log(arr1.slice(-1));//[&quot;Eve&quot;]
+console.log(arr1.slice(-3,-1));//[3, &quot;Tom&quot;]
+</code></pre>
+
+<h4>9.sort()</h4>
+<p>对数组就地重排序。</p>
+<pre><code>Array.sort(function)
+</code></pre>
+
+<p><strong>参数：</strong> 可要可不要，规定排序方法，必须是函数。</p>
+<p><strong>返回：</strong> 排序后的数组。原数组就地改变，不生成副本。</p>
+<p><strong>示例：</strong></p>
+<p>排序时，sort()会调用每个数组项的toString()转型方法，然后比较得到的<strong>字符串</strong>。默认Array.sort()按字符串升序排列。</p>
+<pre><code>var arr1=[0,10,1,15,5];
+var arr2=arr1.sort();
+console.log(arr1);//[0,1,10,15,5]
+console.log(arr2);//[0,1,10,15,5]
+</code></pre>
+
+<p>其可接受一个比较函数作为参数。例如，从小到大排序如下：</p>
+<pre><code>function compare(value1,value2) {
+    if (value1&lt;value2) {
+        return -1;
+    }
+    else if (value1==value2) {
+        return 0;
+    }
+    else{
+        return 1;
+    }
+}
+var arr3=arr1.sort(compare);
+console.log(arr1);//[0,1,5,10,15]
+console.log(arr3);//[0,1,5,10,15]
+</code></pre>
+
+<p>对于数值类型或其valueOf()方法（返回Array对象的原始值，<strong><em>待研究</em></strong>）返回数值类型的对象类型，可以直接用相减的比较函数。</p>
+<pre><code>function compare1(value1,value2) {
+    return value1-value2;
+}
+var arr4=arr1.sort(compare1);
+console.log(arr1);//[0,1,5,10,15]
+console.log(arr4);//[0,1,5,10,15]
+</code></pre>
+
+<h4>10.splice()</h4>
+<p>向数组中添加或删除元素。</p>
+<pre><code>Array.splice(startIndex,number,newValue1,newValue2,……）
+</code></pre>
+
+<p><strong>参数：</strong><br>
+startIndex:必须。规定添加/删除项目的位置，使用负数可从数组结尾处规定位置。</p>
+<p>number：必须。要删的项目数量。可为0，这时不删除项目。</p>
+<p>newValue1,newValue2,……：可选。向数组添加的新项目。</p>
+<p><strong>返回：</strong> 被删除项目组成的数组。原数组改变。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var arr1=[1,2,3,&quot;Tom&quot;,&quot;Eve&quot;];
+console.log(arr1.splice(1,2,&quot;Greg&quot;,3,4));//[2,3]
+console.log(arr1);//[1, &quot;Greg&quot;, 3, 4, &quot;Tom&quot;, &quot;Eve&quot;]
+</code></pre>
+
+<h4>11.toSource() *</h4>
+<p>显示对象的源代码。只有Gecko 核心的浏览器（比如 Firefox）支持该方法</p>
+<pre><code>Object.toSource()
+</code></pre>
+
+<h4>12.toString()</h4>
+<p>把数组转换为字符串。并返回结果。</p>
+<pre><code>Array.toString()
+</code></pre>
+
+<p><strong>返回：</strong> arrayObject 的字符串表示。返回值与没有参数的 join() 方法返回的字符串相同。原数组不变。</p>
+<p><strong>注意：</strong> 当数组用于字符串环境时，JavaScript 会调用这一方法将数组自动转换成字符串。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var arr1=[1,2,3,&quot;Tom&quot;,&quot;Eve&quot;];
+console.log(arr1.toString());//1,2,3,Tom,Eve
+console.log(arr1);//[1, 2, 3, &quot;Tom&quot;, &quot;Eve&quot;]
+</code></pre>
+
+<h4>13.toLocaleString()</h4>
+<p>把数组转换为本地字符串。</p>
+<pre><code>Array.toLocaleString()
+</code></pre>
+
+<p><strong>返回：</strong> 本地字符串。原数组不变。</p>
+<p><strong>注意：</strong> 首先调用每个数组元素的 toLocaleString() 方法，然后使用地区特定的分隔符把生成的字符串连接起来，形成一个字符串。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var arr1=[1,2,3,&quot;Tom&quot;,&quot;Eve&quot;];
+console.log(arr1.toLocaleString());//1,2,3,Tom,Eve
+console.log(arr1);//[1, 2, 3, &quot;Tom&quot;, &quot;Eve&quot;]
+</code></pre>
+
+<h4>14.valueOf()*</h4>
+<p>得到数组对象的原始值。</p>
+<h4>15.位置方法indexOf()和lastIndexOf()</h4>
+<p>ECMA5新添方法。indexOf()从数组头向后查找，lastIndexOf()从数组末尾向前查找。</p>
+<p><strong>参数：</strong> 两个方法都接收两个参数：要查找的项（必须），查找起点位置的索引（可选）</p>
+<p><strong>返回：</strong> 两个方法都返回要查找的项在数组中的位置，在没有找到的情况下都返回-1。</p>
+<p><strong>说明：</strong> 在比较第一个参数和数组中的每一项时，会使用全等操作符。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var arr1=[1,2,3,4,5,4,3,2,1];
+
+console.log(arr1.indexOf(4));//3
+console.log(arr1.lastIndexOf(4));//5
+
+console.log(arr1.indexOf(4,4))//5
+console.log(arr1.lastIndexOf(4,4))//3
+
+var person={
+    name:&quot;Nicholas&quot;
+}
+var people=[
+    {
+        name:&quot;Nicholas&quot;
+    }
+]
+
+var morepeople=[person];
+
+console.log(people.indexOf(person));//-1
+console.log(morepeople.indexOf(person));//0
+</code></pre>
+
+<h4>16.迭代方法</h4>
+<p>五个迭代方法every()、some()、filter()、map()、forEach()。</p>
+<p><strong>参数：</strong> 每个方法都包含两个参数：要在数组每一项上运行的函数，运行该函数的作用域（可选）。传入的函数都接收三个参数：数组项的值、该项在数组中的位置和数组对象本身。</p>
+<p><strong>说明：</strong></p>
+<ul>
+<li>every():对数组中的每一项运行给定函数，若函数对每一项都返回true,则返回true。</li>
+<li>some()：对数组的每一项运行给定函数，若函数对任一项返回true,则返回true。</li>
+<li>filter():对数组的每一项运行给定函数，返回该函数返回true的项组成的数组。</li>
+<li>map():对数组的每一项运行给定函数，返回每次函数调用的结果组成的数组。</li>
+<li>
+<p>forEach():对数组的每一项运行给定函数。该方法无返回值。</p>
+<pre><code>var numbers=[1,2,3,4,5,4,3,2,1];
+
+var everyResult=numbers.every(
+    function (item,index,array) {
+        return (item&gt;2);
+    }
+);
+console.log(everyResult);//false
+console.log(numbers);//[1, 2, 3, 4, 5, 4, 3, 2, 1]
+
+var someResult=numbers.some(
+    function (item,index,array) {
+        return (item&gt;2);
+    }
+);
+console.log(someResult);//true
+console.log(numbers);//[1, 2, 3, 4, 5, 4, 3, 2, 1]
+
+var filterResult=numbers.filter(
+    function (item,index,array) {
+        return (item&gt;2);
+    }
+);
+console.log(filterResult);//[3,4,5,4,3]
+console.log(numbers);//[1, 2, 3, 4, 5, 4, 3, 2, 1]
+
+var mapResult=numbers.map(
+    function (item,index,array) {
+        return (item*2);
+    }
+);
+console.log(mapResult);//[2, 4, 6, 8, 10, 8, 6, 4, 2]
+console.log(numbers);//[1, 2, 3, 4, 5, 4, 3, 2, 1]
+
+numbers.forEach(
+    function (item,index,array) {
+        item*2;
+    }
+);
+console.log(numbers);//[1, 2, 3, 4, 5, 4, 3, 2, 1]
+</code></pre>
+
+</li>
+</ul>
+<h4>17.归并方法reduce()和reduceRight()</h4>
+<p>两个方法都会迭代数组的所有项，然后构建一个最终返回的值。reduce()从第一项开始，逐个遍历到最后。reduceRight()从最后一个开始，向前遍历到第一项。</p>
+<p><strong>参数：</strong>
+两个方法都接收两个参数：在每一项上调用的函数，作为归并基础的初始值（可选）。函数接收四个值：前一个值、当前值、项的索引、数组对象。第一次迭代发生在数组的第二项上。</p>
+<p><strong>返回：</strong>
+迭代最终值。原数组不变。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var values=[1,2,3,4,5];
+var sum=values.reduce(function(prev,cur,index,array){
+    return prev+cur;
+});
+console.log(sum);//15
+console.log(values);//[1,2,3,4,5]
+
+var sumRight=values.reduceRight(function(prev,cur,index,array){
+    return prev+cur;
+})
+console.log(sumRight);//15
+console.log(values);//[1,2,3,4,5]
+</code></pre>
+
+<h4>18.Array对象属性</h4>
+<table>
+<thead>
+<tr>
+	<th>属性</th>
+	<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>constructor</td>
+	<td>返回对创建此对象的数组函数的引用。</td>
+</tr>
+<tr>
+	<td>length</td>
+	<td>设置或返回数组中元素的数目。</td>
+</tr>
+<tr>
+	<td>prototype</td>
+	<td>使您有能力向对象添加属性和方法。</td>
+</tr>
+</tbody>
+</table>
+<h2>2.正则复习</h2>
+<p>参见<a href="http://www.w3school.com.cn/jsref/jsref_obj_regexp.asp">http://www.w3school.com.cn/jsref/jsref_obj_regexp.asp</a></p>
+<h4>1.三种标志</h4>
+<img src="img/regexp1.png"/>
+<h4>2.范围查询</h4>
+<p>方括号用于查找某个范围内的字符：</p>
+<img src="img/regexp2.png"/>
+<h4>3.元字符</h4>
+<p>元字符（Metacharacter）是拥有特殊含义的字符。</p>
+<img src="img/regexp3.png"/>
+<h4>4.量词</h4>
+<img src="img/regexp4.png"/>
+<h4>5.RegExp对象属性</h4>
+<img src="img/regexp5.png"/>
+<h4>6.方法</h4>
+<img src="img/regexp6.png"/>
+<h4>7.Exp构造函数属性</h4>
+<pre><code>var text=&quot;this has been a short summer&quot;;
+var pattern=/(.)short/g;
+
+if (pattern.test(text)) {
+    console.log(RegExp.$_);//即RegExp.input：this has been a short summer
+    console.log(RegExp[&quot;$&amp;&quot;]);//即RegExp.lastMatch： short
+    console.log(RegExp[&quot;$+&quot;]);//即RegExp.lastParen：s(实操未显示)
+    console.log(RegExp[&quot;$`&quot;]);//即RegExp.leftContext：this has been a
+    console.log(RegExp[&quot;$'&quot;]);//即RegExp.rightContext： summer
+    console.log(RegExp[&quot;$*&quot;]);//即RegExp.multiline：false(实操undefined)
+}
+</code></pre>
+
+<h2>3.字符串方法复习</h2>
+<h4>1.字符方法：charAt()、charCodeAt()、stringValue[]</h4>
+<p>charAt()以单字符字符串形式返回给定位置的字符。</p>
+<p>charCodeAt()以字符编码形式返回给定位置的字符。</p>
+<p>stringValue[]使用方括号加数字索引来访问指定位置字符。</p>
+<p>示例：略</p>
+<h4>2字符串操作方法：</h4>
+<h5>(1)concat()</h5>
+<p>用于将一个或多个字符串拼接起来。</p>
+<p><strong>参数：</strong> 一个或多个。</p>
+<p><strong>返回：</strong> 新字符串。原字符串不变。</p>
+<pre><code>var stringValue=&quot;hello &quot;;
+var rel=stringValue.concat(&quot;world&quot;);
+console.log(stringValue);//hello 
+console.log(rel);//hello world
+
+var rel2=stringValue.concat(&quot;world&quot;,&quot;!&quot;);
+console.log(rel2);//hello world!
+</code></pre>
+
+<h5>(2)slice(startIndex,endIndex)</h5>
+<p>返回被操作字符的一个子字符串。</p>
+<p><strong>参数：</strong> 第一个参数指定子字符串的开始位置，第二个参数指定子字符串结束位置的后面的位置。可为负值，负值会与字符串长度相加。</p>
+<pre><code>var rel2=&quot;hello world&quot;;
+console.log(rel2.slice(3));//lo world
+console.log(rel2.slice(3,7));//lo w
+console.log(rel2.slice(-3));//rld
+console.log(rel2.slice(3,-3));//lo wo
+</code></pre>
+
+<h5>（3）substring( ,　）</h5>
+<p>返回被操作字符的一个子字符串。</p>
+<p><strong>参数：</strong> 第一个参数指定子字符串的开始位置，第二个参数指定子字符串结束位置的后面的位置。负值会全部转化为0。</p>
+<pre><code>console.log(rel2.substring(3));//lo world
+console.log(rel2.substring(3,7));//lo w
+console.log(rel2.substring(-3));//hello world
+console.log(rel2.substring(3,-3));//hel
+</code></pre>
+
+<h5>（4）substr( ，)</h5>
+<p>返回被操作字符的一个子字符串。</p>
+<p><strong>参数：</strong> 第一个参数指定子字符串的开始位置，第二个参数指返回的字符个数。第一个参数为负，则加上字符串长度；第二个参数为负，则转换为0。</p>
+<pre><code>console.log(rel2.substr(3));//lo world!
+console.log(rel2.substr(3,7));//lo worl
+console.log(rel2.substr(-3));//rld
+console.log(rel2.substr(3,-3));//&quot;&quot;（即空字符串）
+</code></pre>
+
+<h4>3字符串位置方法 indexOf()和lastIndexOf()</h4>
+<p>从一个字符串中搜索给定的子字符串位置。indexOf()从头向后搜索，lastIndexOf()从后向前搜索。</p>
+<p><strong>参数：</strong> 都可以接受两个参数。第一个参数为子字符串。第二个为搜索的起始位置,indexOf()从该位置向后搜索，lastIndexOf()从该位置向前搜索。</p>
+<p><strong>返回：</strong> 子字符串的位置。原字符串不变。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var str=&quot;hello world&quot;;
+console.log(str.indexOf(&quot;o&quot;));//4
+console.log(str.lastIndexOf(&quot;o&quot;));//7
+
+console.log(str.indexOf(&quot;o&quot;,6));//7
+console.log(str.lastIndexOf(&quot;o&quot;,6));//4
+
+var longStr=&quot;Lorem ipsum dolor sit amet,consectetur adipisicing elit&quot;;
+var positions=new Array();
+var pos=longStr.indexOf(&quot;e&quot;);
+
+//利用第二个参数，可以循环找到所有匹配的字符串
+while (pos&gt;-1) {
+    positions.push(pos);
+    pos=longStr.indexOf(&quot;e&quot;,pos+1);
+}
+console.log(positions);//[3, 24, 31, 34, 51]
+</code></pre>
+
+<h4>4 trim()方法</h4>
+<p>创建一个字符串副本，删除前置及后缀的所有空格。</p>
+<p><strong>返回：</strong> 去除空格后的字符串副本。原字符串不变。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var str=&quot; hello world &quot;;
+var trimmedStr=str.trim();
+console.log(str);//&quot; hello world &quot;
+console.log(trimmedStr);//&quot;hello world&quot;
+</code></pre>
+
+<h4>5字符串大小写转换方法：toLowerCase()、toLocaleLowerCase()、toUpperCase()、toLocaleUpperCase()</h4>
+<p>toLowerCase()和toLocaleLowerCase()将字符串转换为小写。toUpperCase()和toLocaleUpperCase()将字符串转换为大写。</p>
+<p>在不知道代码将在哪种语言环境中运行时，使用针对地区的toLocaleLowerCase()、toLocaleUpperCase()方法更稳妥。</p>
+<p><strong>示例：：</strong></p>
+<pre><code>var str=&quot;Hello World &quot;;
+console.log(str.toLowerCase());//hello world 
+console.log(str.toLocaleLowerCase());//hello world 
+console.log(str.toUpperCase());//HELLO WORLD
+console.log(str.toLocaleUpperCase());//HELLO WORLD
+console.log(str)//Hello World
+</code></pre>
+
+<h4>6 字符串模式匹配方法（<strong><em>较生</em></strong>）</h4>
+<h5>（1）match()</h5>
+<p>返回一个数组。同(RegExp.)exec()方法。</p>
+<p><strong>参数：</strong> 要匹配的正则表达式。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var text=&quot;cat,bat,sat,fat&quot;;
+var pattern=/.at/;
+
+var matches=text.match(pattern);
+console.log(matches.index);//0 即匹配项在原字符串中的索引位置
+console.log(matches[0])//cat
+
+var matches2=pattern.exec(text);
+console.log(matches2);
+console.log(matches2.index);//0
+console.log(matches2[0]);//cat
+</code></pre>
+
+<p><strong>示例2：</strong></p>
+<pre><code>var text=&quot;cat,bat,sat,fat,kkat,kkkt&quot;;
+var pattern=/.at/g;
+
+var matches=text.match(pattern);
+
+console.log(matches);//[&quot;cat&quot;, &quot;bat&quot;, &quot;sat&quot;, &quot;fat&quot;, &quot;kat&quot;]
+</code></pre>
+
+<h5>（2）search()</h5>
+<p>返回字符串中第一个匹配项的索引。无匹配项，则返回-1。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var text=&quot;cat,bat,sat,fat&quot;;
+var pos=text.search(/at/);
+console.log(pos);//1
+</code></pre>
+
+<h5>(3)replace()</h5>
+<p>替换子字符串。</p>
+<p><strong>参数：</strong> 两个参数。第一个是一个字符串（字符串不会被转换成RegExp对象）或RegExp对象，第二个参数可以是一个字符串或一个函数。</p>
+<p>若第一个参数是字符串，则只会替换第一个子字符串；若第一个参数是正则表达式且指定g标志，才会替换所有子字符串（这是唯一的替换所有子字符串的方法）</p>
+<p><strong>返回：</strong> 替换后的字符串。原字符串不变。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var text=&quot;cat,bat,sat,fat&quot;;
+var result=text.replace(&quot;at&quot;,&quot;ond&quot;);
+console.log(result);//cond,bat,sat,fat
+console.log(text);//cat,bat,sat,fat
+
+var result2=text.replace(/at/g,&quot;ond&quot;);
+console.log(result2);//cond,bond,sond,fond
+console.log(text);////cat,bat,sat,fat
+</code></pre>
+
+<p><strong>补充：</strong> （<strong><em>生</em></strong>）</p>
+<p>第二个参数如果是字符串，那么还可以用一些特殊的字符序列，将正则表达式得到的值插入到结果字符串中。详见《JavaScript高级程序设计》P127</p>
+<p>如匹配第1个捕获组的子字符串：</p>
+<pre><code>var text=&quot;cat,bat,sat,fat&quot;;
+var result=text.replace(/(.at)/g,&quot;word ($1)&quot;);
+console.log(result);//word (cat),word (bat),word (sat),word (fat)
+</code></pre>
+
+<p>第二个参数也可以是函数。在只有一个匹配项的情况下，会传递三个参数：模式的匹配项、模式匹配项在字符串中的位置和原始字符串。该函数应该返回一个字符串，表示用作替换的字符串。</p>
+<p>如下例：</p>
+<pre><code>function htmlEscape(text) {
+    return text.replace(
+        /[&lt;&gt;&quot;&amp;]/g,
+        function(match,pos,originalText){
+            switch (match) {
+                case &quot;&lt;&quot;:
+                    return &quot;&amp;lt;&quot;;
+                case &quot;&gt;&quot;:
+                    return &quot;&amp;gt;&quot;;
+                case &quot;&amp;&quot;:
+                    return &quot;&amp;amp;&quot;;
+                case &quot;\&quot;&quot;:
+                    return &quot;&amp;quot;&quot;;
+            }
+        }
+    );
+}
+
+console.log(htmlEscape(&quot;&lt;p class=\&quot;greeting\&quot;&gt;Hello world!&lt;/p&gt;&quot;));
+//&amp;lt;p class=&amp;quot;greeting&amp;quot;&amp;gt;Hello world!&amp;lt;/p&amp;gt;
+</code></pre>
+
+<h5>（4）split()</h5>
+<p>基于给定的分隔符将字符串分割成多个子字符串，并将结果放在一个数组中。</p>
+<p><strong>参数：</strong> 第一个参数是分隔符。第二个（可选）是指定返回的数组大小。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var colorText=&quot;red,blue,green,yellow&quot;;
+var colors1=colorText.split(&quot;,&quot;);
+var colors2=colorText.split(&quot;,&quot;,2);
+var colors3=colorText.split(/[^,]+/);
+console.log(colors1);//[&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;]
+console.log(colors2);//[&quot;red&quot;, &quot;blue&quot;]
+console.log(colors3);//[&quot;&quot;, &quot;,&quot;, &quot;,&quot;, &quot;,&quot;, &quot;&quot;]
+</code></pre>
+
+<h4>7 localeCompare()方法</h4>
+<p>比较两个字符串。</p>
+<p><strong>返回：</strong> 在子母表中，如果参数字符串在原字符串之前，返回一个正数（大多数情况下是1）；如果参数字符串在原字符串之后，返回一个负数（大多数情况下是-1);如果参数字符串等于原字符串，返回0。</p>
+<p><strong>示例：</strong></p>
+<pre><code>var str=&quot;yellow&quot;;
+console.log(str.localeCompare(&quot;brick&quot;));//1
+console.log(str.localeCompare(&quot;yellow&quot;));//0
+console.log(str.localeCompare(&quot;zoo&quot;));//-1
+</code></pre>
+
+<h4>8 fromCharCode()方法</h4>
+<p>Sring构造函数本身的方法。接受多个字符编码，然后将它们转换成一个字符串。与实例方法charCodeAt()执行的是相反的操作。</p>
+<p><strong>示例：</strong></p>
+<pre><code>console.log(String.fromCharCode(104,101,108,108,111));//hello
+</code></pre>
+
+<h3>4.字符串、数组、正则操作练习题</h3>
+<h4>1.某元素一共有多个类名，删除其中&quot;disabled&quot;类名。</h4>
+<pre><code>var mydiv=document.getElementById(&quot;mydiv&quot;);
+
+var classNames=mydiv.className.split(/\s+/);
+
+var pos,i,len;
+for (i=0,len=classNames.length;i&lt;len;i++) {
+    if (classNames[i]==&quot;user&quot;) {
+        pos=i;
+        break;
+    }
+}
+classNames.splice(pos,1);
+
+mydiv.className=classNames.join(&quot; &quot;);
+</code></pre>
+
+<p>其实可以直接：
+	mydiv.classList.remove(&quot;user&quot;);</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

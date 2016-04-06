@@ -1,13 +1,5 @@
 # NOWCODE错题、好题研究整理
 
-## 重要参考手册
-
-### bootstrap中文文档
-<http://v3.bootcss.com/>
-
-### jQuery中文手册
-<http://jquery.cuishifeng.cn/>
-
 # 一
 ### 1.（***数组/字符串方法***）
 输出对象中值大于2的key的数组
@@ -46,6 +38,8 @@ Object.keys(oneObject)：返回对象oneObject的可枚举属性和方法的名�
 - map():对数组的每一项运行给定函数，返回每次函数调用的结果组成的数组。
 - forEach():对数组的每一项运行给定函数。该方法无返回值。
 
+这几个方法参数都为(item,index,array)
+
 方法二：
 
 	var data={a:1,b:2,c:3,d:4};
@@ -55,7 +49,7 @@ Object.keys(oneObject)：返回对象oneObject的可枚举属性和方法的名�
 	    }
 	);
 	console.log(newdata);
-关于array.filter（）详细介绍：https://msdn.microsoft.com/zh-cn/library/ff679973(v=vs.94).aspx
+关于array.filter（）参数为(item,index,array)，故arguments[1]即表示各项的索引，而此处索引值刚好为原对象属性值。详细介绍：https://msdn.microsoft.com/zh-cn/library/ff679973(v=vs.94).aspx
 
 
 ### 2.（***CSS构图***）
@@ -107,6 +101,41 @@ Object.keys(oneObject)：返回对象oneObject的可枚举属性和方法的名�
 	    </body>
 	</html>
 
+第二次写：
+     
+   <head>
+	 <style type="text/css">
+	       #demo{
+	            width: 100px;
+	            height: 100px;
+	            border: 2px solid #000;
+	            position: relative;
+	       }
+	       #demo:before{
+	            position: absolute;
+	            content:"";
+	            top: 18px;
+	            left: 100px;
+	            border-left: 12px solid #000;
+	            border-top:12px solid transparent;
+	            border-bottom: 12px solid transparent; 
+	       }
+	        #demo:after{
+	            position: absolute;
+	            content:"";
+	            top: 20px;
+	            left: 100px;
+	            border-left: 10px solid #fff;
+	            border-top:10px solid transparent;
+	            border-bottom: 10px solid transparent; 
+	       }
+	    </style>
+	</head>
+	
+	<body>
+	    <div id="demo"></div>
+	<body>
+
 方法二：
 
            <!DOCTYPE html>            
@@ -152,7 +181,7 @@ Object.keys(oneObject)：返回对象oneObject的可枚举属性和方法的名�
 
 **补充知识：**
 
-1. left/top: 定义了定位元素**外边距边界**与其包含块边界之间的偏移。
+1. left/top: 定义了定位元素**外边距外边界**与其包含块**边框内侧边界**之间的偏移。即若该元素position为absolute,left为其父元素的**边框内侧**边界到该元素的**外边距外边界**。
 
 2. ：before/:after:为某元素添加:before/:after
 
@@ -179,7 +208,7 @@ Object.keys(oneObject)：返回对象oneObject的可枚举属性和方法的名�
 		border-top:10px solid transparent;//设置透明
 		border-bottom:10px solid transparent;
 
-	三角形 顶点在哪边 就 不设置哪边的border值 ，三角形向左或向右，则设置border的顶部和底部为相同像素的透明色。三角形的高则为像素的点素，即px值。
+	三角形不设内容width/height值，大小全有边框决定。 顶点在哪边 就 不设置哪边的border值 ，三角形向左或向右，则设置border的顶部和底部为相同像素的透明色。三角形的高则为像素的点素，即px值。这是，三角形的高为上下边框的宽度和，宽为左或右边框的宽度。
 	
 	方法二：
 	
@@ -191,7 +220,7 @@ Object.keys(oneObject)：返回对象oneObject的可枚举属性和方法的名�
 简述document.write和innerHTML的区别。
 
 **答案：**
-document.write只能重绘整个页面,
+document.write只能将内容加到页面下部,
 innerHTML可以重绘页面的一部分。
 
 ### 4.（***JavaScript理论***）
@@ -199,7 +228,7 @@ innerHTML可以重绘页面的一部分。
 
 **答案：**
 	
-1. 回调函数，这是异步编程最基本的方法。
+1. 回调函数，这是异步编程最基本的方法。（nodejs会用到很多）
 2. 事件监听，另一种思路是采用事件驱动模式。任务的执行不取决于代码的顺序，而取决于某个事件是否发生。
 3. 发布/订阅，上一节的"事件"，完全可以理解成"信号"。***待查资料***
 <http://www.codesec.net/view/190798.html>
@@ -463,8 +492,7 @@ D错。
 - hasOwnProperty()可判断该属性是否是自身属性，如果是则返回true,否则返回false;
 - in会判断对象是否有该属性，不管该属性是原型链属性还是自身属性，都返回true。
 
-***看到这里了***
-__________________________
+
 ### 6.（***JavaScript——ECMAScritpt***）
 在空白处填入适当的代码使输出结果成立。
 
@@ -703,18 +731,18 @@ IE支持，FIRFOX不支持
 - 支持innerText的浏览器有IE4+、Safari8+、Opera8+和Chrome。
 - **Firefox不支持innerText，但其支持类似的textContent属性**。故可用得到跨浏览器的代码：
 
-	function getInnerText(element) {
-	    return (typeof element.textContent=="String")? element.textContent: element.innerText;
-	}
-	
-	function setInnerText(element,text) {
-	    if (typeof element.textContent=="string") {
-	        element.textContent=text;
-	    }
-	    else{
-	        element.innerText=text;
-	    }
-	}
+		function getInnerText(element) {
+		    return (typeof element.textContent=="String")? element.textContent: element.innerText;
+		}
+		
+		function setInnerText(element,text) {
+		    if (typeof element.textContent=="string") {
+		        element.textContent=text;
+		    }
+		    else{
+		        element.innerText=text;
+		    }
+		}
 
 ***参见《JavaScript高级程序设计》P301***
 
@@ -726,7 +754,8 @@ IE支持，FIRFOX也支持。
 	2 document.createElement("<input>")
 	3 document.createElement("input")
 ###### Firefox只支持一种方式:
-	document.createElement("input");document.setAttribute(name,value);
+	document.createElement("input");
+    document.setAttribute(name,value);
 
 ***参见《JavaScript高级程序设计》P268***
 
@@ -737,9 +766,6 @@ IE支持，FIRFOX也支持。
 
 ***参见《JavaScript高级程序设计》P265***
 
-
-___________
-复习到这里
 
 ### 9.下面有关javascript内部对象的描述正确的是？
 
@@ -753,6 +779,7 @@ ___________
 History是window对象的属性，因此每个浏览器窗口、每个标签页、每个框架都有自己的history对象。<br>
 history对象包含用户（在浏览器窗口中）访问过的URL。只不过出于安全方面的考虑，无法得知浏览过的URL，可以在不知道URL的情况下后退和前进。<br>
 History对象的属性和方法：
+
 属性/方法|描述
 ---------|----
 length|返回历史记录数量，包括所有向前和向后的记录
@@ -762,6 +789,7 @@ go(number/URL)|在历史记录中任意跳转，或包含该字符串的最近�
 
 ##### Location对象
 包含有关当前URL的信息。window.location和document.location都可以访问它。
+
 属性|描述
 ----|----
 hash|   设置或返回从井号 (#) 开始的 URL（锚）。
@@ -785,7 +813,7 @@ Navigator对象包含有关浏览器的信息。现在已成为识别客户端�
 
 详见《JavaScript高级程序设计》P210
 
-### 9.假设当前屏幕分别率为1024×768，定义一个居中的占屏幕一半大小的表格的语句是。
+### 9.假设当前屏幕分别率为1024×768，定义一个居中的占屏幕一半大小的表格的语句是。***s2待研究***
 	A.<TABLE ALIGN=”CENTER” WIDTH=”50%”></TABLE>
 	B.<TABLE ALIGN=”CENTER” WIDTH=”512″></TABLE>
 	C.<DIV ALIGN=”CENTER”><TABLE WIDTH=”512″></TABLE></DIV>

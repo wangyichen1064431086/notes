@@ -1,5 +1,5 @@
 ### Chapter6笔记：面向对象的程序设计
-#### 1.ECMAScript内部直属性：数据属性和访问器属性
+#### 1.ECMAScript内部值属性：数据属性和访问器属性
 ##### 1）数据属性
 数据属性的4个特性：
 
@@ -8,7 +8,7 @@
 - writable:表示能否修改属性值。默认值true;
 - value:包含这个属性的数据值。读取属性值时，从这个位置读，写入属性值时，把新值保存在这个位置。默认值为undefined。
 
-可通过**Obejct.defineProperty（）**方法修改属性默认的特性。调用该方法时，如果不指定，configurabel、enumerable、writable默认值都为false。
+可通过**Obejct.defineProperty（）**方法修改属性默认的特性。**调用该方法时，如果不指定**，configurabel、enumerable、writable默认值都为false。
 
 	var person={};
 	
@@ -119,7 +119,7 @@ book对象上定义了两个数据属性（_year和edition)和一个访问器属
 	    person2.sayName();//"Greg"
 
 ###### 工厂模式缺点：
-虽然解决了创建多个相似对象的问题，确不能解决对象识别问题（这样创建的对象都仅仅是Object类型，没有一个具体类型名称）。
+虽然解决了创建多个相似对象的问题，却不能解决对象识别问题（这样创建的对象都仅仅是Object类型，没有一个具体类型名称）。
 
 ##### 2）构造函数模式
 ###### 与工厂模式的不同
@@ -161,7 +161,7 @@ book对象上定义了两个数据属性（_year和edition)和一个访问器属
 - 构造函数创建的实例既是Object实例，也是相应构造函数名称表示的类型实例（上例是Person实例）,可用instanceof检测。
 
 ###### 构造函数当作普通函数使用：
-**构造函数与其他函数的唯一区别：调用它们的方式不同。**
+构造函数与其他函数的**唯一区别：调用它们的方式不同。**
 
 任何函数，通过new操作符调用，就可作为构造函数；如果不通过new操作符调用，那跟普通函数没什么区别。
 
@@ -236,7 +236,7 @@ book对象上定义了两个数据属性（_year和edition)和一个访问器属
 
 
 ###### 理解原型对象
-***牢记《JavaScript高级程序设计》P148的图
+***牢记《JavaScript高级程序设计》P148的图***
 
 - 只要创建了一个新函数（包括构造函数），就会有一个prototype属性，这个属性指向函数的原型对象。
 - 原型对象会自动获得一个constructor属性，其包含一个指向构造函数的指针。原型对象的其他方法都是继承自Object。
@@ -244,7 +244,7 @@ book对象上定义了两个数据属性（_year和edition)和一个访问器属
 - 实例无法访问到[[prototype]] (__prototype__属性除外），可通过 
 isPrototypeOf()方法确定原型对象是否是实例的[[prototype]]
 - Object.getPrototypeOf()方法可以返回实例[[prptotype]]的值。
-- 实测结果，Object.getPrototypeOf(person1)、Person.prototype、person1.__proto__三者内容是一样的。但用==测试，Object.getPrototypeOf(person1)和Person.prototyp为true；person1.__proto__与前两个值不等。
+- 实测结果，Object.getPrototypeOf(person1)、Person.prototype、person1.__proto__三者内容是一样的。但用==测试，Object.getPrototypeOf(person1)和Person.prototype之间==为true；person1.__proto__与前两个值不等。
 
 		console.log(Person.prototype.isPrototypeOf(person1));//true
 		console.log(Person.prototype.isPrototypeOf(person2));//true
