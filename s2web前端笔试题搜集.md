@@ -130,6 +130,20 @@
 	}
 	
 	console.log(to2(302));
+
+最新写法：
+	function reverseTo2(n) {
+	    var r="";
+	    while (n) {
+	        var t=n%2;
+	        n=Math.floor(n/2);
+	        r=t+r;
+	    }
+	    return r;
+	}
+	
+	console.log(reverseTo2(302));
+
 ***注意！！：***
 
 与C不同，js两个整数相除会得到小数，要实现C一样的效果就需要把结果向下取整。向下取整方法有
@@ -221,7 +235,7 @@ sort（）对数组就地重排序。排序时，sort()会调用每个数组项�
 			console.log(isNaN(false));//false,false转换为0
 
 #### 7.JS中调用某个函数之前，如何知道该函数最多可以传递多少个参数？该函数被调用时，如何知道传了多少个参数过来？
-**答案：** 函数名.length就是它最多能接受的参数个数（***待研究求证***）
+**答案：** 函数名.length就是它最多能接受的参数个数
 
 arguments.length就是已经传递过来的参数个数。
 
@@ -266,8 +280,8 @@ HttpWatch也可以集成到火狐浏览器中。
 
 	var dom=document.getElementsByTagName("body")[0];//可换成document.body
 	
-	dom.onclick=function(){
-	    var event= event?event:window.event;
+	dom.onclick=function(event){
+	    event= event?event:window.event;
 	    var getTarget=event.target?event.target:event.srcElement;
 	    alert(getTarget.tagName);
 	}
@@ -809,6 +823,7 @@ script标签的defer属性。表名脚步在执行时不会影响页面的构造
 #### 8. 完成一个正则表达式，验证用户输入是否身份证号码。
 
 	var pattern=/^[0-9]{17}[0-9X]$/;
+	//也可为var partern=/^[0-9]{17}(([0-9])|(X))$/;
 	console.log(pattern.test("420602199201231548"));
 
 ### 3. 腾讯web前端开发方向实习笔试需要准备什么？
@@ -1367,3 +1382,51 @@ border:none表示边框样式无。border:0表示边框宽度为0。
 定义边框时，必须定义边框的显示样式。因为边框默认样式为不显示none,所以如果仅设置边框宽度，由于样式不存在，边框的宽度也会被自动设置为0。
 
 #### 18.使用重构的方式制作出一个如下图的水平、垂直都居中短边为50px，长边为150px的红色十字架。
+
+## 最新
+#### 1.輸出蛇形矩陣
+參見<http://blog.csdn.net/todd911/article/details/7926042>
+
+	#include<stdio.h>
+	#include<stdlib.h>
+	
+	void main(){
+	    int n;
+	    scanf("%d",&n);
+	    int count=1;
+	    int x,y,round;
+	    
+	    int (*a)[n]=(int *)malloc(n*n*size(int));
+	    
+	    if(n==1){
+	        a[0][0]=count;
+	    }
+	    else{
+	        for(round=0;round<n/2;round++){
+	            x=round;
+	            for(y=round;y<n-round;y++){
+	                a[x][y]=count;
+	                count++;
+	            }
+	            for(x=round+1;x<n-round;x++){
+	                 a[x][y]=count;
+	                count++;
+	            }
+	            for(y=n-round-1;y>=round;y--){
+	                a[x][y]=count;
+	                count++;
+	            }
+	            for(x=n-round-2;x>round;x-->){
+	                a[x][y]=count;
+	                count++;
+	            }
+	        }
+	    }
+	    for(x=0;x<n;x++){  
+	        for(y=0;y<n;y++){  
+	            printf("%d ",a[x][y]);  
+	        }  
+	        printf("\n");  
+	    }  
+	    printf("\n");  
+	}

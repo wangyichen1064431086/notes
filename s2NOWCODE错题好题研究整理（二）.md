@@ -598,8 +598,838 @@ D错。
 			console.log(isNaN("abc"));//true,"abc"转换为NaN
 			console.log(isNaN(true));//false,true转换为1
 
-### 20.待整理
-### 21.待整理
+### 20.请写一个表格以及对应的CSS，使表格奇数行为白色背景，偶数行为灰色背景，鼠标移上去时为黄色背景。
+	
+	<html>
+	    <head>
+	        <title>Frameset Example</title>
+	        <style type="text/css">
+	            tr:nth-child(2n+1){
+	              background-color: white;
+	            }
+	            tr:nth-child(2n){
+	                background-color: gray;
+	            }
+	            tr:hover{
+	                background-color: yellow;
+	            }
+	        </style>
+	    </head>
+	
+	    <body>
+	        <table>
+	            <tr><th>1</th><td>a</td><td>b</td><td>c</td></tr>
+	            <tr><th>2</th><td>a</td><td>b</td><td>c</td></tr>
+	            <tr><th>3</th><td>a</td><td>b</td><td>c</td></tr>
+	            <tr><th>4</th><td>a</td><td>b</td><td>c</td></tr>
+	            <tr><th>5</th><td>a</td><td>b</td><td>c</td></tr>
+	            <tr><th>6</th><td>a</td><td>b</td><td>c</td></tr>
+	        </table>
+	    </body>
+	</html>
+
+**知识点补充：**
+
+- p:nth-child(n)————匹配位于其父元素的第n个元素的p元素,而非p元素的第n个子元素。
+
+- p:nth-child(odd/even)——匹配位于其父元素的所有第奇数或偶数个元素的p元素。
+
+- p:nth-child(2n+1/2n/3n+0)——匹配位于其父元素的所有第奇数或偶数或3的倍数个元素的p元素。
+
+- p:hover——匹配鼠标指针位于其上的元素
+
+### 21.写一个traverse函数，输出所有页面宽度和高度大于50像素的节点。
+写法一：
+
+   	function traverse() {
+            var elems=document.querySelectorAll("body *");
+            var rel=new Array();
+            for (var i=0,len=elems.length;i<len;i++) {
+                if (document.defaultView.getComputedStyle(elems[i]).width.slice(0,-2)>50&document.defaultView.getComputedStyle(elems[i]).height.slice(0,-2)>50) {
+                    rel.push(elems[i]);
+                }
+            }
+            return rel;
+        }
+    console.log(traverse());
+
+写法二：递归（该法仅打印出来了元素，未返回结果）
+
+        function traverse(root,callback) {
+            callback(root);
+            var list=root.children;
+            for (var i=0,len=list.length;i<len;i++) {    
+              traverse(list[i],callback);
+            }
+        }
+        function outputrel(elem) {
+            if (document.defaultView.getComputedStyle(elem).width.slice(0,-2)>50&&document.defaultView.getComputedStyle(elem).height.slice(0,-2)>50) {
+                console.log(elem);
+            }
+        }
+        
+        traverse(document.body,outputrel);
+## 二、阿里巴巴前端笔试题（一）
+<http://www.nowcoder.com/profile/737314/test/2398703/25289#summary>
+### 4.浏览器在一次 HTTP 请求中，需要传输一个 4097 字节的文本数据给服务端，可以采用那些方式?
+	A.存入 IndexdDB
+	B.写入 COOKIE
+	C.放在 URL 参数
+	D.写入 Session
+	E.使用 POST
+	F.放在 Local Storage
+
+**答案：** E
+
+**解析：**
+- IndexedDB：在浏览器中保存结构化数据的数据库
+- cookie:大多数浏览器都有大约4096B(即4kB)的长度限制。
+- url 参数：用的是 get 方法，从服务器上获取数据，大小不能大于 2 kb 。
+- Session 是服务器端使用的一种记录客户端状态的机制 。
+- post 是向服务器传送数据，数据量较大。
+- localStorage:HTML5规范中的持久保存客户端数据的方案。
+
+### 5.下面哪个属性不会让 div 脱离文档流（normal flow）？
+
+	A.position: absolute;
+	B.position: fixed;
+	C.position: relative;
+	D.float: left;
+
+**答案：** C
+
+在css的定位机制有三种，分别是1：文档流，2：浮动（float），3定位（position）
+
+文档流的意义就是按照HTML里面的写法就是从上到下，从左到右的排版布局;float（浮动）和position（定位）分别由属性float和position决定。
+
+- A：position: absolute;
+生成绝对定位的元素，相对于 static 定位以外的第一个父元素进行定位；都绝对定位了，肯定脱离了文档流。。
+- B:position: fixed;
+生成绝对定位的元素，相对于浏览器窗口进行定位;相对于浏览器了，也和正常顺序排下来没什么关系。。
+- C:position: relative;
+生成相对定位的元素，相对于其正常位置进行定位。生成相对定位，也就是说还在原本的上下左右之间，上下左右的元素都不变，故没有能脱离文档流。
+- D:float: left;float 属性定义元素在哪个方向浮动，此处向左浮动故离开了文档流。
+
+### 6.填写内容让下面代码支持a.name = “name1”; b.name = “name2”。
+
+	function obj(name){
+	   (1) 
+	}
+	obj. (2)= "name2";
+	var a = obj("name1");
+	var b = new obj;
+**答案：** 
+（1）if(name){this.name=name};return this;
+(2)prototype.name
+
+**解析：**
+
+	function obj(name) {
+	    if (name) {
+	        this.name=name;
+	    }
+	    return this;
+	}
+	obj.prototype.name="name2";
+	var a=obj("name1");
+	var b=new obj;
+	
+	console.log(a.name);//name1
+	console.log(b.name);//name2
+	console.log(window.name);//name1
+
+1. var b=new obj等于var b=new obj()
+2. 必须要加上if(name)，否则b因为没有参数传入故b.name为undefined
+3. 一般函数直接调用，this执行全局window。通过obj("name1")调用，返回this引用即为window,并传给a,故此时a等于window对象。可输出属性name。
+
+变体1：
+
+	function obj(name) {
+	    //if (name) {
+	        this.name=name;
+	    //}
+	    return this;
+	}
+	obj.prototype.name="name2";
+	var a=obj("name1");
+	var b=new obj();
+	
+	console.log(a.name);//name1
+	console.log(b.name);//undefined
+	console.log(window.name);//name1
+
+变体2：
+
+	function obj(name) {
+	    //if (name) {
+	        this.name=name;
+	    //}
+	    return this;
+	}
+	obj.prototype.name="name2";
+	var a=obj("name1");
+	var b=new obj();
+	delete b.name;
+	
+	console.log(a.name);//name1
+	console.log(b.name);//name2
+	console.log(window.name);//name1
+delete操作符可以删除实例属性，从而可以重新访问原型属性。
+
+变体3：
+
+	function obj(name) {
+	    //if (name) {
+	        this.name=name;
+	    //}
+	    return this;
+	}
+	obj.prototype.name="name2";
+	var a=obj("name1");
+	var b=new obj("name3");
+	
+	console.log(a.name);//name1
+	console.log(b.name);//name3
+	console.log(window.name);//name1
+
+### 7.输出对象中值大于2的key的数组
+	var data = {a: 1, b: 2, c: 3, d: 4};
+	Object.keys(data).filter(function(x) { return (1) ;})
+期待输出：[“c”,”d”]
+
+**答案：**
+
+	var data={a:1,b:2,c:3,d:4};
+	
+	var rel=Object.keys(data).filter(function(x){
+	    return data[x]>2;    
+	})
+	
+	console.log(rel);//["c", "d"]
+解析详见本文一、1.
+
+### 8.请实现一个fibonacci函数
+
+方法一：递归
+
+	function getNthFibonacci(count) {
+	    if (count>=0&&Math.floor(count)==count) {
+	        if (count<=1) {
+	            return 1;
+	        }
+	        else{
+	            return arguments.callee(count-1)+arguments.callee(count-2);
+	        }   
+	    }
+	    else{
+	        return null;
+	    }
+	    
+	}
+	
+	console.log(getNthFibonacci(2));
+
+方法二：迭代
+
+	function getNthFibonacci(count) {
+	    if (count==0||count==1) {
+	        return 1;
+	    }
+	    else{
+	        var n0=1,n1=1,n2=2;
+	        for (var i=2;i<=count;i++) {
+	            n0=n1;
+	            n1=n2;
+	            n2=n0+n1;
+	        }
+	        return n2;
+	    }
+	}
+	
+	console.log(getNthFibonacci(2));
+
+### 9.
+
+	<html>
+	    <head>
+	        <title>Frameset Example</title>
+	        <style type="text/css">
+	           #myheader{
+	                position: relative;
+	                margin: 5px;
+	                height:100px;
+	                border: thin solid green;
+	            }
+	           #logo{
+	                position: absolute;
+	                top: 10px;
+	                left: 10px;
+	                height: 80px;
+	                width: 80px;
+	                border: thin solid red;
+	            }
+	            #username{
+	                position: absolute;
+	                height: 20px;
+	                width: 120px;
+	                top: 70px;
+	                right: 10px;/*right定位要写在width的后面*/
+	                text-align: right;
+	                border: thin solid black;
+	            }
+	       
+	            #aside{
+	                float: right;
+	                width: 200px;
+	                height:20px;
+	                margin: 5px;
+	                border: thin solid red;
+	            }
+	            #content{
+	               
+	                height: 500px;
+	                margin: 5px;
+	                margin-top: 10px;
+	                margin-right: 220px;
+	                border: thin solid blue;
+	            }
+	            #myfooter{
+	                margin: 5px;
+	                height: 20px;
+	                text-align: center;
+	                border: thin solid black;
+	            }
+	        
+	        </style>
+	    </head>
+	
+	    <body>
+	       <div id="myheader">
+	            <div id="logo">
+	                logo
+	            </div>
+	            <div id="username">
+	               用户名
+	            </div>
+	       </div>
+	  
+	        <div id="aside">
+	            aside-定宽200px
+	        </div>
+	        <div id="content">
+	            content-自适应宽度
+	        </div>
+	           
+	      
+	       <div id="myfooter">
+	            footer
+	       </div>
+	    </body>
+	</html>
+
+注意：
+1. margin可能重合
+2. 以right定位的块，要先设置width，再设置rightz值。
+
+## 三、阿里巴巴2011前端笔试题
+### 2.请说明下面各种情况的执行结果，并注明产生对应结果的理由。
+
+	function doSomething() {
+	    alert(this);
+	}
+1. element.onclick = doSomething，点击element元素后。
+2. element.onclick = function() {doSomething()}， 点击element元素后。
+3. 直接执行doSomething()。
+
+**答案：**
+
+		function doSomething() {
+		    alert(this);
+		}
+		var element=document.getElementById("mydiv");
+		 element.onclick = doSomething;//object Element
+		 
+		 element.onclick = function(){
+		    doSomething();//object Window
+		 }
+		 
+		 doSomething();//object Window
+
+1. 弹出element object，通过函数赋值方式，this直接指向element对象
+2. 弹出window object，this是写在doSomething这个函数里面的，而这种方式的事件绑定写法并没有将element对象传递给this，而在默认情况下this指向window
+3. 弹出window object，没有绑定对象的情况下this默认指向window
+
+
+### 4.请根据下面的HTML和CSS代码，画出布局示意图
+	
+	<html>
+	    <head>
+	        <title>Frameset Example</title>
+	        <style type="text/css">
+	            #page { width: 520px; }
+	            .nav  { width: 200px; float: right; }
+	            .main { width: 200px; float: left; padding-left: 110px; }    
+	            .sub  { width: 100px; float: left; margin: 10px 0 10px -100px; }    
+	            .main { border: 1px solid #000; }
+	            .nav, .sub { border: 1px dashed #000; height: 300px; }    
+	            .sub { height: 280px; }
+	        </style>
+	    </head>
+	
+	    <body>
+	       <div id="page">
+	        <div class="main">
+	            <div class="sub"></div>
+	        </div>
+	        <div class="nav"></div>
+	    </div>
+	
+	</html>
+
+注意：
+1. float是在父元素的内容区域浮动，若父元素有padding,则在除去padding部分的部分浮动。
+2. float就是离开文档流了，和同级元素没关系，就是以父元素为标准浮动，无论父元素本身是如何定位的。
+
+### 5.阅读以下JavaScript代码：
+
+	if (window.addEventListener) {
+	       var addListener = function(el, type, listener, useCapture) {
+	           el.addEventListener(type, listener, useCapture);
+	       };
+	   } else if (document.all) {
+	       addListener = function(el, type, listener) {
+	           el.attachEvent("on" + type, function() {
+	               listener.apply(el);
+	           });
+	       };
+	   }
+
+请阐述 a) 代码的功能; b) 代码的优点和缺点; c) listener.apply(el) 在此处的作用; d) 如果有可改进之处，请给出改进后的代码，并说明理由。
+
+**答案：**
+
+- a)代码功能：
+
+	写出能兼容IE8以前的浏览器和其他浏览器的事件绑定程序。
+- b)代码优缺点分析：
+	- 代码优点：
+		
+		考虑了DOM2级事件绑定程序写法和IE事件绑定程序写法。
+	- 代码缺点：
+		- 第二个条件中的addListener方法应该加上var，否则会成为全局函数。
+		- 未考虑其他既不支持addEventListener,也不支持attachEvnet的浏览器
+		- 两种条件定义的addListener方法的参数不一样
+- c)listener.apply(el)的作用是：
+	将该函数作用域指向el元素，如不这样，其外部匿名函数的作用域指向的是window，故其会指向window而非调用它的元素。
+
+- d)改进方法：
+
+
+### 6.尝试实现注释部分的Javascript代码，可在其他任何地方添加更多代码（如不能实现，说明一下不能实现的原因）：
+
+	var Obj = function(msg){
+	    this.msg = msg;
+	    this.shout = function(){
+	        alert(this.msg);
+	    }  
+	    this.waitAndShout = function(){
+	        //隔五秒钟后执行上面的shout方法
+	    }
+	}
+
+**答案：**
+
+	var Obj = function(msg){
+	    this.msg = msg;
+	    this.shout = function(){
+	        alert(this.msg);
+	    }    
+	    this.waitAndShout = function(){
+	        var that = this;
+	        setTimeout(
+	            function(){
+	                console.log(this);//window
+	                console.log(that);//obj
+	                that.shout();
+	            },
+	            5000
+	        );
+	        //隔五秒钟后执行上面的shout方法
+	    }
+	}
+	var Obj1=new Obj("shouting");
+	Obj1.waitAndShout();
+
+**注意：**
+
+每个函数在调用时都会自动取得两个特殊变量:this和arguments。内部函数在搜索这两个变量时，只会搜索到其活动对象为止，因此永远不可能直接访问外部函数中的这两个变量。
+
+故本题中setTimeout本来就是window.setTimeout，故其中的this指向的是window，其无法直接访问到外部环境的this，故要将外部环境的this赋值给that用以传递该值。
+
+### 8.请编写一个JavaScript函数，它的作用是校验输入的字符串是否是一个有效的电子邮件地址。要求： a)   使用正则表达式。 b)   如果有效返回true ，反之为false。
+
+	var pattern=/^\w+@\w+\.com(\.cn)?$/;
+
+	var mail="wang_123wyichen123@163.com";
+	
+	console.log(pattern.test(mail));
+**解析：**
+
+电子邮件格式有:xxxx@xxx.com和xxx@xxx.com.cn这样的两种类型
+
+\w查找单词字符包括 大小写字母、数字、下划线
+
+### 9.请分别列出HTML、JavaScript、CSS、Java、php、python的注释代码形式。
+**答案：**
+
+	 HTML:<!-- -->
+	JavaScript:// 或/**/
+	CSS:/**/
+	Java://或/**/
+	PHP://或/**/
+
+### 11.请编写一段JavaScript脚本生成下面这段DOM结构。要求：使用标准的DOM方法或属性。
+
+	<div id=”example”>  
+	    <p class=”slogan”>淘！你喜欢</p>
+	</div>
+
+**答案：**
+
+	window.onload=function(){
+	    var mydiv=document.createElement("div");
+	    mydiv.id="example";
+	    var myp=document.createElement("p");
+	    myp.appendChild(document.createTextNode("淘!你喜欢"));
+	    myp.className="slogan";
+	    mydiv.appendChild(myp);
+	    document.body.appendChild(mydiv);
+	};
+
+### 12.请用CSS定义p标签，要求实现以下效果: 字体颜色在IE6下为黑色(#000000)；IE7下为红色(#ff0000)；而其他浏览器下为绿色(#00ff00)。
+**答案：**
+
+详见<http://www.phpstudy.net/css3/>
+
+方法一：条件hack
+
+      <style type="text/css">
+            .test{
+                color: #00ff00;
+            }
+        </style>
+        <!--[if lte IE 7]>
+            <style>
+                .test{
+                    color: #ff00000;
+                }
+            </style>
+        <![endif]-->
+        <!--[if lte IE 6]>
+            <style>
+                .test{
+                    color: #000000;
+                }
+            </style>
+        <![endif]-->
+
+方法二：属性hack
+
+	     .test{
+            color: #00ff00;/*其他浏览器*/
+            *color:#ff0000;/*IE7及以下*/
+            _color: #000000;/*IE6及以下*/
+           }
+方法三：选择符hack
+
+   	 <style type="text/css">
+            .test{
+                color: #00ff00;
+            }
+            *+html .test{
+                color: #ff0000;/*IE7及之前版本*/
+            }
+            *html .test{
+                color: #000000;/*IE6及之前版本*/
+            }
+        </style>
+
+### 13.当没有获取焦点时，显示灰色的提示信息：  
+当用户输入时，隐藏提示文字，且恢复为默认色：  
+当输入框失去焦点，如果输入为空，需还原提示信息：  
+要求： a) 写出HTML和CSS代码 b) 用JavaScript实现功能
+
+**答案：**
+
+方法一：使用input的value属性
+
+	
+    <body>
+       <form>
+            <input type="text" value="请输入内容">
+       </form>
+    </body>
+    <script>
+
+            var myinput=document.forms[0].elements[0];
+            myinput.style.setProperty("color","gray");
+            myinput.onfocus=function(e){
+                e.target.value="";
+                e.target.style.setProperty("color","black");
+            }
+            myinput.onblur=function(e){
+                if (e.target.value=="") {
+                    e.target.value="请输入内容";
+                    e.target.style.setProperty("color","gray");
+                }
+            }
+
+    </script>
+
+方法二：使用input的placeholder属性
+
+   	
+	<body>
+       <form>
+            <input type="text" placeholder="请输入内容">
+       </form>
+    </body>
+    <script>
+            var myinput=document.forms[0].elements[0];
+            myinput.style.setProperty("color","gray");//可以不要，placeholder本来就是灰色，无法变色
+            myinput.onfocus=function(e){
+                e.target.placeholder="";
+                e.target.style.setProperty("color","black");//可以不要，内容默认就是灰色
+            }
+            myinput.onblur=function(e){
+                if (e.target.value=="") {
+                    e.target.placeholder="请输入内容";
+                    e.target.style.setProperty("color","gray");
+                }
+            }
+
+    </script>
+	
+
+**注意：**
+
+不能加上window.onload=function(){}，因为onload只是在文档加载完的那一刻绑定的事件。
+
+### 14.
+
+方法一：字符串的replace方法用正则匹配替换
+
+	String.prototype.trim=function(){
+	    var rel=this.replace(/(^\s+)|(\s+$)/g,"");//g带不带都可以
+	    return rel;
+	}
+	console.log(" taobao ");
+	console.log(" taobao  ".trim());
+
+方法二：字符串的indexOf和lastIndexOf方法
+
+	String.prototype.trim=function(){
+	    var rel=this;
+	    while (rel.indexOf(" ")==0) {
+	        rel=rel.slice(1);
+	    }
+	    while (rel.lastIndexOf(" ")==rel.length-1) {
+	        rel=rel.slice(0,-1);
+	    }
+	    return rel;
+	}
+	var str=" taobao  ";
+	console.log(str.length);
+	var rel=str.trim();
+	console.log(rel.length);
+注意：indexOf和lastIndexOf找出的最后一个字符的位置不是-1,而是str.length-1
+
+### 15.请编写一个JavaScript函数 parseQueryString，它的用途是把URL参数解析为一个对象，如：
+
+	var url = “http://www.taobao.com/index.php?key0=0&key1=1&key2=2.....”
+	var obj = parseQueryString(url);
+	alert(obj.key0)  // 输出0
+
+**答案：**
+
+	function parseQueryString(url) {
+	    if (url.indexOf("?")!=-1) {
+	        var arr1=url.split("?");
+	    }
+	    var arr2=arr1[1];
+	    var arr3;
+	    if (arr2.indexOf("&")!=-1) {
+	        arr3=arr2.split("&");
+	    }
+	    else{
+	        arr3=arr2;
+	    }
+	    var obj=new Object();
+	    for (var i=0,len=arr3.length;i<len;i++) {
+	        var arr4=arr3[i].split("=");
+	        var name=arr4[0],value=arr4[1];
+	        obj[name]=value;
+	    }
+	    return obj;
+	}
+	
+	var url ="http://www.taobao.com/index.php?key0=0&key1=1&key2=2";
+	var obj = parseQueryString(url);
+	alert(obj.key1)  // 输出0
+
+### 16.根据下图，编写HTML结构。要求：符合xHTML 1.0规范。
+
+	 <table border="1" cellPadding="0" style="text-align: center" cellSpacing="0">
+	        <thead>
+	            <tr>
+	                <th>国家</th><th>网站名</th><th>URL</th><th>Alexa排名</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr>
+	                <td>中国</td><td>淘宝网</td><td>www.taobao.com</td><td>38</td>
+	            </tr>
+	            <tr>
+	                <td rowspan="2">美国</td>
+	                <td>Ebay</td><td>www.ebay.com</td><td>22</td>
+	            </tr>
+	            <tr>
+	                <td>Amazon</td><td>www.amazon.com</td><td>27</td>
+	            </tr>
+	        </tbody>
+	        <tfoot>
+	            <tr>
+	                <td colspan="4" style="text-align: right">Alexa.com提供数据</td>
+	            </tr>
+	        </tfoot>
+	    </table>
+
+### 17.请指出下面代码中不符合xHTML 1.0规范的地方，说明理由，并写出改善后的代码：
+
+	<h1><p>小明的表白</p></h1>
+	<dl>
+	        <dt><p><div>小明说：</div></p></dt>
+	        <dd>”淘宝网，<i>天天上</i>。”</dd>
+	        <dd><b>”淘我喜欢！” </b></dd>
+	</dl>
+
+**答案：**
+
+不合规范的有：
+1. h1中间不应该再有p，因为h1不能包含其他块级元素
+2. dt不应该包含p和div,因为dt元素内不能包含其他块级元素
+3. p内部不应该再有div，因为p不能包含其他块级元素
+4. b和i已经废弃了,因为其不符合语义化，要换用strong和em
+
+修改为：
+
+	<h1>小明的表白</h1>
+	<dl>
+	        <dt>小明说：</dt>
+	        <dd>”淘宝网，<em>天天向上</en>。”</dd>
+	        <dd><strong>”淘我喜欢！” </strong></dd>
+	</dl>
+
+### 18.请把以下用于连接字符串的JavaScript代码修改为更有效率的方式
+
+	var htmlString =
+	    "<div class=”container”>" + "<ul id=”news-list”>";
+	for (var i = 0; i < NEWS.length; i++) {
+	    htmlString += "<li><a href=”"
+	        + NEWS[i].LINK + ">"
+	        + NEWS[i].TITLE + "</a></li>";
+	}
+	htmlString += "</ul></div>";
+
+**答案：**
+
+	var liarr=new Array();
+	var t ="<div class=\"container\">" + "<ul id=\"news-list\">";
+	liarr.push(t);
+	
+	for (var i = 0,len=NEWS.length; i < len; i++) {
+	   var value=NEWS[i];
+	   var t="<li><a href=\""+ value.LINK + ">"+ value.TITLE + "</a></li>";
+	   liarr.push(t);
+	}
+	
+	liarr.push("</ul></div>");
+	
+	var htmlString=liarr.join("");
+
+### 20.请根据下面的描述，用JSON语法编写一个对象: “小明今年22岁，来自杭州。兴趣是看电影和旅游。他有两个姐姐，一个叫小芬，今年25岁，职业是护士。还有一个叫小芳，今年23岁，是一名小学老师。” 
+
+	var persons={
+	    "name":"小明",
+	    "age":22,
+	    "from":"HangZhou",
+	    "interesting":["movie","swimming"],
+	    "sisters":[
+	        {
+	            "name":"小芬",
+	            "age":25,
+	            "work":"nurse"
+	        },
+	        {
+	            "name":"小芳",
+	            "age":23,
+	            "work":"primary teacher"
+	        }
+	    ]
+	}
+
+### 24.根据下图，编写HTML结构。要求：遵循xHTML 1.0规范且符合Web语义。 
+
+	<body>
+        <form action="" name="" method="post">
+            <p>您的基本信息</p>
+            <p>
+                <label for="name">
+                    姓名:
+                    <input id="name" name="name"/>
+                </label>
+            </p>
+            <p>
+                <label for="gender">
+                    性别：
+                    <select id="gender" name="gender">
+                        <option value="1" label="男"/>
+                        <option value="2" label="女"/>
+                    </select>
+                </label>
+            </p>
+            <p>设置密码</p>
+            <p>
+                <label for="password">
+                    密码：
+                    <input id="password" type="password"/>
+                </label>
+            </p>
+            <p>
+                <label for="password">
+                    再输一遍：
+                    <input id="password" type="password"/>
+                </label>
+            </p>
+            
+            <p>
+                <button type="submit">
+                    确定
+                </button>
+                <button type="reset">
+                    取消
+                </button>
+            </p>
+        </form>
+        
+
+### 21.请改善以下HTML代码，使其符合xHTML 1.0规范
+
+	<A id='go-home' href='http://www.taobao.com'   
+	    onClick='doSomething();'>  
+	    <IMG src="http://www.taobao.com/logo.png">  
+	</A>
+
 
 ## 三、来自腾讯2015春招web前端开发练习卷
 

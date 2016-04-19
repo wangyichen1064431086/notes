@@ -873,11 +873,14 @@
 
 ## 二）查找
 
-### 1.二分法查找
+### 1.线性表的查找
+#### 1.顺序查找
+时间复杂度： O(n)
+
+#### 2.折半查找/二分法查找
 时间复杂度： O(logn)
 
 	#include<stdio.h>
-	#include<stdlib.h>
 	void ErfenSearch(int *list,int n,int x,int *index)
 	{
 		int low,high,k;
@@ -930,7 +933,316 @@
 		system("pause");
 	}
 
-### 四）经典编程题
+第二次写：
+
+	#include<stdio.h>
+	
+	int Binary_Search(int *list,int n,int key)
+	{
+		int low,high,mid,flag;
+		low=0;
+		high=n-1;
+		flag=0;
+		while(low<=high)
+		{
+			mid=(low+high)/2;
+			if(list[mid]==key)
+			{
+				flag=mid;
+				break;
+			}
+			else if(key<list[mid])
+			{
+				high=mid-1;
+			}
+			else
+			{
+				low=mid+1;
+			}
+		}
+		return flag;
+	
+	}
+	
+	void main()
+	{
+		int list[10],i,f;
+		printf("输入一个顺序存储的数组:\n");
+		for(i=0;i<10;i++)
+		{
+			scanf("%d",&list[i]);
+		}
+		f=Binary_Search(list,10,25);
+		printf("%d",f);
+	
+		system("pause");
+	}
+
+#### 3.分块查找
+
+### 2.树表的查找
+
+#### (1)二叉排序树的查找
+
+	#include<stdio.h>
+	#include<stdlib.h>
+
+	typedef struct BSNode
+	{
+		int data;
+		struct BSNode *lchild,*rchild;
+	}BSNode,*BSTree;
+	
+	int SearchData(BSNode *t,BSNode **p,BSNode **q,int key)//在二叉树上查找数据域为key的元素，若找到则返回1，否则返回0
+	{
+		int flag=0;
+		*q=t;
+		while(*q)
+		{
+			if(key>(*q)->data)
+			{
+				*p=*q;
+				*q=(*q)->rchild;
+			}
+			else if(key<(*q)->data)
+			{
+				*p=*q;
+				*q=(*q)->lchild;
+			}
+			else
+			{
+				flag=1;
+				break;
+			}
+		}
+		return flag;
+	}
+	int InsertNode(BSNode **t,int key)//二叉排序树插入节点
+	{
+		BSNode *p,*q,*s;
+		int flag;
+		flag=0;
+		p=*t;
+		if(!SearchData(*t,&p,&q,key))
+		{
+			s=(BSNode *)malloc(sizeof(BSNode));
+			s->data=key;
+			s->lchild=NULL;
+			s->rchild=NULL;
+			flag=1;
+			if(!p)
+			{
+				*t=s;
+			}
+			else if(key>p->data)
+			{
+				p->rchild=s;
+			}
+			else
+			{
+				p->lchild=s;
+			}
+			
+	
+		}
+		return flag;
+	
+	}
+	
+	void creatBST(BSTree *T)//创建二叉排序树
+	{
+		int key;
+		*T=NULL;
+		scanf("%d",&key);
+		while(key!=-1)
+		{
+			InsertNode(T,key);
+			scanf("%d",&key);
+		}
+	
+	}
+	
+	void printBST(BSTree T)
+	{
+		BSNode *p=T;
+		int d;
+		if(p)
+		{
+			d=p->data;
+			printBST(p->lchild);
+			printf("%d",d);
+			printBST(p->rchild);
+		}
+	}
+	void main()
+	{
+		BSTree myTree=(BSNode *)malloc(sizeof(BSNode));
+		creatBST(&myTree);
+	
+		printBST(myTree);
+	
+		system("pause");
+	
+	}
+
+也可以这么写：
+
+	#include<stdio.h>
+	#include<stdlib.h>
+	
+	typedef struct BSNode
+	{
+		int data;
+		struct BSNode *lchild,*rchild;
+	}BSNode,*BSTree;
+	
+	int SearchData(BSTree t,BSTree *p,BSTree *q,int key)//在二叉树上查找数据域为key的元素，若找到则返回1，否则返回0
+	{
+		int flag=0;
+		*q=t;
+		while(*q)
+		{
+			if(key>(*q)->data)
+			{
+				*p=*q;
+				*q=(*q)->rchild;
+			}
+			else if(key<(*q)->data)
+			{
+				*p=*q;
+				*q=(*q)->lchild;
+			}
+			else
+			{
+				*p=*q;
+				flag=1;
+				break;
+			}
+		}
+		return flag;
+	}
+	int InsertNode(BSTree *t,int key)//二叉排序树插入节点
+	{
+		BSNode *p,*q,*s;
+		int flag;
+		flag=0;
+		p=*t;
+		if(!SearchData(*t,&p,&q,key))
+		{
+			s=(BSNode *)malloc(sizeof(BSNode));
+			s->data=key;
+			s->lchild=NULL;
+			s->rchild=NULL;
+			flag=1;
+			if(!p)
+			{
+				*t=s;
+			}
+			else if(key>p->data)
+			{
+				p->rchild=s;
+			}
+			else
+			{
+				p->lchild=s;
+			}
+			
+	
+		}
+		return flag;
+	
+	}
+	
+	void creatBST(BSTree *T)//创建二叉排序树
+	{
+		int key;
+		*T=NULL;
+		scanf("%d",&key);
+		while(key!=-1)
+		{
+			InsertNode(T,key);
+			scanf("%d",&key);
+		}
+	
+	}
+	
+	void printBST(BSTree T)//中序遍历二叉排序树，即得到一个从小到大的排序
+	{
+		BSNode *p=T;
+		int d;
+		if(p)
+		{
+			d=p->data;
+			printBST(p->lchild);
+			printf("%d\t",d);
+			printBST(p->rchild);
+		}
+	}
+	
+	int DeleteNode(BSNode **t,int key)//删除节点，还有问题。
+	{
+		BSNode *p,*q,*s,**f;
+		int flag=0;//标记是否删除成功
+		p=*t;
+		if(SearchData(*t,&p,&q,key))
+		{
+			flag=1;
+			if(p==q)//若待删节点为根节点
+			{
+				f=t;
+			}
+			else
+			{
+				f=&(p->lchild);
+				if(key>p->data)
+				{
+					f=&(p->rchild);
+				}
+			}
+			if(!q->rchild)//若待删节点无右子树，以左子树替换待删节点
+			{
+				*f=q->lchild;
+			}
+			else if(!q->lchild)//若待删节点无左子树，以右子树替换待删节点
+			{
+				*f=q->rchild;
+			}
+			else//若待删节点既有左子树又有右子树
+			{
+				p=q->rchild;
+				s=p;
+				while(p->lchild)
+				{
+					s=p;
+					p=p->lchild;
+				}
+				*f=p;
+				s->lchild=q->lchild;
+				if(s!=p)
+				{
+					s->lchild=p->rchild;
+					p->rchild=q->rchild;
+				}
+			}
+			free(q);
+		}
+		return flag;
+	
+	}
+	void main()
+	{
+		BSTree myTree=(BSNode *)malloc(sizeof(BSNode));
+		creatBST(&myTree);
+	
+		printBST(myTree);
+	
+		DeleteNode(&myTree,24);//
+		printBST(myTree);
+	
+		system("pause");
+	
+	}
+## 四）经典编程题
 #### 规律总结：
 ##### 通过局部函数为void类型，通过指针类型的参数得到结果
 - 在主函数分配过空间的数，传递给某局部函数的参数，那其就不要再在局部函数内部重新分配空间。

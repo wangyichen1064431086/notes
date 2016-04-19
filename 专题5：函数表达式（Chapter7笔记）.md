@@ -16,7 +16,7 @@
 		
 		sayHi();
 
-#### （2）把函数当成值来使用
+#### （2）把函数当成其他函数的返回值来使用
 	
 	function createComparisonFunction(propertyName) {
 	    return function(object1,object2){
@@ -96,7 +96,7 @@
 - 在外部函数执行完毕后，其活动对象也不会被销毁，因为其内部函数的作用域仍然在引用这个活动对象。例如上述createComparisonFunction（）函数被返回后，其执行环境的作用域链会被销毁，但它的活动对象仍然停留在内存中，因为其返回的匿名函数仍在引用它的活动对象；直到内部匿名函数被销毁，createComparisonFunction（）的活动对象才会被销毁。
 
 #### 闭包的内存占用问题
-因为闭包会携带包含它的函数的作用域，因此会比其他函数占用更多的内存。过度使用闭包可能导致内存占用过多，故建议只在绝对需要闭包的时候在考虑用闭包。
+因为闭包会携带包含它的函数的作用域，因此会比其他函数占用更多的内存。过度使用闭包可能导致内存占用过多，故建议只在绝对需要闭包的时候再考虑用闭包。
 
 #### （3）闭包只能访问包含函数中的任何变量的最后一个值
 
@@ -208,6 +208,7 @@ P183,***待整理***
 #### 3）特权方法创建方式
 ##### （1）构造函数模式
 在**构造函数**中定义特权方法。
+例一：
 
 	function MyObject() {
 	    var privateVariable=20;//私有变量
@@ -223,6 +224,23 @@ P183,***待整理***
 	
 	var object=new MyObject()
 	console.log(object.publicMethod());//false
+
+例二：
+
+	function Person(name) {//参数为私有变量
+	    this.getName=function(){//特权方法
+	        return name;
+	    }
+	    this.setName=function(newName){//特权方法
+	        name=newName;
+	    }
+	}
+	
+	var aperson=new Person("Tom");
+	
+	console.log(aperson.getName());//Tom
+	aperson.setName("Ben");
+	console.log(aperson.getName());//Ben
 
 ##### （2)原型模式
 通过在**私有作用域**中定义私有变量和函数，也可以创建特权方法。
@@ -249,30 +267,30 @@ P183,***待整理***
 - 该模式在定义构造函数时没有使用函数声明，因为**函数声明只能创建局部函数，而不带var的函数表达式可以创建全局函数**。
 - 该模式私有变量和函数是由实例**共享**的，由于原型方法是在原型上定义的，故所有实例都引用同一个函数（如下例）。而特权方法作为一个闭包保存着对包含作用域的引用。
 	
-	(function(){
-	    var name="";
-	    
-	    Person=function(value){
-	        name=value;
-	    };
-	    
-	    Person.prototype.getName=function(){
-	        return name;
-	    };
-	    
-	     Person.prototype.setName=function(value){
-	        name=value;
-	     };
-	})();
-	
-	var person1=new Person("Nicholas");
-	console.log(person1.getName());//"Nicholas"
-	person1.setName("Greg");
-	console.log(person1.getName());//"Greg"
-	
-	var person2=new Person("Michael");
-	console.log(person1.getName());//"Michael"
-	console.log(person2.getName());//"Michael"
+		(function(){
+		    var name="";
+		    
+		    Person=function(value){
+		        name=value;
+		    };
+		    
+		    Person.prototype.getName=function(){
+		        return name;
+		    };
+		    
+		     Person.prototype.setName=function(value){
+		        name=value;
+		     };
+		})();
+		
+		var person1=new Person("Nicholas");
+		console.log(person1.getName());//"Nicholas"
+		person1.setName("Greg");
+		console.log(person1.getName());//"Greg"
+		
+		var person2=new Person("Michael");
+		console.log(person1.getName());//"Michael"
+		console.log(person2.getName());//"Michael"
 
 #####（3）模块模式
 作用：是为单例创建私有变量和特权方法。
