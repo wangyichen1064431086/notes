@@ -714,39 +714,39 @@ delete操作符可删除实例属性，重新连接原型属性。（而将该�
 - 使用**原型链**实现对**超类型原型属性和方法**的继承；
 - 使用**借用构造函数**实现对**超类型实例属性**的继承；
 - 超类型对象对应使用**组合构造函数模式和原型模式**创建；
-
-	function SuperType(name) {
-	    this.name=name;
-	    this.colors=["red","blue","green"];
-	}
 	
-	
-	SuperType.prototype.sayName=function(){
-	    console.log(this.name);
-	};
-	
-	function SubType(name,age) {
-	    SuperType.call(this,name);//借用构造函数方法实现对超类型实例属性的继承
-	    this.age=age;
-	}
-	
-	SubType.prototype=new SuperType();//原型链方法实现对超类型原型属性和方法的继承
-	SubType.prototype.constructor=SubType;
-	SubType.prototype.sayAge=function(){
-	    console.log(this.age);
-	}
-	
-	var instance1=new SubType("Nicholas",29);
-	var instance2=new SubType("Greg",27);
-	
-	instance1.colors.push("black");
-	console.log(instance1.colors);//["red", "blue", "green", "black"]
-	instance1.sayName();//"Nicholas"
-	instance1.sayAge();//29
-	
-	console.log(instance2.colors);//["red", "blue", "green"]
-	instance2.sayName();//"Greg"
-	instance2.sayAge();//27
+		function SuperType(name) {
+		    this.name=name;
+		    this.colors=["red","blue","green"];
+		}
+		
+		
+		SuperType.prototype.sayName=function(){
+		    console.log(this.name);
+		};
+		
+		function SubType(name,age) {
+		    SuperType.call(this,name);//借用构造函数方法实现对超类型实例属性的继承
+		    this.age=age;
+		}
+		
+		SubType.prototype=new SuperType();//原型链方法实现对超类型原型属性和方法的继承
+		SubType.prototype.constructor=SubType;
+		SubType.prototype.sayAge=function(){
+		    console.log(this.age);
+		}
+		
+		var instance1=new SubType("Nicholas",29);
+		var instance2=new SubType("Greg",27);
+		
+		instance1.colors.push("black");
+		console.log(instance1.colors);//["red", "blue", "green", "black"]
+		instance1.sayName();//"Nicholas"
+		instance1.sayAge();//29
+		
+		console.log(instance2.colors);//["red", "blue", "green"]
+		instance2.sayName();//"Greg"
+		instance2.sayAge();//27
 
 这样，多个子类型实例就分别拥有自己的属性（包括引用类型属性），也共享了相同的方法。
 
