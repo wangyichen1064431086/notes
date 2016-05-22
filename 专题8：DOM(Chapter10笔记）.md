@@ -72,28 +72,29 @@ Array.prototype.slice.call(nodes,0)方法，或Array.prototype.slice.call(nodes)
 - 作用2：**后插子节点**，为基准结点插入最后一个子节点。
 
 - 返回：插入的节点
-- 
-	var someNode=document.body;
-	
-	var returnedNode=someNode.appendChild(someNode.firstChild);
-	console.log(returnedNode==someNode.firstChild);//false
-	console.log(returnedNode==someNode.lastChild);//true
+
+		var someNode=document.body;
+		
+		var returnedNode=someNode.appendChild(someNode.firstChild);
+		console.log(returnedNode==someNode.firstChild);//false
+		console.log(returnedNode==someNode.lastChild);//true
 
 ##### （2）（Node).insertBefore(,)
 - 作用：前插节点
 - 返回：插入的节点
 
-	var someNode=document.body;
-	var newNode=document.createElement("a");
-	
-	var returnedNode=someNode.insertBefore(newNode,null);//插入为最后一个子节点
-	console.log(returnedNode==someNode.lastChild);//true 
-	console.log(returnedNode==newNode);//true
-	
-	var returnedNode2=someNode.insertBefore(newNode,someNode.firstChild);//插入成为第一个子节点
-	console.log(returnedNode2==newNode);//true
-	console.log(returnedNode2==someNode.firstChild);//true
-	//ps:第二次移动该newNode后第一次插入的地方就没有它了，这个文档只有一个这个newNode
+
+		var someNode=document.body;
+		var newNode=document.createElement("a");
+		
+		var returnedNode=someNode.insertBefore(newNode,null);//插入为最后一个子节点
+		console.log(returnedNode==someNode.lastChild);//true 
+		console.log(returnedNode==newNode);//true
+		
+		var returnedNode2=someNode.insertBefore(newNode,someNode.firstChild);//插入成为第一个子节点
+		console.log(returnedNode2==newNode);//true
+		console.log(returnedNode2==someNode.firstChild);//true
+		//ps:第二次移动该newNode后第一次插入的地方就没有它了，这个文档只有一个这个newNode
 
 ##### （3）（Node).replaceChild()
 - 作用：替换节点
@@ -107,7 +108,7 @@ Array.prototype.slice.call(nodes,0)方法，或Array.prototype.slice.call(nodes)
 - 返回：被移除的节点
 - 移除的节点仍然被文档所有，只不过在文档中已经没有了位置。
 
-	var returnedNode=someNode.replaceChild(newNode,someNode.firstChild)
+		var returnedNode=someNode.replaceChild(newNode,someNode.firstChild)
 
 ##### （5）（Node).cloneNode(true/false)
 - 作用：创建调用方法的节点的副本。

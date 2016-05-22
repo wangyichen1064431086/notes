@@ -604,6 +604,46 @@ string|使用给定的字符串来代表被修剪的文本。
 	  　　转眼她和他都要毕业了，她甚至没有征求他的意见，就直接去了北方的一座城市，而他，却追随着她也到了这里。本来，在南方那座城市，他的家人早已给他联系好了一家不错的公司，但他连想都没想就拒绝了。她和他分别进了不同的公司。同在一个陌生的城市打工，难免心神俱疲，这个时候，她就很想找一个依靠，给她一点家的温暖。明明知道他一直愿意做她的依靠，可她却不愿意把自己的一生交付于他，因为她觉得自己一直不爱他，不爱，又如何依靠，再说，他也不能提供给她想像中的生活。  
 	  </div>
 	</body>
+
+#### 规律总结
+
+多列属性：
+##### （1） column-count属性
+
+规定元素应该被划分的列数，IE10和Opera支持column-count属性，FF支持替代的-moz-column-count属性，Safari和Chrome支持-webkit-column-count，IE9-不支持。
+
+不管浏览器窗口缩放成何种比例，它永远都是规定的列数
+
+##### （2）column-width 属性
+规定列的宽度。IE10 和 Opera 支持 column-width 属性。
+Firefox 支持替代的 -moz-column-width 属性。Safari 和 Chrome 支持替代的 -webkit-column-width 属性。IE9 以及更早版本的浏览器不支持 column-width 属性。
+
+##### （3）column-gap属性
+规定列之间的间隔。浏览器支持性同上。
+
+##### （4）column-rule属性
+它是一个简写属性。规定列之间分割的样式规则，包含宽度、样式、颜色，即column-rule-width column-rule-style column-rule-color;
+
+
+### 9.修复侧边栏
+#### 问题描述
+在外容器添加导航栏和主内容板块，当（导航栏和主内容的宽度加上内外边距）的数值大于（外容器的宽度减去内边距的值），会导致导航和主内容中html代码排在后面的元素被挤下去。
+
+***待研究：根本就没出现问题啊***
+#### 解决办法
+
+##### 方法1)Section元素上使用box-sizing:border-box;模拟IE6中，使得内元素的宽度为width的值，而非width加上padding和margin的值。
+
+##### 方法2)  width:-moz-calc(75% -1rem * 2);width:-webkit-calc(75% - 1rem * 2); width: calc(75% - 1rem * 2); width属性中减去padding值
+
+##### 方法3) 
+在元素内部增加一个额外的容器，并将padding放在这个新增的内部容器中，这是一种修复方法，而且得到众多浏览器支持。
+
+#### 规律总结
+##### （1）IE盒子模型和标准盒子模型
+
+两种盒子模型的范围都包括 margin、border、padding、content。不同的是：ie 盒子模型的 content 部分包含了 border 和 padding,即其width和height指包含了border和padding的宽度；w3c盒子模型的内容部分只是中间的内容部分，不包含border和padding。
+
 ## 资源三：
 <http://web.jobbole.com/83384/>
 
